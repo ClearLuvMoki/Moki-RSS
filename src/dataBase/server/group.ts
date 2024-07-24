@@ -36,11 +36,39 @@ class GroupService {
         })
     }
 
+    // 修改一个分组
+    static async updateGroup(groupItem: {
+        id: string;
+        name: string;
+        description?: string;
+    }) {
+        const groupQueryBuilder = await getGroupQueryBuilder();
+        const group = await groupQueryBuilder.findOne({
+            where: {
+                id: groupItem.id
+            }
+        });
+        if (group?.id) {
+            const item = await groupQueryBuilder.save({
+                id: groupItem.id,
+                name: groupItem?.name || group.name || "",
+                description: groupItem?.description || "",
+            })
+            return item;
+        } else {
+            return null
+        }
+    }
+
 
     // 删除一个分组
     static async deleteGroup(id: string) {
         return new Promise(async (resolve, reject) => {
             const groupQueryBuilder = await getGroupQueryBuilder();
+              const feedList =await FeedService.getFeedByGroupId(id) || [];
+              await Promise.allSettled(feedList.map(async item => {
+                  return item?.id ? await FeedService.removeFeed(item?.id): Promise.resolve()
+              }))
             groupQueryBuilder.delete(id).then(resolve).catch(reject)
         })
     }

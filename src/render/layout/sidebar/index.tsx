@@ -7,7 +7,10 @@ import {
     ListboxItem
 } from "@nextui-org/react";
 import Store from "@render/store";
-import GroupModal from "@render/components/GroupModal";
+import FeedAction from "@render/components/FeedAction";
+import GroupAction from "@render/components/GroupAction";
+import IconWrapper from "@render/components/IconWrapper";
+import {ListPlus} from "lucide-react";
 
 const itemClasses = {
     base: "py-0 w-full",
@@ -18,7 +21,15 @@ const itemClasses = {
 };
 
 const SideBar = memo(observer(() => {
-    const {feedList, activeFeed, groupList, handleGetFeedList, handleGetGroupList, updateActiveFeed} = Store;
+    const {
+        feedList,
+        activeFeed,
+        groupList,
+        updateGroupModalState,
+        handleGetFeedList,
+        handleGetGroupList,
+        updateActiveFeed
+    } = Store;
 
     useEffect(() => {
         handleGetFeedList();
@@ -39,15 +50,19 @@ const SideBar = memo(observer(() => {
                         variant="flat"
                     >
                         {
-                            feedList.map(item => (
+                            feedList.filter(item => !item.groupId).map(item => (
                                 <ListboxItem
                                     className={item.id === activeFeed?.id ? "bg-default/40" : ""}
                                     key={item.id}
                                     onClick={() => {
                                         updateActiveFeed(item)
                                     }}
+                                    endContent={item.id === activeFeed?.id ?
+                                        <FeedAction item={item}/> : null
+                                    }
                                 >
                                     {item.title}
+
                                 </ListboxItem>
                             ))
                         }
@@ -60,7 +75,16 @@ const SideBar = memo(observer(() => {
                     <div className="text-lg font-bold">
                         分组
                     </div>
-                    <GroupModal/>
+                    <IconWrapper
+                        onClick={() => {
+                            updateGroupModalState({
+                                open: true,
+                                groupItem: null
+                            })
+                        }}
+                    >
+                        <ListPlus size={16} className="text-default-400"/>
+                    </IconWrapper>
                 </div>
                 {
                     groupList.length === 0 && (<div className=" select-none text-gray-400 text-sm">暂无分组</div>)
@@ -77,6 +101,11 @@ const SideBar = memo(observer(() => {
                         <AccordionItem
                             key={item.id}
                             title={item.name}
+                            indicator={
+                                <GroupAction
+                                    groupItem={item}
+                                />
+                            }
                         >
                             {
                                 item.feedList && item.feedList.length > 0 ? (
@@ -91,6 +120,9 @@ const SideBar = memo(observer(() => {
                                                     onClick={() => {
                                                         updateActiveFeed(item)
                                                     }}
+                                                    endContent={item.id === activeFeed?.id ?
+                                                        <FeedAction item={item}/> : null
+                                                    }
                                                 >
                                                     {item.title}
                                                 </ListboxItem>
@@ -103,6 +135,7 @@ const SideBar = memo(observer(() => {
                     ))
                 }
             </Accordion>
+
         </div>
     );
 }), (prevProps, nextProps) => {

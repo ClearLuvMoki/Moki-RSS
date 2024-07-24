@@ -4,13 +4,15 @@ import SettingModal from "@render/components/SettingModal";
 import {RotateCw, SlidersHorizontal} from "lucide-react";
 import RSSDetailModal from "@render/components/RSSDetailModal";
 import IconWrapper from "@render/components/IconWrapper";
-import {RIPCUpdateFeed} from "@render/ripc";
+import {RIPCUpdateFeedList} from "@render/ripc";
 import Store from "@render/store";
 import {useSetState} from "ahooks";
 import {toast} from "sonner";
+import GroupModal from "@render/components/GroupModal";
+import {observer} from "mobx-react";
 
-const Header = memo(() => {
-    const {handleGetFeedList} = Store;
+const Header = memo(observer(() => {
+    const {handleGetFeedList, groupModalState, updateGroupModalState} = Store;
     const [settingState, setSettingState] = useSetState({
         open: false,
         loading: false
@@ -18,7 +20,7 @@ const Header = memo(() => {
 
     const handleUpdateFeed = () => {
         setSettingState({loading: true})
-        RIPCUpdateFeed()
+        RIPCUpdateFeedList()
             .then(() => {
                 handleGetFeedList();
                 toast.success("同步成功!")
@@ -36,6 +38,16 @@ const Header = memo(() => {
                     setSettingState({
                         open: false
                     })
+                }}
+            />
+             <GroupModal
+                open={groupModalState?.open}
+                groupItem={groupModalState?.groupItem}
+                onClose={() => {
+                    updateGroupModalState({
+                        open: false,
+                        groupItem: null
+                    });
                 }}
             />
             <RSSDetailModal/>
@@ -81,7 +93,7 @@ const Header = memo(() => {
             </div>
         </Fragment>
     );
-}, (prevProps, nextProps) => {
+}), (prevProps, nextProps) => {
     return deepEqual(prevProps, nextProps, {strict: true})
 });
 

@@ -1,7 +1,7 @@
 {
   "name": "moki-rss",
   "private": true,
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "./release/dist/main/index.js",
   "scripts": {
     "dev": "npm run dev:render",
@@ -47,7 +47,6 @@
     "nodemon": "^3.1.1",
     "postcss": "^8.4.39",
     "prebuild-install": "^7.1.2",
-    "react-beautiful-dnd": "^13.1.1",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",

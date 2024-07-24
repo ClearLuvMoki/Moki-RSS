@@ -25,6 +25,8 @@ class _Store {
             updatePaginationState: action,
             groupList: observable,
             updateGroupList: action,
+            groupModalState: observable,
+            updateGroupModalState: action
         })
     }
 
@@ -84,6 +86,19 @@ class _Store {
     groupList: GroupType[] = [];
     updateGroupList = (list: GroupType[]) => {
         this.groupList = list;
+    }
+
+    groupModalState: {open: boolean; groupItem: GroupType| null} = {
+        open: false,
+        groupItem: null,
+    }
+    updateGroupModalState  = (params: {
+        open: boolean; groupItem: GroupType| null
+    }) => {
+        this.groupModalState = {
+            ...this.groupModalState,
+            ...params
+        }
     }
 
     handleGetFeedList = () => {

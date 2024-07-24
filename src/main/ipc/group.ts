@@ -13,5 +13,15 @@ const GroupIpc = () => {
         const res = await GroupService.createGroup(group);
         return res;
     })
+
+    ipcMain.handle(IPCChannel.UpdateGroup, async (_, group: GroupType) => {
+        const res = await GroupService.updateGroup(group);
+        return res;
+    })
+
+    ipcMain.handle(IPCChannel.DeleteGroup, async (_, id: string) => {
+        const res = await GroupService.deleteGroup(id);
+        return res;
+    })
 }
 export default GroupIpc

@@ -29,11 +29,19 @@ export const RIPCRemoveFeed = (id: string) => {
 }
 
 
-export const RIPCUpdateFeed = (): Promise<RSSType[]> => {
+export const RIPCUpdateFeedList = (): Promise<RSSType[]> => {
     try {
-        return window.IPC.invoke(IPCChannel.UpdateFeed)
+        return window.IPC.invoke(IPCChannel.UpdateFeedList)
     } catch (err) {
         return Promise.resolve([])
+    }
+}
+
+export const RIPCUpdateFeed = (item: { id: string } & Omit<Partial<FeedType>, "id">): Promise<FeedType | null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.UpdateFeed, item)
+    } catch (err) {
+        return Promise.resolve(null)
     }
 
 }
@@ -45,7 +53,7 @@ export const RIPCGetRSSList = (
         pageSize,
     }: {
         feedId: string
-    }& PaginationType): Promise<RSSType[]> => {
+    } & PaginationType): Promise<RSSType[]> => {
     try {
         return window.IPC.invoke(IPCChannel.GetRSSList, {
             feedId,
@@ -60,17 +68,35 @@ export const RIPCGetRSSList = (
 
 // 获取分组
 export const RIPCGetGroup = (): Promise<GroupType[]> => {
-     try {
+    try {
         return window.IPC.invoke(IPCChannel.GetGroup)
     } catch (err) {
         return Promise.resolve([])
     }
 }
 
-// 获取分组
+// 新增分组
 export const RIPCAddGroup = (group: Omit<GroupEntities, "id">): Promise<null> => {
-     try {
+    try {
         return window.IPC.invoke(IPCChannel.AddGroup, group)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+}
+
+// 修改分组
+export const RIPCUpdateGroup = (group: Partial<GroupType>): Promise<null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.UpdateGroup, group)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+}
+
+// 删除分组
+export const RIPCDeleteGroup = (id: string): Promise<null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.DeleteGroup, id)
     } catch (err) {
         return Promise.resolve(null)
     }

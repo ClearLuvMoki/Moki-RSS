@@ -2,10 +2,16 @@ import {ipcMain} from "electron";
 import {IPCChannel} from "@src/types/rss";
 import FeedService from "@src/dataBase/server/feed";
 import {handleInsertFeedByUrl} from "@main/ipc/rss";
+import {FeedType} from "@src/types/feed";
 
 const FeedIpc = () => {
     ipcMain.handle(IPCChannel.GetFeedList, async () => {
         const res = await FeedService.getALLFeed();
+        return res;
+    })
+
+     ipcMain.handle(IPCChannel.UpdateFeed, async (_, feedItem: FeedType) => {
+        const res = await FeedService.updateFeed(feedItem);
         return res;
     })
 
@@ -14,7 +20,7 @@ const FeedIpc = () => {
         return res;
     })
 
-    ipcMain.handle(IPCChannel.UpdateFeed, async () => {
+    ipcMain.handle(IPCChannel.UpdateFeedList, async () => {
         const feedList = await FeedService.getALLFeed();
         const urlList = feedList.map(item => {
             return item.feedUrl;

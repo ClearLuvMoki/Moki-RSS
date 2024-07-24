@@ -2,10 +2,13 @@ export enum IPCChannel {
     "ParseRSS" = "notice:parse-rss",
     "GetFeedList" = "notice:get-feed-list",
     "GetRSSList" = "notice:get-rss-list",
-    "UpdateFeed" = "notice:update-feed",
+    "UpdateFeedList" = "notice:update-feed-list",
+    "UpdateFeed" = "notice:update-feed-item",
     "RemoveFeed" = "notice:remove-feed",
     "GetGroup" = "notice:get-group",
-    "AddGroup" = "add:group",
+    "AddGroup" = "notice:add-group",
+    "UpdateGroup" = "notice:update-group",
+    "DeleteGroup" = "notice:delete-group",
 }
 
 

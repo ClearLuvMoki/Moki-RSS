@@ -5,6 +5,7 @@ export interface FeedType {
     link: string;
     feedUrl: string;
     lastBuildDate: string;
+    groupId: string;
     createDate: string;
 }
 

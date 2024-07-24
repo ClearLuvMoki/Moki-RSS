@@ -1,16 +1,22 @@
-import {Fragment, memo, useState} from 'react';
+import {Fragment, memo, useEffect} from 'react';
 import deepEqual from "deep-equal";
 import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea} from "@nextui-org/react";
-import {ListPlus} from "lucide-react";
-import IconWrapper from "@render/components/IconWrapper";
 import {useSetState, useUpdateEffect} from "ahooks";
-import {RIPCAddGroup} from "@render/ripc";
+import {RIPCAddGroup, RIPCUpdateGroup} from "@render/ripc";
 import {toast} from "sonner";
 import Store from "@render/store";
+import {GroupType} from "@src/types/group";
+import {observer} from "mobx-react";
 
-const GroupModal = memo(() => {
-    const { handleGetGroupList } = Store;
-    const [open, setOpen] = useState(false);
+interface Props {
+    open: boolean;
+    groupItem?: GroupType | null;
+    onClose: VoidFunction;
+}
+
+const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
+    const {handleGetGroupList} = Store;
+
     const [formState, setFormState] = useSetState({
         name: "",
         description: ""
@@ -18,6 +24,15 @@ const GroupModal = memo(() => {
     const [formErr, setFormErr] = useSetState({
         nameErr: "",
     })
+
+    useEffect(() => {
+        if (open && groupItem?.id) {
+            setFormState({
+                name: groupItem?.name,
+                description: groupItem?.description || ""
+            })
+        }
+    }, [open, groupItem?.id])
 
     useUpdateEffect(() => {
         if (!formState.name) {
@@ -33,18 +48,34 @@ const GroupModal = memo(() => {
 
 
     const handleAddGroup = () => {
-        RIPCAddGroup({
-            name: formState.name || "",
-            description: formState.description || ""
-        })
-            .then(() => {
-                handleGetGroupList();
-                toast.success("新增成功!");
-                handleClean();
+        if (groupItem?.id) {
+            RIPCUpdateGroup({
+                id: groupItem?.id,
+                name: formState.name || "",
+                description: formState.description || ""
             })
-            .catch(() => {
-                toast.error("新增失败!")
+                .then(() => {
+                    handleGetGroupList();
+                    toast.success("修改成功!");
+                    handleClean();
+                })
+                .catch(() => {
+                    toast.error("修改失败!")
+                })
+        } else {
+            RIPCAddGroup({
+                name: formState.name || "",
+                description: formState.description || ""
             })
+                .then(() => {
+                    handleGetGroupList();
+                    toast.success("新增成功!");
+                    handleClean();
+                })
+                .catch(() => {
+                    toast.error("新增失败!")
+                })
+        }
     }
 
     const handleClean = () => {
@@ -55,81 +86,76 @@ const GroupModal = memo(() => {
             name: "",
             description: ""
         })
-        setOpen(false)
+        onClose();
     }
 
     return (
-        <Fragment>
-            <IconWrapper
-                onClick={() => setOpen(true)}
-            >
-                <ListPlus size={16} className="text-default-400"/>
-            </IconWrapper>
-            <Modal
-                isOpen={open}
-                onClose={handleClean}
-                backdrop={"blur"}
-                motionProps={{
-                    variants: {
-                        enter: {
-                            y: 0,
-                            opacity: 1,
-                            transition: {
-                                duration: 0.3,
-                                ease: "easeOut",
-                            },
+        <Modal
+            isOpen={open}
+            onClose={handleClean}
+            backdrop={"blur"}
+            motionProps={{
+                variants: {
+                    enter: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                            duration: 0.3,
+                            ease: "easeOut",
                         },
-                        exit: {
-                            y: -20,
-                            opacity: 0,
-                            transition: {
-                                duration: 0.2,
-                                ease: "easeIn",
-                            },
+                    },
+                    exit: {
+                        y: -20,
+                        opacity: 0,
+                        transition: {
+                            duration: 0.2,
+                            ease: "easeIn",
                         },
-                    }
-                }}
-            >
-                <ModalContent>
-                    {() => (
-                        <Fragment>
-                            <ModalHeader className="flex flex-col gap-1">新增分组</ModalHeader>
-                            <ModalBody>
-                                <Input
-                                    type="name"
-                                    label="分组名称"
-                                    isInvalid={Boolean(formErr.nameErr)}
-                                    errorMessage={formErr.nameErr}
-                                    onValueChange={(value) => {
-                                        setFormState({name: value})
-                                    }}
-                                />
-                                <Textarea
-                                    name="description"
-                                    label="分组描述"
-                                    placeholder="请输入分组描述"
-                                    onValueChange={(value) => setFormState({description: value})}
-                                />
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="light" onPress={handleClean}>
-                                    取消
-                                </Button>
-                                <Button
-                                    isDisabled={!formState.name}
-                                    color="primary" onPress={handleAddGroup}>
-                                    确定
-                                </Button>
-                            </ModalFooter>
-                        </Fragment>
-                    )}
-                </ModalContent>
+                    },
+                }
+            }}
+        >
+            <ModalContent>
+                {() => (
+                    <Fragment>
+                        <ModalHeader
+                            className="flex flex-col gap-1">{groupItem?.id ? "编辑分组" : "新增分组"}</ModalHeader>
+                        <ModalBody>
+                            <Input
+                                type="name"
+                                label="分组名称"
+                                isInvalid={Boolean(formErr.nameErr)}
+                                errorMessage={formErr.nameErr}
+                                value={formState?.name}
+                                onValueChange={(value) => {
+                                    setFormState({name: value})
+                                }}
+                            />
+                            <Textarea
+                                name="description"
+                                label="分组描述"
+                                placeholder="请输入分组描述"
+                                value={formState?.description}
+                                onValueChange={(value) => setFormState({description: value})}
+                            />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" variant="light" onPress={handleClean}>
+                                取消
+                            </Button>
+                            <Button
+                                isDisabled={!formState.name}
+                                color="primary" onPress={handleAddGroup}>
+                                确定
+                            </Button>
+                        </ModalFooter>
+                    </Fragment>
+                )}
+            </ModalContent>
 
-            </Modal>
-        </Fragment>
-
+        </Modal>
     );
-}, (prevProps, nextProps) => {
+}), (prevProps, nextProps) => {
     return deepEqual(prevProps, nextProps, {strict: true})
 });
 

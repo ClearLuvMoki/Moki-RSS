@@ -2,8 +2,6 @@ import {Fragment, memo} from 'react';
 import deepEqual from "deep-equal";
 import {Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
 import FeedContent from "./content/FeedContent";
-import PreferencesContent from "./content/PreferencesContent";
-import GroupContent from "./content/GroupContent";
 
 interface Props {
     open: boolean;
@@ -51,12 +49,12 @@ const SettingModal = memo(({open, onClose}: Props) => {
                                 <Tab key="feed" title="订阅源">
                                     <FeedContent/>
                                 </Tab>
-                                <Tab key="group" title="分组">
-                                    <GroupContent/>
-                                </Tab>
-                                <Tab key="preferences" title="应用偏好">
-                                    <PreferencesContent/>
-                                </Tab>
+                                {/*<Tab key="group" title="分组">*/}
+                                {/*    <GroupContent/>*/}
+                                {/*</Tab>*/}
+                                {/*<Tab key="preferences" title="应用偏好">*/}
+                                {/*    <PreferencesContent/>*/}
+                                {/*</Tab>*/}
                             </Tabs>
                         </ModalBody>
                     </Fragment>

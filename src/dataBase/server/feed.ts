@@ -22,10 +22,36 @@ class FeedService {
         return list;
     }
 
+
+    //
+
+    // TODO:更新其他字段，比如头像等
+    static async updateFeed(feedItem: {
+        id: string;
+        title?: string;
+        groupId?: string;
+    }) {
+        const feedQueryBuilder = await getFeedQueryBuilder();
+        const feed = await feedQueryBuilder.findOne({
+            where: {
+                id: feedItem.id
+            }
+        });
+        if (feed?.id) {
+            const item = await feedQueryBuilder.save({
+                id: feedItem.id,
+                title: feedItem?.title || feed.title || "",
+                groupId: feedItem?.groupId || "",
+            })
+            return item;
+        } else {
+            return null
+        }
+    }
+
     static async removeFeed(id: string) {
         const feedQueryBuilder = await getFeedQueryBuilder();
         const deleteResult = await feedQueryBuilder.delete(id);
-        console.log(deleteResult, 'deleteResult')
         return deleteResult;
     }
 
