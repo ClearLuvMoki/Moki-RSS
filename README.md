@@ -12,7 +12,7 @@
 
 ## Download
 Mac OS users can now download it from the [Mac App Store](https://apps.apple.com/app/id6547850651);
-For Windows x10 and later versions, you can download it via release;
+For Windows x10 and later versions, you can download it form github release;
 
 ## Contribute
 If you have a new feature request or found a new bug, please go to [issue](https://github.com/ClearLuvMoki/Moki-RSS/issues) and raise your question. I will respond within two days.
@@ -26,8 +26,7 @@ If you have a new feature request or found a new bug, please go to [issue](https
 
 ## Development
 ```bash
-# Install dependencies
-git clone https://github.com/ClearLuvMoki/Moki-RSS.git;
+git clone https://github.com/ClearLuvMoki/Moki-RSS.git
 
 pnpm install
 

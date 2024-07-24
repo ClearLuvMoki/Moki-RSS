@@ -1,7 +1,7 @@
 {
   "name": "moki-rss",
   "private": true,
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "./release/dist/main/index.js",
   "scripts": {
     "dev": "npm run dev:render",
@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@nextui-org/react": "^2.4.2",
-    "@radix-ui/react-context-menu": "^2.2.1",
     "@rsbuild/core": "^0.7.0",
     "@rsbuild/plugin-react": "^0.7.0",
     "@tailwindcss/typography": "^0.5.13",

@@ -6,6 +6,7 @@ import to from "await-to-js";
 import RSSIpc from "@main/ipc/rss";
 import FeedIpc from "@main/ipc/feed";
 import GroupIpc from "@main/ipc/group";
+import OSIpc from "@main/ipc/os";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -17,6 +18,7 @@ const initIpc = () => {
     RSSIpc();
     FeedIpc();
     GroupIpc();
+    OSIpc();
 }
 
 

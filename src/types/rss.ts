@@ -9,6 +9,9 @@ export enum IPCChannel {
     "AddGroup" = "notice:add-group",
     "UpdateGroup" = "notice:update-group",
     "DeleteGroup" = "notice:delete-group",
+    "OpenUrlLocalBrowser" = "os:open-url-local-browser",
+    "CopyTextOrImage" = "os:copy",
+    "SaveImageByBase64" = "os:save-image-base-64",
 }
 
 

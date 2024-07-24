@@ -101,3 +101,32 @@ export const RIPCDeleteGroup = (id: string): Promise<null> => {
         return Promise.resolve(null)
     }
 }
+
+// 打开超链接
+export const RIPCOpenUrl = (url: string): Promise<null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.OpenUrlLocalBrowser, url)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+}
+
+// 复制
+export const RIPCCopy = (type: "image" | "text", content: string): Promise<null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.CopyTextOrImage, {
+            type, content
+        })
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+}
+
+// 保存图片
+export const RIPCSaveBase64Image = (base64Image: string): Promise<string> => {
+    try {
+        return window.IPC.invoke(IPCChannel.SaveImageByBase64, base64Image)
+    } catch (err) {
+        return Promise.resolve("")
+    }
+}
