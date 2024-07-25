@@ -12,6 +12,7 @@ export enum IPCChannel {
     "OpenUrlLocalBrowser" = "os:open-url-local-browser",
     "CopyTextOrImage" = "os:copy",
     "SaveImageByBase64" = "os:save-image-base-64",
+    "Search" = "os:search",
 }
 
 

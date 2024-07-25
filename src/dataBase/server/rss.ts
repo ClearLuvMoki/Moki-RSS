@@ -1,6 +1,7 @@
 import Database from "@src/dataBase";
 import {RSSListEntities} from "@src/dataBase/entities/rss-list";
 import {PaginationType} from "@src/types/rss";
+import {getFeedQueryBuilder} from "@src/dataBase/server/feed";
 
 const getRSSListQueryBuilder = async () => {
     return Database.getRepository(RSSListEntities)
@@ -23,6 +24,26 @@ class RSSListService {
             }
         })
         return list;
+    }
+
+    static async searchRSS(keyword: string) {
+        return new Promise(async (resolve) => {
+            if(!keyword) return resolve(null)
+            const rssQueryBuilder = await getRSSListQueryBuilder();
+            const feedQueryBuilder = await getFeedQueryBuilder();
+            const rssList  = await rssQueryBuilder.createQueryBuilder('rss')
+                .where('rss.title LIKE :keyword', { keyword: `%${keyword}%` })
+                .orWhere('rss.content LIKE :keyword', { keyword: `%${keyword}%` })
+                .getMany()
+            const feedList = await feedQueryBuilder.createQueryBuilder('feed')
+                .where('feed.title LIKE :keyword', { keyword: `%${keyword}%` })
+                .orWhere('feed.feedUrl LIKE :keyword', { keyword: `%${keyword}%` })
+                .getMany()
+            return resolve({
+                rss: rssList || [],
+                feed: feedList || []
+            })
+        })
     }
 
 

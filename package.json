@@ -11,6 +11,7 @@
     "build:main": "rsbuild build --config ./builder/main/rsbuild.build.ts",
     "build:render": "rsbuild build --config ./builder/render/rsbuild.build.ts",
     "build": "npm run build:main &&  npm run build:render && electron-builder -c electron-builder.js ",
+    "build:mas": "npm run build:main &&  npm run build:render && electron-builder -c electron-builder.js --universal",
     "postinstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w better-sqlite3",
     "package": "electron-builder build --publish never "

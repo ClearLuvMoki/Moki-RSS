@@ -6,7 +6,7 @@ import {observer} from "mobx-react";
 import Dayjs from "dayjs"
 import {Spinner} from "@nextui-org/react";
 
-const MagazineItem = memo(({item, onClick}: { item: RSSType, onClick: VoidFunction }) => {
+export const MagazineItem = memo(({item, onClick}: { item: RSSType, onClick: VoidFunction }) => {
     return (
         <div
             className="w-9/12 pb-4 px-1 border-b border-b-gray-300 mb-4"

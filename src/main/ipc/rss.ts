@@ -61,5 +61,9 @@ const RSSIpc = () => {
         return handleInsertFeedByUrl(url);
     })
 
+     ipcMain.handle(IPCChannel.Search, (_, keyword: string) => {
+        return RSSListService.searchRSS(keyword);
+    })
+
 }
 export default RSSIpc;

@@ -1,7 +1,7 @@
 import Database from "@src/dataBase";
 import {FeedListEntities} from "@src/dataBase/entities/feed";
 
-const getFeedQueryBuilder = async () => {
+export const getFeedQueryBuilder = async () => {
     return Database.getRepository(FeedListEntities)
 };
 

@@ -130,3 +130,17 @@ export const RIPCSaveBase64Image = (base64Image: string): Promise<string> => {
         return Promise.resolve("")
     }
 }
+
+export interface SearchType {
+     rss: RSSType[];
+     feed: FeedType[];
+}
+
+// 搜索
+export const RIPCSearch = (keyword: string): Promise<SearchType | null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.Search, keyword)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+}

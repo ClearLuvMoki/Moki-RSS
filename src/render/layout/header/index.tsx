@@ -1,15 +1,17 @@
 import {Fragment, memo} from 'react';
 import deepEqual from "deep-equal";
-import SettingModal from "@render/components/SettingModal";
+import {useSetState} from "ahooks";
+import {toast} from "sonner";
 import {RotateCw, SlidersHorizontal} from "lucide-react";
+import {observer} from "mobx-react";
+import SettingModal from "@render/components/SettingModal";
 import RSSDetailModal from "@render/components/RSSDetailModal";
 import IconWrapper from "@render/components/IconWrapper";
 import {RIPCUpdateFeedList} from "@render/ripc";
 import Store from "@render/store";
-import {useSetState} from "ahooks";
-import {toast} from "sonner";
 import GroupModal from "@render/components/GroupModal";
-import {observer} from "mobx-react";
+import Search from "@render/components/Search";
+
 
 const Header = memo(observer(() => {
     const {handleGetFeedList, groupModalState, updateGroupModalState} = Store;
@@ -40,7 +42,7 @@ const Header = memo(observer(() => {
                     })
                 }}
             />
-             <GroupModal
+            <GroupModal
                 open={groupModalState?.open}
                 groupItem={groupModalState?.groupItem}
                 onClose={() => {
@@ -58,6 +60,7 @@ const Header = memo(observer(() => {
                     WebkitAppRegion: "drag"
                 }}
             >
+                <Search/>
 
                 <div
                     className="flex items-center gap-2"

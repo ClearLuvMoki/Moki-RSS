@@ -24,7 +24,7 @@ const config = {
     mac: {
         icon: resolve(__dirname, "./icons/icon.icns"),
         target: [
-            "mas"
+            "mas-dev"
         ],
         bundleVersion: bundleVersion,
         bundleShortVersion: bundleShortVersion,
