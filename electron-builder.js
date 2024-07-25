@@ -24,9 +24,7 @@ const config = {
     mac: {
         icon: resolve(__dirname, "./icons/icon.icns"),
         target: [
-            {
-                target: 'mas'
-            }
+            "mas"
         ],
         bundleVersion: bundleVersion,
         bundleShortVersion: bundleShortVersion,
@@ -40,6 +38,14 @@ const config = {
         ],
     },
     mas: {
+        hardenedRuntime: false,
+        gatekeeperAssess: false,
+        entitlements: 'mas/entitlements.mas.plist',
+        entitlementsInherit: 'mas/entitlements.mas.inherit.plist',
+        entitlementsLoginHelper: 'mas/entitlements.mas.loginhelper.plist',
+        provisioningProfile: 'mas/provisioning.provisionprofile',
+    },
+    masDev: {
         hardenedRuntime: false,
         gatekeeperAssess: false,
         entitlements: 'mas/entitlements.mas.plist',
