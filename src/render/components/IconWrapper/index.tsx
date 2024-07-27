@@ -4,6 +4,7 @@ import cn from "classnames";
 
 interface Props {
     children: React.ReactNode;
+    isActive?: boolean;
     onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     className?: string;
     style?: React.CSSProperties;
@@ -11,9 +12,18 @@ interface Props {
 
 const BaseClassName = "flex cursor-pointer select-none items-center transition-all justify-center p-2 rounded-lg hover:bg-gray-100"
 
-const IconWrapper = memo(forwardRef(({children, className, style, onClick, ...props}: Props, ref: React.ForwardedRef<any>) => {
+const IconWrapper = memo(forwardRef((
+    {
+        children,
+        className,
+        style,
+        onClick,
+        isActive,
+        ...props
+    }: Props, ref: React.ForwardedRef<any>) => {
     return (
-        <div ref={ref} {...props} className={cn(className || "", BaseClassName)} style={style || {}} onClick={onClick} >
+        <div ref={ref} {...props} className={cn(className || "", BaseClassName, isActive && "bg-gray-100")}
+             style={style || {}} onClick={onClick}>
             {children}
         </div>
     );

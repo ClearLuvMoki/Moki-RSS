@@ -1,19 +1,41 @@
-import {Fragment, memo} from 'react';
+import {Fragment, memo, useState} from 'react';
 import deepEqual from "deep-equal";
-import {Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
+import {Modal, ModalBody, ModalContent, ModalHeader, Tooltip} from "@nextui-org/react";
 import {observer} from "mobx-react";
 import Store from "@render/store";
 import RSSDetail from "@render/components/RSSDetail";
+import {Ellipsis, Globe} from "lucide-react";
+import IconWrapper from "@render/components/IconWrapper";
+import {useTranslation} from "react-i18next";
+import ContextMenu, {ActionValueType} from "@render/components/ContextMenu";
+import {RIPCCopy, RIPCOpenUrl} from "@render/ripc";
+import {toast} from "sonner";
 
-
-/*
-*    allowpopups={"true" as unknown as boolean}
-     webpreferences="contextIsolation,disableDialogs,autoplayPolicy=document-user-activation-required"
-     partition={this.state.loadWebpage ? "sandbox" : undefined}
-* */
 
 const RSSDetailModal = memo(observer(() => {
     const {rssDetailState, activeFeed, updateRSSDetailState} = Store;
+    const {t} = useTranslation()
+    const [isWeb, setIsWeb] = useState(false);
+
+    const handleAction = (type: ActionValueType) => {
+        switch (type) {
+            case "copy-link": {
+                return RIPCCopy("text", rssDetailState?.rssLink || "")
+                    .then(() => {
+                        toast.success(t("toast.success.copy"))
+                    })
+                    .catch(() => {
+                        toast.error(t("toast.failed.copy"))
+                    })
+            }
+            case "open-link": {
+                return RIPCOpenUrl(rssDetailState?.rssLink || "")
+            }
+            default: {
+                return
+            }
+        }
+    }
 
     return (
         <Modal
@@ -54,16 +76,42 @@ const RSSDetailModal = memo(observer(() => {
                             <ModalHeader className="border-b border-b-gray-300 flex justify-between items-center">
                                 <h1 className="text-lg">
                                     {activeFeed?.title}
-                                    {rssDetailState?.author && <span className="text-sm font-medium text-gray-500">&nbsp;/&nbsp;{rssDetailState.author}</span>}
+                                    {rssDetailState?.author && <span
+                                        className="text-sm font-medium text-gray-500">&nbsp;/&nbsp;{rssDetailState.author}</span>}
                                 </h1>
                                 <div className="flex items-center gap-2">
-                                    {/*<IconWrapper*/}
-                                    {/*    onClick={() => setIsWeb(true)}*/}
-                                    {/*><Globe size={18}/></IconWrapper>*/}
+                                    <Tooltip
+                                        showArrow={true}
+                                        closeDelay={0}
+                                        placement="bottom-end"
+                                        color="foreground"
+                                        content={t("action.open-source-web")}
+                                    >
+                                        <IconWrapper
+                                            isActive={isWeb}
+                                            onClick={() => setIsWeb(!isWeb)}
+                                        ><Globe size={18}/></IconWrapper>
+                                    </Tooltip>
+                                    <ContextMenu
+                                        triggerType={"click"}
+                                        type="rss-detail"
+                                        placement="bottom-end"
+                                        showArrow={true}
+                                        trigger={<IconWrapper
+                                        ><Ellipsis size={18}/></IconWrapper>}
+                                        onAction={(type) => {
+                                            handleAction(type)
+                                        }}
+                                    />
                                 </div>
                             </ModalHeader>
                             <ModalBody className="px-6 py-4">
-                                <RSSDetail detail={rssDetailState}/>
+                                {
+                                    isWeb && (<webview src={rssDetailState?.rssLink} className="w-full h-full"/>)
+                                }
+                                {
+                                    !isWeb && (<RSSDetail detail={rssDetailState}/>)
+                                }
                             </ModalBody>
                         </Fragment>
                     )
