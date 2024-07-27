@@ -1,9 +1,19 @@
-import {ipcMain, shell, nativeImage, clipboard, dialog, app} from "electron";
+import {app, ipcMain, shell, nativeImage, clipboard, dialog} from "electron";
 import {IPCChannel} from "@src/types/rss";
 import * as fs from "node:fs";
 import path from "path";
+import OSService from "@src/dataBase/server/os";
+import {ConfigEntities} from "@src/dataBase/entities/config";
 
 const OSIpc = () => {
+    ipcMain.handle(IPCChannel.OSConfig, () => {
+        return OSService.getConfig()
+    })
+
+    ipcMain.handle(IPCChannel.UpdateOSConfig, (_, config: ConfigEntities) => {
+        return OSService.updateConfig(config);
+    })
+
     ipcMain.handle(IPCChannel.OpenUrlLocalBrowser, (_, url: string) => {
         return new Promise((resolve) => {
             if (url) {

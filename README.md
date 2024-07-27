@@ -20,9 +20,10 @@ If you have a new feature request or found a new bug, please go to [issue](https
 
 ## Features
 
-- A very nice UI developed based on NextUI
+-  A very nice UI developed based on NextUI
 -  Feeds local cache reading
-- Organize your feeds into groups and add personalized descriptions
+-  Organize your feeds into groups and add personalized descriptions
+-  Internationalized interface
 
 ## Development
 ```bash

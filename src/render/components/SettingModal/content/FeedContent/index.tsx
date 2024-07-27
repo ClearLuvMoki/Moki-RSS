@@ -17,23 +17,25 @@ import Store from "@render/store";
 import {observer} from "mobx-react";
 import {Trash2} from "lucide-react";
 import {FeedType} from "@src/types/feed";
+import {useTranslation} from "react-i18next";
 
 const columns = [
     {
         key: "title",
-        label: "订阅源",
+        label: "feed.index",
     },
     {
         key: "feedUrl",
-        label: "订阅源地址",
+        label: "feed.url",
     },
     {
         key: "action",
-        label: "操作"
+        label: "action.index"
     }
 ]
 
 const FeedContent = memo(observer(() => {
+    const {t} = useTranslation();
     const {handleGetFeedList, feedList} = Store;
     const [urlState, setUrlState] = useSetState({
         value: "",
@@ -50,11 +52,11 @@ const FeedContent = memo(observer(() => {
                 setUrlState({
                     value: ""
                 });
-                toast.success("新增成功!");
-                console.log('新增订阅数据:', res);
+                console.log("新增订阅:", res)
+                toast.success(t("toast.success.add"));
             })
             .catch(() => {
-                toast.error("新增失败!")
+                toast.success(t("toast.failed.add"));
             })
             .finally(() => {
                 setUrlState({
@@ -66,11 +68,11 @@ const FeedContent = memo(observer(() => {
     const handleRemoveFeed = (id: string) => {
         RIPCRemoveFeed(id)
             .then(() => {
-                toast.success("删除成功!");
+                toast.success(t("toast.success.delete"));
                 handleGetFeedList();
             })
-         .catch(() => {
-                toast.error("删除失败!")
+            .catch(() => {
+                toast.error(t("toast.failed.delete"));
             })
     }
 
@@ -91,7 +93,7 @@ const FeedContent = memo(observer(() => {
     return (
         <div>
             <h2 className="text-lg select-none">
-                添加订阅源
+                {t("feed.add")}
             </h2>
             <div className="flex gap-2 my-2">
                 <Input
@@ -102,7 +104,7 @@ const FeedContent = memo(observer(() => {
                         })
                     }}
                     className={"flex-1"}
-                    placeholder={"请输入订阅源URL"}
+                    placeholder={t("feed.placeholder")}
                     onKeyDown={(event) => {
                         if (event.key === "Enter") {
                             handleAddFeed()
@@ -110,11 +112,11 @@ const FeedContent = memo(observer(() => {
                     }}
                 />
                 <Button isDisabled={!urlState.value} color={"primary"} onPress={handleAddFeed}
-                        isLoading={urlState.loading}>添加</Button>
+                        isLoading={urlState.loading}>{t("action.add")}</Button>
             </div>
             <Table className="mt-4">
                 <TableHeader columns={columns}>
-                    {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                    {(column) => <TableColumn key={column.key}>{t(column.label)}</TableColumn>}
                 </TableHeader>
                 <TableBody items={feedList}>
                     {(item) => (

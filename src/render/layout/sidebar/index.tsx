@@ -4,23 +4,26 @@ import {observer} from "mobx-react";
 import {Accordion, AccordionItem} from "@nextui-org/accordion";
 import {
     Listbox,
-    ListboxItem
+    ListboxItem, Tooltip
 } from "@nextui-org/react";
 import Store from "@render/store";
 import FeedAction from "@render/components/FeedAction";
 import GroupAction from "@render/components/GroupAction";
 import IconWrapper from "@render/components/IconWrapper";
 import {ListPlus} from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 const itemClasses = {
     base: "py-0 w-full",
-    title: "font-normal text-medium",
+    title: "font-bold text-lg",
     trigger: "px-2 py-0 data-[hover=true]:bg-default-100 rounded-lg h-[32px] flex items-center",
     indicator: "text-medium",
     content: "text-small px-2",
 };
 
 const SideBar = memo(observer(() => {
+    const {t} = useTranslation();
+
     const {
         feedList,
         activeFeed,
@@ -44,7 +47,7 @@ const SideBar = memo(observer(() => {
             >
                 <AccordionItem
                     key="all"
-                    aria-label="所有订阅源" title="所有订阅源"
+                    aria-label={t("feed.all-feed")} title={t("feed.all-feed")}
                 >
                     <Listbox
                         variant="flat"
@@ -73,21 +76,24 @@ const SideBar = memo(observer(() => {
             <div className="px-4  my-4">
                 <div className="flex  mb-2 justify-between">
                     <div className="text-lg font-bold">
-                        分组
+                        {t("group.index")}
                     </div>
-                    <IconWrapper
-                        onClick={() => {
-                            updateGroupModalState({
-                                open: true,
-                                groupItem: null
-                            })
-                        }}
-                    >
-                        <ListPlus size={16} className="text-default-400"/>
-                    </IconWrapper>
+                    <Tooltip placement="bottom" showArrow={true} color="foreground" closeDelay={0} content={t("group.create")}>
+                        <IconWrapper
+                            onClick={() => {
+                                updateGroupModalState({
+                                    open: true,
+                                    groupItem: null
+                                })
+                            }}
+                        >
+                            <ListPlus size={16} className="text-default-400"/>
+                        </IconWrapper>
+                    </Tooltip>
                 </div>
                 {
-                    groupList.length === 0 && (<div className=" select-none text-gray-400 text-sm">暂无分组</div>)
+                    groupList.length === 0 && (
+                        <div className=" select-none text-gray-400 text-sm">{t("empty.group")}</div>)
                 }
             </div>
 
@@ -129,7 +135,7 @@ const SideBar = memo(observer(() => {
                                             ))
                                         }
                                     </Listbox>
-                                ) : <span className=" select-none text-gray-400 text-sm">暂无</span>
+                                ) : <span className=" select-none text-gray-400 text-sm">{t('empty.index')}</span>
                             }
                         </AccordionItem>
                     ))

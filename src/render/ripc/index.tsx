@@ -2,6 +2,26 @@ import {IPCChannel, PaginationType, RSSType} from "@src/types/rss";
 import {FeedType} from "@src/types/feed";
 import {GroupType} from "@src/types/group";
 import {GroupEntities} from "@src/dataBase/entities/group";
+import {OSType} from "@src/types/os";
+
+export const RIPCOSConfig = (): Promise<OSType | null> => {
+    try {
+        return window.IPC.invoke(IPCChannel.OSConfig)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+
+}
+
+export const RIPCUpdateOSConfig = (config: Partial<OSType> | null): Promise<OSType | null> => {
+    try {
+        if(!config) return Promise.resolve(null)
+        return window.IPC.invoke(IPCChannel.UpdateOSConfig, config)
+    } catch (err) {
+        return Promise.resolve(null)
+    }
+
+}
 
 export const RIPCGetFeedList = (): Promise<FeedType[]> => {
     try {

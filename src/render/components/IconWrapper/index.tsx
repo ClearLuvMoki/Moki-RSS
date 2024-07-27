@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {forwardRef, memo} from 'react';
 import deepEqual from "deep-equal";
 import cn from "classnames";
 
@@ -11,13 +11,13 @@ interface Props {
 
 const BaseClassName = "flex cursor-pointer select-none items-center transition-all justify-center p-2 rounded-lg hover:bg-gray-100"
 
-const IconWrapper = memo(({children, className, style, onClick}: Props) => {
+const IconWrapper = memo(forwardRef(({children, className, style, onClick, ...props}: Props, ref: React.ForwardedRef<any>) => {
     return (
-        <div className={cn(className || "", BaseClassName)} style={style || {}} onClick={onClick} >
+        <div ref={ref} {...props} className={cn(className || "", BaseClassName)} style={style || {}} onClick={onClick} >
             {children}
         </div>
     );
-}, (prevProps, nextProps) => {
+}), (prevProps, nextProps) => {
     return deepEqual(prevProps, nextProps, {strict: true})
 });
 

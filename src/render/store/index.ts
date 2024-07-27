@@ -1,13 +1,18 @@
 import {action, makeAutoObservable, observable} from "mobx"
 import {FeedType} from "@src/types/feed";
 import {PaginationType, RSSType} from "@src/types/rss";
-import {RIPCGetFeedList, RIPCGetGroup, RIPCGetRSSList} from "@render/ripc";
+import {RIPCGetFeedList, RIPCGetGroup, RIPCGetRSSList, RIPCUpdateOSConfig} from "@render/ripc";
 import {GroupType} from "@src/types/group";
+import {OSType} from "@src/types/os";
+import {toast} from "sonner";
+import i18n, {DefaultLang} from '../i18n'
 
 
 class _Store {
     constructor() {
         makeAutoObservable(this, {
+            OSConfig: observable,
+            updateOSConfig: action,
             isSideBarCollapsed: observable,
             updateSideBarCollapsed: action,
             feedList: observable,
@@ -30,6 +35,28 @@ class _Store {
         })
     }
 
+    OSConfig: Partial<OSType> | null = null;
+    updateOSConfig = (config: Partial<OSType> | null, isInit: boolean = false) => {
+        this.OSConfig = {
+            ...this.OSConfig,
+            ...config,
+        }
+        i18n.changeLanguage(config?.locale || this.OSConfig.locale || DefaultLang)
+            .then(() => {
+                if (!isInit) {
+                    RIPCUpdateOSConfig({
+                        ...(JSON.parse(JSON.stringify(this.OSConfig || {}))),
+                        id: "1",
+                    })
+                        .then(() => {
+                            toast.success(i18n.t("toast.success.update"))
+                        })
+                        .catch(() => {
+                            toast.error(i18n.t("toast.failed.update"))
+                        })
+                }
+            })
+    }
 
     isSideBarCollapsed: boolean = true;
     updateSideBarCollapsed = (isCollapsed: boolean) => {
@@ -88,12 +115,12 @@ class _Store {
         this.groupList = list;
     }
 
-    groupModalState: {open: boolean; groupItem: GroupType| null} = {
+    groupModalState: { open: boolean; groupItem: GroupType | null } = {
         open: false,
         groupItem: null,
     }
-    updateGroupModalState  = (params: {
-        open: boolean; groupItem: GroupType| null
+    updateGroupModalState = (params: {
+        open: boolean; groupItem: GroupType | null
     }) => {
         this.groupModalState = {
             ...this.groupModalState,

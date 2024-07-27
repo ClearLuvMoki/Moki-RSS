@@ -2,13 +2,17 @@ import {Fragment, memo} from 'react';
 import deepEqual from "deep-equal";
 import {Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
 import FeedContent from "./content/FeedContent";
+import {useTranslation} from "react-i18next";
+import PreferencesContent from "@render/components/SettingModal/content/PreferencesContent";
+import {observer} from "mobx-react";
 
 interface Props {
     open: boolean;
     onClose: VoidFunction;
 }
 
-const SettingModal = memo(({open, onClose}: Props) => {
+const SettingModal = memo(observer(({open, onClose}: Props) => {
+    const { t } = useTranslation();
 
     return (
         <Modal
@@ -43,18 +47,15 @@ const SettingModal = memo(({open, onClose}: Props) => {
             <ModalContent>
                 {() => (
                     <Fragment>
-                        <ModalHeader className="flex flex-col gap-1">设置</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">{t("action.setting")}</ModalHeader>
                         <ModalBody className="setting-body">
                             <Tabs>
-                                <Tab key="feed" title="订阅源">
+                                <Tab key="feed" title={t("feed.index")}>
                                     <FeedContent/>
                                 </Tab>
-                                {/*<Tab key="group" title="分组">*/}
-                                {/*    <GroupContent/>*/}
-                                {/*</Tab>*/}
-                                {/*<Tab key="preferences" title="应用偏好">*/}
-                                {/*    <PreferencesContent/>*/}
-                                {/*</Tab>*/}
+                                <Tab key="preferences" title={t("preferences.index")}>
+                                    <PreferencesContent/>
+                                </Tab>
                             </Tabs>
                         </ModalBody>
                     </Fragment>
@@ -62,7 +63,7 @@ const SettingModal = memo(({open, onClose}: Props) => {
             </ModalContent>
         </Modal>
     );
-}, (prevProps, nextProps) => {
+}), (prevProps, nextProps) => {
     return deepEqual(prevProps, nextProps, {strict: true})
 });
 

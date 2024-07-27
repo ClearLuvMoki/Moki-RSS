@@ -11,10 +11,13 @@ import {RIPCUpdateFeedList} from "@render/ripc";
 import Store from "@render/store";
 import GroupModal from "@render/components/GroupModal";
 import Search from "@render/components/Search";
+import {Tooltip} from "@nextui-org/react";
+import {useTranslation} from "react-i18next";
 
 
 const Header = memo(observer(() => {
     const {handleGetFeedList, groupModalState, updateGroupModalState} = Store;
+    const {t} = useTranslation()
     const [settingState, setSettingState] = useSetState({
         open: false,
         loading: false
@@ -25,7 +28,10 @@ const Header = memo(observer(() => {
         RIPCUpdateFeedList()
             .then(() => {
                 handleGetFeedList();
-                toast.success("同步成功!")
+                toast.success(t("toast.success.reload"))
+            })
+            .catch(() => {
+                toast.error(t("toast.failed.reload"))
             })
             .finally(() => {
                 setSettingState({loading: false})
@@ -69,28 +75,32 @@ const Header = memo(observer(() => {
                         WebkitAppRegion: "no-drag"
                     }}
                 >
-                    <IconWrapper
-                        onClick={() => {
-                            if (settingState?.loading) return;
-                            handleUpdateFeed()
-                        }}
-                    >
-                        <RotateCw
-                            size={18}
-                            className={settingState?.loading ? "animate-spin cursor-not-allowed" : ""}
-                        />
-                    </IconWrapper>
-                    <IconWrapper
-                        onClick={() => {
-                            setSettingState({
-                                open: true
-                            })
-                        }}
-                    >
-                        <SlidersHorizontal
-                            size={18}
-                        />
-                    </IconWrapper>
+                    <Tooltip showArrow={true} content={t("action.reload")} color="foreground" closeDelay={0} placement="bottom">
+                        <IconWrapper
+                            onClick={() => {
+                                if (settingState?.loading) return;
+                                handleUpdateFeed()
+                            }}
+                        >
+                            <RotateCw
+                                size={18}
+                                className={settingState?.loading ? "animate-spin cursor-not-allowed" : ""}
+                            />
+                        </IconWrapper>
+                    </Tooltip>
+                    <Tooltip showArrow={true} content={t("action.setting")} color="foreground" closeDelay={0} placement="bottom">
+                        <IconWrapper
+                            onClick={() => {
+                                setSettingState({
+                                    open: true
+                                })
+                            }}
+                        >
+                            <SlidersHorizontal
+                                size={18}
+                            />
+                        </IconWrapper>
+                    </Tooltip>
 
                 </div>
             </div>

@@ -1,0 +1,66 @@
+{
+  "toast": {
+    "success": {
+      "index": "Operation successful!",
+      "add": "Addition successful!",
+      "delete": "Deletion successful!",
+      "update": "Update successful!",
+      "reload": "Reload successful!",
+      "copy": "Copy successful!",
+      "save": "Save successful, saved to {{path}}!"
+    },
+    "failed": {
+      "index": "Operation failed!",
+      "add": "Addition failed!",
+      "delete": "Deletion failed!",
+      "update": "Update failed!",
+      "reload": "Reload failed!",
+      "save": "Save failed!",
+      "copy": "Copy failed!"
+    }
+  },
+  "action": {
+    "index": "Action",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "reload": "Reload",
+    "setting": "Setting",
+    "add": "Add",
+    "copy-link": "Copy link",
+    "open-link": "Open link",
+    "save-img": "Save image",
+    "copy-img": "Copy image"
+  },
+  "empty": {
+    "index": "None",
+    "group": "No group",
+    "default": "Default"
+  },
+  "feed": {
+    "index": "Feed",
+    "add": "Add feed",
+    "name": "Feed name",
+    "edit": "Edit feed",
+    "placeholder": "Please enter feed URL",
+    "url": "Feed URL",
+    "all-feed": "All feeds"
+  },
+  "group": {
+    "index": "Group",
+    "create": "Create group",
+    "update": "Update group",
+    "name": "Group name",
+    "desc": "Group description",
+    "placeholder": "Please select a group"
+  },
+  "search": {
+    "placeholder": "Please enter what you want to search for"
+  },
+  "preferences": {
+    "index": "App Preferences",
+    "language": "Language",
+    "language-placeholder": "Please select your language"
+  }
+}

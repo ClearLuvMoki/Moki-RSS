@@ -6,6 +6,7 @@ import deepEqual from "deep-equal";
 import {RIPCCopy, RIPCOpenUrl, RIPCSaveBase64Image} from "@render/ripc";
 import ContextMenu, {ActionValueType} from "@render/components/ContextMenu";
 import {toast} from "sonner";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     content: string;
@@ -43,6 +44,7 @@ const handleUrlToBase64 = async (url: string): Promise<string> => {
 
 const MarkDownRender = memo(({content}: Props) => {
     const _content = removeHtmlIndentation(content)
+    const {t} = useTranslation()
 
     const handleLinkAction = (type: ActionValueType, url?: string) => {
         switch (type) {
@@ -52,7 +54,10 @@ const MarkDownRender = memo(({content}: Props) => {
             case "copy-link": {
                 return RIPCCopy("text", url || "")
                     .then(() => {
-                        toast.success("复制成功!")
+                        toast.success(t("toast.success.copy"))
+                    })
+                    .catch(() => {
+                        toast.error(t("toast.failed.copy"))
                     })
             }
             default: {
@@ -69,7 +74,7 @@ const MarkDownRender = memo(({content}: Props) => {
             case "copy-link": {
                 return RIPCCopy("text", url || "")
                     .then(() => {
-                        toast.success("复制成功!")
+                        toast.success(t("toast.success.copy"))
                     })
             }
             case "copy-image": {
@@ -79,15 +84,14 @@ const MarkDownRender = memo(({content}: Props) => {
                             console.log(base, 'base')
                             RIPCCopy("image", base || "")
                                 .then(() => {
-                                    console.log(1212)
-                                    toast.success("复制成功!")
+                                    toast.success(t("toast.success.copy"))
                                 })
                         })
                     return;
                 } else {
                     RIPCCopy("text", url || "")
                         .then(() => {
-                            toast.success("复制成功!")
+                            toast.success(t("toast.success.copy"))
                         })
                     return
                 }
@@ -98,14 +102,14 @@ const MarkDownRender = memo(({content}: Props) => {
                         .then((base) => {
                             RIPCSaveBase64Image(base || "")
                                 .then((res) => {
-                                    toast.success(`保存成功, 保存路径在 ${res} !`)
+                                    toast.success(t(`toast.success.save`, {path: res}))
                                 })
                         })
                     return
                 } else {
                     RIPCSaveBase64Image(url || "")
                         .then((res) => {
-                            toast.success(`保存成功, 路径在${res}!`)
+                            toast.success(t(`toast.success.save`, {path: res}))
                         })
                     return
                 }

@@ -13,6 +13,8 @@ export enum IPCChannel {
     "CopyTextOrImage" = "os:copy",
     "SaveImageByBase64" = "os:save-image-base-64",
     "Search" = "os:search",
+    "OSConfig" = "os:config",
+    "UpdateOSConfig" = "os:update-config"
 }
 
 

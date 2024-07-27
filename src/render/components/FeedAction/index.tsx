@@ -9,6 +9,7 @@ import {toast} from "sonner";
 import Store from "@render/store";
 import FeedEditModal from "@render/components/FeedEditModal";
 import {useSetState} from "ahooks";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     item: FeedType;
@@ -16,6 +17,7 @@ interface Props {
 
 const FeedAction = memo(({item}: Props) => {
     const {handleGetFeedList, handleGetGroupList} = Store;
+    const { t } = useTranslation()
     const [editState, setEditState] = useSetState<{
         open: boolean;
         feedItem: FeedType | null;
@@ -67,9 +69,9 @@ const FeedAction = memo(({item}: Props) => {
                         handleAction(key as string)
                     }}
                 >
-                    <DropdownItem key="edit">编辑</DropdownItem>
+                    <DropdownItem key="edit">{t("action.edit")}</DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                        删除
+                        {t("action.delete")}
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>

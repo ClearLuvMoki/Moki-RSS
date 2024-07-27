@@ -11,6 +11,7 @@ import Store from "@render/store";
 import {GroupType} from "@src/types/group";
 import {RIPCDeleteGroup} from "@render/ripc";
 import {toast} from "sonner";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     groupItem: GroupType;
@@ -18,6 +19,7 @@ interface Props {
 
 const GroupAction = memo(({groupItem}: Props) => {
     const {updateGroupModalState, handleGetGroupList} = Store;
+    const {t} = useTranslation();
 
     const handleAction = (key: string) => {
         switch (key) {
@@ -37,10 +39,10 @@ const GroupAction = memo(({groupItem}: Props) => {
         RIPCDeleteGroup(groupItem?.id)
             .then(() => {
                 handleGetGroupList();
-                toast.success("删除成功!")
+                toast.success(t('toast.success.delete'))
             })
             .catch(() => {
-                toast.error("删除失败!")
+                toast.error(t('toast.failed.delete'))
             })
     }
 
@@ -56,9 +58,9 @@ const GroupAction = memo(({groupItem}: Props) => {
                         handleAction(key as string)
                     }}
                 >
-                    <DropdownItem key="edit">编辑</DropdownItem>
+                    <DropdownItem key="edit">{t("action.edit")}</DropdownItem>
                     <DropdownItem key="delete" className="text-danger" color="danger">
-                        删除
+                        {t("action.delete")}
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>

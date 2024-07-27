@@ -7,6 +7,7 @@ import {toast} from "sonner";
 import Store from "@render/store";
 import {GroupType} from "@src/types/group";
 import {observer} from "mobx-react";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     open: boolean;
@@ -16,6 +17,7 @@ interface Props {
 
 const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
     const {handleGetGroupList} = Store;
+    const { t } = useTranslation();
 
     const [formState, setFormState] = useSetState({
         name: "",
@@ -56,11 +58,11 @@ const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
             })
                 .then(() => {
                     handleGetGroupList();
-                    toast.success("修改成功!");
+                    toast.success(t('toast.success.update'));
                     handleClean();
                 })
                 .catch(() => {
-                    toast.error("修改失败!")
+                    toast.error("toast.failed.update")
                 })
         } else {
             RIPCAddGroup({
@@ -69,11 +71,11 @@ const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
             })
                 .then(() => {
                     handleGetGroupList();
-                    toast.success("新增成功!");
+                    toast.success("toast.success.add");
                     handleClean();
                 })
                 .catch(() => {
-                    toast.error("新增失败!")
+                    toast.error("toast.failed.add")
                 })
         }
     }
@@ -93,7 +95,6 @@ const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
         <Modal
             isOpen={open}
             onClose={handleClean}
-            backdrop={"blur"}
             motionProps={{
                 variants: {
                     enter: {
@@ -119,11 +120,11 @@ const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
                 {() => (
                     <Fragment>
                         <ModalHeader
-                            className="flex flex-col gap-1">{groupItem?.id ? "编辑分组" : "新增分组"}</ModalHeader>
+                            className="flex flex-col gap-1">{groupItem?.id ? t("group.update") : t("group.create")}</ModalHeader>
                         <ModalBody>
                             <Input
                                 type="name"
-                                label="分组名称"
+                                label={t("group.name")}
                                 isInvalid={Boolean(formErr.nameErr)}
                                 errorMessage={formErr.nameErr}
                                 value={formState?.name}
@@ -133,20 +134,20 @@ const GroupModal = memo(observer(({open, groupItem, onClose}: Props) => {
                             />
                             <Textarea
                                 name="description"
-                                label="分组描述"
-                                placeholder="请输入分组描述"
+                                label={t("group.index")}
+                                placeholder={t("group.desc")}
                                 value={formState?.description}
                                 onValueChange={(value) => setFormState({description: value})}
                             />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" variant="light" onPress={handleClean}>
-                                取消
+                                {t("action.cancel")}
                             </Button>
                             <Button
                                 isDisabled={!formState.name}
                                 color="primary" onPress={handleAddGroup}>
-                                确定
+                                {t("action.submit")}
                             </Button>
                         </ModalFooter>
                     </Fragment>

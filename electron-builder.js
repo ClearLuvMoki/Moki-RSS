@@ -1,8 +1,6 @@
 const {version} = require('./package.json')
 const {resolve} = require("path")
 
-const isMas = true;
-const isMac = true;
 const versionArr = version.split('-')
 const bundleShortVersion = versionArr[0]
 const bundleVersion = versionArr[1]
@@ -24,7 +22,7 @@ const config = {
     mac: {
         icon: resolve(__dirname, "./icons/icon.icns"),
         target: [
-            "mas-dev"
+            "mas"
         ],
         bundleVersion: bundleVersion,
         bundleShortVersion: bundleShortVersion,

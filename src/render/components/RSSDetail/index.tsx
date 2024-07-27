@@ -13,7 +13,7 @@ const RSSDetail = memo(({detail}: Props) => {
         <div id="RSSDetail">
             <div className="text-xl font-bold mb-4">{detail?.title}</div>
             <div className="mb-6 text-gray-400 text-sm">
-                <span >{dayjs(detail?.pubDate).format("YYYY年MM月DD日")}</span>
+                <span >{dayjs(detail?.pubDate).format("YYYY-MM-DD")}</span>
             </div>
             <MarkDownRender
                 content={detail?.content || ""}

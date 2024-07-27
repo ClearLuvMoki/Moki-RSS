@@ -2,6 +2,7 @@ import React, {memo, useState} from 'react';
 import deepEqual from "deep-equal";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
 import {Copy, ExternalLink, ImageDown, Images} from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 
 interface Props {
@@ -19,19 +20,20 @@ interface ActionType {
 }
 
 const LinkActions: ActionType[] = [
-    {label: "复制链接", value: "copy-link", icon: <Copy size={18}/>},
-    {label: "打开链接", value: "open-link", icon: <ExternalLink size={18}/>}
+    {label: "copy-link", value: "copy-link", icon: <Copy size={18}/>},
+    {label: "open-link", value: "open-link", icon: <ExternalLink size={18}/>}
 ]
 
 const ImageActions: ActionType[] = [
-    {label: "复制链接", value: "copy-link", icon: <Copy size={18}/>},
-    {label: "打开链接", value: "open-link", icon: <ExternalLink size={18}/>},
-    {label: "保存图片", value: "save-image", icon: <ImageDown size={18}/>},
-    {label: "复制图片", value: "copy-image", icon: <Images size={18}/>}
+    {label: "copy-link", value: "copy-link", icon: <Copy size={18}/>},
+    {label: "open-link", value: "open-link", icon: <ExternalLink size={18}/>},
+    {label: "save-img", value: "save-image", icon: <ImageDown size={18}/>},
+    {label: "copy-img", value: "copy-image", icon: <Images size={18}/>}
 ]
 
 const ContextMenu = memo(({trigger, type, onAction}: Props) => {
     const [open, setOpen] = useState(false);
+    const {t} = useTranslation()
     return (
         <Dropdown isOpen={open} onClose={() => setOpen(false)}>
             <DropdownTrigger>
@@ -46,7 +48,7 @@ const ContextMenu = memo(({trigger, type, onAction}: Props) => {
                     ((type === "image" ? ImageActions : LinkActions) || []).map(item => (
                         <DropdownItem
                             startContent={item.icon}
-                            key={item.value}>{item.label}</DropdownItem>
+                            key={item.value}>{t(`action.${item.label}`)}</DropdownItem>
                     ))
                 }
             </DropdownMenu>

@@ -8,9 +8,11 @@ import {observer} from "mobx-react";
 import Store from "@render/store";
 import {RSSType} from "@src/types/rss";
 import {FeedType} from "@src/types/feed";
+import {useTranslation} from "react-i18next";
 
 const Search = memo(observer(() => {
     const {updateRSSDetailState, updateActiveFeed} = Store;
+    const { t } = useTranslation();
     const inputRef = useRef<HTMLInputElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [open, setOpen] = useState(false);
@@ -64,13 +66,14 @@ const Search = memo(observer(() => {
                 // @ts-ignore
                 WebkitAppRegion: "no-drag",
                 width: "300px",
-                position: 'relative'
+                position: 'relative',
+                marginRight: 4
             }}
         >
             <Input
                 ref={inputRef}
                 size="sm"
-                placeholder="请输入您要搜索的内容"
+                placeholder={t("search.placeholder")}
                 startContent={<SearchIcon className="text-default-300"/>}
                 onFocus={() => setOpen(true)}
                 value={value}

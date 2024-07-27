@@ -17,6 +17,7 @@ import {observer} from "mobx-react";
 import Store from "@render/store";
 import {RIPCUpdateFeed} from "@render/ripc";
 import {toast} from "sonner";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     open: boolean;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
+    const { t } = useTranslation()
     const {groupList, handleGetGroupList, handleGetFeedList} = Store;
     const [loading, setLoading] = useState(false);
     const [feedValue, setFeedValue] = useSetState<{
@@ -63,11 +65,11 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
             .then(() => {
                 handleGetGroupList();
                 handleGetFeedList();
-                toast.success("修改成功!")
+                toast.success(t("toast.success.update"))
                 handleClean();
             })
             .catch(() => {
-                toast.error("修改失败!")
+                toast.error(t("toast.failed.update"))
             })
             .finally(() => {
                 setLoading(false)
@@ -77,7 +79,6 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
     return (
         <Modal
             isOpen={open}
-            backdrop={"blur"}
             onClose={onClose}
             motionProps={{
                 variants: {
@@ -103,10 +104,10 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
             <ModalContent>
                 {() => (
                     <Fragment>
-                        <ModalHeader className="flex flex-col gap-1">编辑订阅源</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">{t("feed.edit")}</ModalHeader>
                         <ModalBody>
                             <Input
-                                label="订阅源名称"
+                                label={t("feed.name")}
                                 value={feedValue?.title}
                                 onValueChange={(value) => {
                                     setFeedValue({
@@ -115,8 +116,8 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
                                 }}
                             />
                             <Select
-                                label="分组"
-                                placeholder="请选择分组"
+                                label={t("group.index")}
+                                placeholder={t("group.placeholder")}
                                 value={feedValue?.groupId}
                                 onChange={(event) => {
                                     setFeedValue({
@@ -125,7 +126,7 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
                                 }}
                             >
                                 {
-                                    [{id: "", name: "默认"}].concat(groupList).map(item => (
+                                    [{id: "", name: t("empty.default")}].concat(groupList).map(item => (
                                         <SelectItem key={item.id}>
                                             {item.name}
                                         </SelectItem>
@@ -135,13 +136,13 @@ const FeedEditModal = memo(observer(({open, item, onClose}: Props) => {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" variant="light" onPress={handleClean}>
-                                取消
+                                {t("action.cancel")}
                             </Button>
                             <Button
                                 isLoading={loading}
                                 isDisabled={!feedValue.title}
                                 color="primary" onPress={handleUpdate}>
-                                确定
+                                 {t("action.submit")}
                             </Button>
                         </ModalFooter>
                     </Fragment>
