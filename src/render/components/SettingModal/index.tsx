@@ -18,7 +18,6 @@ const SettingModal = memo(observer(({open, onClose}: Props) => {
         <Modal
             size={"2xl"}
             isOpen={open}
-            backdrop={"blur"}
             onClose={onClose}
             className="h-[calc(100%-100px)] !m-0"
             scrollBehavior={"inside"}

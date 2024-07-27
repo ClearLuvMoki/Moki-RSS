@@ -5,11 +5,11 @@ import FeedService from "@src/dataBase/server/feed";
 import to from "await-to-js";
 import RSSListService from "@src/dataBase/server/rss";
 
-export const handleInsertFeedByUrl = (url: string) =>{
-    return new Promise((resolve, reject) => {
+export const handleInsertFeedByUrl = (xml: string) => {
+    return new Promise(async (resolve, reject) => {
         try {
-             let parser = new RSSParser();
-             parser.parseURL(url)
+            let parser = new RSSParser();
+            parser.parseString(xml)
                 .then(async (res) => {
                     const [_, saveRes] = await to(FeedService.insertFeed({
                         title: res?.title || "",
@@ -19,11 +19,11 @@ export const handleInsertFeedByUrl = (url: string) =>{
                     }))
                     if (saveRes?.id) {
                         const items = res.items;
-                        items.forEach(item => {
-                            RSSListService.insertRSS({
+                        await Promise.allSettled(items.map(async item => {
+                             await RSSListService.insertRSS({
                                 rssId: item.id || item.guid,
                                 rssLink: item.link || "",
-                                author: item.author || "",
+                                author: item.author || item.creator || item["dc:creator"] || "",
                                 content: item.content || "",
                                 contentSnippet: item.contentSnippet || "",
                                 pubDate: item.pubDate || "",
@@ -32,12 +32,15 @@ export const handleInsertFeedByUrl = (url: string) =>{
                                 title: item.title || "",
                                 feedId: saveRes?.id as string
                             })
-                        })
+                        }))
                     }
                     resolve(res);
                 })
-                .catch(reject)
-        }catch (err) {
+                .catch((err) => {
+                    console.log(err, 'err')
+                    reject(err)
+                })
+        } catch (err) {
             reject(err)
         }
     })
@@ -48,7 +51,7 @@ const RSSIpc = () => {
         feedId,
         pageNo,
         pageSize,
-    }: { feedId: string }& PaginationType) => {
+    }: { feedId: string } & PaginationType) => {
         const list = await RSSListService.getALLRSSListByFeed({
             feedId,
             pageNo,
@@ -57,11 +60,11 @@ const RSSIpc = () => {
         return list;
     })
 
-    ipcMain.handle(IPCChannel.ParseRSS, (_, url: string) => {
-        return handleInsertFeedByUrl(url);
+    ipcMain.handle(IPCChannel.ParseRSS, (_, xml: string) => {
+        return handleInsertFeedByUrl(xml);
     })
 
-     ipcMain.handle(IPCChannel.Search, (_, keyword: string) => {
+    ipcMain.handle(IPCChannel.Search, (_, keyword: string) => {
         return RSSListService.searchRSS(keyword);
     })
 

@@ -3,6 +3,7 @@ import {FeedType} from "@src/types/feed";
 import {GroupType} from "@src/types/group";
 import {GroupEntities} from "@src/dataBase/entities/group";
 import {OSType} from "@src/types/os";
+import Store from "@render/store";
 
 export const RIPCOSConfig = (): Promise<OSType | null> => {
     try {
@@ -15,7 +16,7 @@ export const RIPCOSConfig = (): Promise<OSType | null> => {
 
 export const RIPCUpdateOSConfig = (config: Partial<OSType> | null): Promise<OSType | null> => {
     try {
-        if(!config) return Promise.resolve(null)
+        if (!config) return Promise.resolve(null)
         return window.IPC.invoke(IPCChannel.UpdateOSConfig, config)
     } catch (err) {
         return Promise.resolve(null)
@@ -32,9 +33,9 @@ export const RIPCGetFeedList = (): Promise<FeedType[]> => {
 
 }
 
-export const RIPCAddFeed = (url: string) => {
+export const RIPCAddFeed = (xml: string) => {
     try {
-        return window.IPC.invoke(IPCChannel.ParseRSS, url)
+        return window.IPC.invoke(IPCChannel.ParseRSS, xml)
     } catch (err) {
         return Promise.resolve(null)
     }
@@ -49,9 +50,17 @@ export const RIPCRemoveFeed = (id: string) => {
 }
 
 
-export const RIPCUpdateFeedList = (): Promise<RSSType[]> => {
+export const RIPCUpdateFeedList = async (): Promise<RSSType[]> => {
     try {
-        return window.IPC.invoke(IPCChannel.UpdateFeedList)
+        const {feedList} = Store;
+        const urlList = feedList.map(item => {
+            return item.feedUrl;
+        }).filter(item => item);
+        let xmlList = await Promise.allSettled(urlList.map(item => {
+            return fetch(item).then(res => res.text())
+        }))
+        xmlList = xmlList.filter((item: any) => item.status = "fulfilled" && item.value).map((item: any) => item.value)
+        return window.IPC.invoke(IPCChannel.UpdateFeedList, xmlList)
     } catch (err) {
         return Promise.resolve([])
     }
@@ -152,8 +161,8 @@ export const RIPCSaveBase64Image = (base64Image: string): Promise<string> => {
 }
 
 export interface SearchType {
-     rss: RSSType[];
-     feed: FeedType[];
+    rss: RSSType[];
+    feed: FeedType[];
 }
 
 // 搜索

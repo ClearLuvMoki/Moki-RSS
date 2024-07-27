@@ -45,7 +45,7 @@ const PreferencesContent = memo(observer(() => {
                 <h2 className="text-lg select-none">{t("preferences.language")}</h2>
                 <Select
                     placeholder={t("preferences.language-placeholder")}
-                    className="max-w-xs"
+                    className="max-w-xs my-2"
                     selectedKeys={[OSConfig?.locale || DefaultLang]}
                     onChange={(event) => {
                         updateOSConfig({

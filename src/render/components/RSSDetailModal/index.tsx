@@ -52,7 +52,10 @@ const RSSDetailModal = memo(observer(() => {
                     () => (
                         <Fragment>
                             <ModalHeader className="border-b border-b-gray-300 flex justify-between items-center">
-                                <h1 className="text-lg"> {activeFeed?.title}</h1>
+                                <h1 className="text-lg">
+                                    {activeFeed?.title}
+                                    {rssDetailState?.author && <span className="text-sm font-medium text-gray-500">&nbsp;/&nbsp;{rssDetailState.author}</span>}
+                                </h1>
                                 <div className="flex items-center gap-2">
                                     {/*<IconWrapper*/}
                                     {/*    onClick={() => setIsWeb(true)}*/}

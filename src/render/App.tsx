@@ -5,11 +5,12 @@ import {useEffect} from "react";
 import {RIPCOSConfig} from "@render/ripc";
 import Store from "@render/store";
 import i18n, {DefaultLang} from "./i18n";
+import Empty from "@render/components/Empty";
 
 const {Header, SideBar} = Layout
 
 const App = observer(() => {
-    const {updateOSConfig} = Store;
+    const {updateOSConfig, rssList, rssListLoading} = Store;
 
     useEffect(() => {
         RIPCOSConfig()
@@ -27,7 +28,8 @@ const App = observer(() => {
             <div className={"w-full h-[calc(100%-50px)] overflow-hidden flex flex-nowrap"}>
                 <SideBar/>
                 <div className={"w-[calc(100%-240px)] h-full overflow-hidden"}>
-                    <Magazine/>
+                    {rssList.length === 0 && !rssListLoading && (<div className="flex justify-center items-center h-full"><Empty/></div>)}
+                    {(rssList.length > 0 || rssListLoading) && (<Magazine/>)}
                 </div>
             </div>
         </div>

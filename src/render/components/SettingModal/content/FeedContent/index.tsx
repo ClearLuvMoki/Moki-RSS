@@ -18,6 +18,7 @@ import {observer} from "mobx-react";
 import {Trash2} from "lucide-react";
 import {FeedType} from "@src/types/feed";
 import {useTranslation} from "react-i18next";
+import to from "await-to-js";
 
 const columns = [
     {
@@ -42,11 +43,19 @@ const FeedContent = memo(observer(() => {
         loading: false
     })
 
-    const handleAddFeed = () => {
+    const handleAddFeed = async () => {
         setUrlState({
             loading: true
         })
-        RIPCAddFeed(urlState.value)
+        const [err, res] = await to(fetch(urlState.value));
+        if (err) {
+            toast.error(t("toast.failed.add"));
+            return setUrlState({
+                loading: false
+            })
+        }
+        const xml = await res?.text();
+        RIPCAddFeed(xml || "")
             .then((res) => {
                 handleGetFeedList();
                 setUrlState({
@@ -56,7 +65,7 @@ const FeedContent = memo(observer(() => {
                 toast.success(t("toast.success.add"));
             })
             .catch(() => {
-                toast.success(t("toast.failed.add"));
+                toast.error(t("toast.failed.add"));
             })
             .finally(() => {
                 setUrlState({

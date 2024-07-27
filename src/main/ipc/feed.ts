@@ -10,23 +10,21 @@ const FeedIpc = () => {
         return res;
     })
 
-     ipcMain.handle(IPCChannel.UpdateFeed, async (_, feedItem: FeedType) => {
+    ipcMain.handle(IPCChannel.UpdateFeed, async (_, feedItem: FeedType) => {
         const res = await FeedService.updateFeed(feedItem);
         return res;
     })
 
-     ipcMain.handle(IPCChannel.RemoveFeed, async (_, id) => {
+    ipcMain.handle(IPCChannel.RemoveFeed, async (_, id) => {
         const res = await FeedService.removeFeed(id);
         return res;
     })
 
-    ipcMain.handle(IPCChannel.UpdateFeedList, async () => {
-        const feedList = await FeedService.getALLFeed();
-        const urlList = feedList.map(item => {
-            return item.feedUrl;
-        }).filter(item => item);
-        console.log("更新链接:", urlList);
-        const res = await Promise.all(urlList.map(item => {
+    ipcMain.handle(IPCChannel.UpdateFeedList, async (_, xmlList: string[]) => {
+        if (!xmlList || xmlList.length === 0) {
+            return Promise.resolve([])
+        }
+        const res = await Promise.all(xmlList.map(item => {
             return handleInsertFeedByUrl(item)
         }))
         return res
