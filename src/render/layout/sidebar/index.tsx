@@ -4,13 +4,13 @@ import {observer} from "mobx-react";
 import {Accordion, AccordionItem} from "@nextui-org/accordion";
 import {
     Listbox,
-    ListboxItem, Tooltip
+    ListboxItem, Tooltip, Image
 } from "@nextui-org/react";
 import Store from "@render/store";
 import FeedAction from "@render/components/FeedAction";
 import GroupAction from "@render/components/GroupAction";
 import IconWrapper from "@render/components/IconWrapper";
-import {ListPlus} from "lucide-react";
+import {ListPlus, Rss} from "lucide-react";
 import {useTranslation} from "react-i18next";
 
 const itemClasses = {
@@ -60,6 +60,11 @@ const SideBar = memo(observer(() => {
                                     onClick={() => {
                                         updateActiveFeed(item)
                                     }}
+                                    startContent={(item?.avatarBase64 || item?.avatar) ? <Image
+                                        src={item?.avatarBase64 || item.avatar}
+                                        className="w-4 h-4"/>:
+                                        <Rss className="w-4 w-4"/>
+                                }
                                     endContent={item.id === activeFeed?.id ?
                                         <FeedAction item={item}/> : null
                                     }

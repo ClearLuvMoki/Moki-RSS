@@ -17,6 +17,10 @@ export class FeedListEntities {
     @Column({type: "text", default: ""})
     avatar?: string = "";
 
+    // 订阅源的头像 --- base64
+    @Column({type: "text", default: ""})
+    avatarBase64?: string = "";
+
     // 网页地址
     @Column({type: "text", default: ""})
     link: string = "";

@@ -2,6 +2,7 @@ export interface FeedType {
     id: string;
     title: string;
     avatar: string;
+    avatarBase64: string;
     link: string;
     feedUrl: string;
     lastBuildDate: string;

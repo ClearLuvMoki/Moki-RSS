@@ -1,7 +1,7 @@
 import {memo, useCallback} from 'react';
 import deepEqual from "deep-equal";
 import {
-    Button,
+    Button, Image,
     Input,
     Table,
     TableBody,
@@ -15,7 +15,7 @@ import {RIPCAddFeed, RIPCRemoveFeed} from "@render/ripc";
 import {toast} from "sonner";
 import Store from "@render/store";
 import {observer} from "mobx-react";
-import {Trash2} from "lucide-react";
+import {Rss, Trash2} from "lucide-react";
 import {FeedType} from "@src/types/feed";
 import {useTranslation} from "react-i18next";
 import to from "await-to-js";
@@ -88,6 +88,19 @@ const FeedContent = memo(observer(() => {
     const renderCell = useCallback((item: FeedType, columnKey: any) => {
         const cellValue = (item as any)[columnKey];
         switch (columnKey) {
+            case "title": {
+                return (
+                    <div className="flex gap-2">
+                        {
+                            (item?.avatarBase64 || item?.avatar) ? <Image
+                                    src={item?.avatarBase64 || item.avatar}
+                                    className="w-4 h-4"/> :
+                                <Rss className="w-4 w-4"/>
+                        }
+                        <span>{cellValue}</span>
+                    </div>
+                )
+            }
             case "action": {
                 return <Trash2 onClick={() => {
                     handleRemoveFeed(item?.id)
