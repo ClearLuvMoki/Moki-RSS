@@ -55,16 +55,16 @@ const SideBar = memo(observer(() => {
                         {
                             feedList.filter(item => !item.groupId).map(item => (
                                 <ListboxItem
-                                    className={item.id === activeFeed?.id ? "bg-default/40" : ""}
+                                    className={item.id === activeFeed?.id ? "bg-default/40 h-[36px]" : "h-[36px]"}
                                     key={item.id}
                                     onClick={() => {
                                         updateActiveFeed(item)
                                     }}
                                     startContent={(item?.avatarBase64 || item?.avatar) ? <Image
-                                        src={item?.avatarBase64 || item.avatar}
-                                        className="w-4 h-4"/>:
+                                            src={item?.avatarBase64 || item.avatar}
+                                            className="w-4 h-4"/> :
                                         <Rss className="w-4 w-4"/>
-                                }
+                                    }
                                     endContent={item.id === activeFeed?.id ?
                                         <FeedAction item={item}/> : null
                                     }
@@ -83,7 +83,8 @@ const SideBar = memo(observer(() => {
                     <div className="text-lg font-bold">
                         {t("group.index")}
                     </div>
-                    <Tooltip placement="bottom" showArrow={true} color="foreground" closeDelay={0} content={t("group.create")}>
+                    <Tooltip placement="bottom" showArrow={true} color="foreground" closeDelay={0}
+                             content={t("group.create")}>
                         <IconWrapper
                             onClick={() => {
                                 updateGroupModalState({
@@ -131,6 +132,11 @@ const SideBar = memo(observer(() => {
                                                     onClick={() => {
                                                         updateActiveFeed(item)
                                                     }}
+                                                    startContent={(item?.avatarBase64 || item?.avatar) ? <Image
+                                                            src={item?.avatarBase64 || item.avatar}
+                                                            className="w-4 h-4"/> :
+                                                        <Rss className="w-4 w-4"/>
+                                                    }
                                                     endContent={item.id === activeFeed?.id ?
                                                         <FeedAction item={item}/> : null
                                                     }

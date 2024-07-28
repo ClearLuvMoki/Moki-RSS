@@ -5,6 +5,7 @@ import FeedService from "@src/dataBase/server/feed";
 import to from "await-to-js";
 import * as cheerio from 'cheerio';
 import RSSListService from "@src/dataBase/server/rss";
+import axios from "axios";
 
 
 export const handleInsertFeedByUrl = (xml: string) => {
@@ -13,8 +14,8 @@ export const handleInsertFeedByUrl = (xml: string) => {
             let parser = new RSSParser();
             parser.parseString(xml)
                 .then(async (res) => {
-                    const avatarRes = await handleGetLinkAvatar(res?.link || "");
-                    const [_, saveRes] = await to(FeedService.insertFeed({
+                    const [_, avatarRes] = await to(handleGetLinkAvatar(res?.link || ""));
+                    const [saveErr, saveRes] = await to(FeedService.insertFeed({
                         title: res?.title || "",
                         link: res?.link || "",
                         feedUrl: res?.feedUrl || "",
@@ -22,6 +23,10 @@ export const handleInsertFeedByUrl = (xml: string) => {
                         avatarBase64: avatarRes?.base || "",
                         lastBuildDate: res?.lastBuildDate,
                     }))
+                    if(saveErr) {
+                        console.log("保存订阅源失败:", saveErr);
+                        return reject(saveErr)
+                    }
                     if (saveRes?.id) {
                         const items = res.items;
                         await Promise.allSettled(items.map(async item => {
@@ -51,10 +56,10 @@ export const handleInsertFeedByUrl = (xml: string) => {
     })
 }
 
-export const handleGetLinkAvatar = (url: string): Promise<{base: string; url: string} | null> => {
+export const handleGetLinkAvatar = (url: string): Promise<{ base: string; url: string } | null> => {
     return new Promise(async (resolve, reject) => {
         try {
-            if(!url) return resolve(null);
+            if (!url) return resolve(null);
             const response = await fetch(url);
             const html = await response.text();
             const $ = cheerio.load(html);
@@ -63,21 +68,26 @@ export const handleGetLinkAvatar = (url: string): Promise<{base: string; url: st
                 const {origin} = new URL(url);
                 faviconUrl = new URL(faviconUrl, origin).href;
             }
+            console.log("解析站点icon:", faviconUrl);
             if (faviconUrl) {
-                const baseResponse = await fetch(faviconUrl);
-                const arrayBuffer = await baseResponse.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
+                const faviconRes = await axios({
+                    url: faviconUrl,
+                    method: "GET",
+                    responseType: "arraybuffer"
+                })
+                const buffer = Buffer.from(faviconRes.data, "binary");
                 const base64 = buffer.toString('base64');
-                const mimeType = response.headers.get('content-type') || 'image/png';
+                const mimeType = 'image/png';
                 const base64Image = `data:${mimeType};base64,${base64}`;
                 return resolve({
                     base: base64Image,
                     url: faviconUrl
                 })
-            }else {
+            } else {
                 return resolve(null)
             }
         } catch (err) {
+            console.log("解析站点icon失败", err);
             reject(err)
         }
     })

@@ -39,7 +39,6 @@ const RSSDetailModal = memo(observer(() => {
 
     return (
         <Modal
-            backdrop={"blur"}
             size={"4xl"}
             className="h-[calc(100%-100px)] !m-0"
             isOpen={Boolean(rssDetailState?.id)}
