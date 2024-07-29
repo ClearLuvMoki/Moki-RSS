@@ -1,9 +1,9 @@
 import "./index.css"
 import "./i18n";
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import {Provider} from "mobx-react"
 import { Toaster } from 'sonner'
+import App from './App';
 import Store from "@render/store";
 import {NextUIProvider} from "@nextui-org/react";
 

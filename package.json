@@ -1,7 +1,7 @@
 {
   "name": "moki-rss",
   "private": true,
-  "version": "2.2.4",
+  "version": "2.2.6",
   "main": "./release/dist/main/index.js",
   "scripts": {
     "dev": "npm run dev:render",

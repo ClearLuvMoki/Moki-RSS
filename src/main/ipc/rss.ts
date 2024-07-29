@@ -12,7 +12,7 @@ export const handleInsertFeedByUrl = (xml: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             let parser = new RSSParser();
-            parser.parseString(xml)
+            return parser.parseString(xml)
                 .then(async (res) => {
                     const [_, avatarRes] = await to(handleGetLinkAvatar(res?.link || ""));
                     const [saveErr, saveRes] = await to(FeedService.insertFeed({
