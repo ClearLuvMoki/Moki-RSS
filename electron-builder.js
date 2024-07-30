@@ -54,10 +54,26 @@ const config = {
     dmg: {
         sign: false
     },
+    win: {
+        icon: resolve(__dirname, "./icons/icon_512x512@2x.png"),
+        target: [
+            "nsis"
+        ],
+        verifyUpdateCodeSignature: false,
+        signingHashAlgorithms: [
+            "sha256"
+        ],
+        signDlls: false,
+        requestedExecutionLevel: "asInvoker",
+    },
     nsis: {
         oneClick: false,
+        perMachine: false,
         allowToChangeInstallationDirectory: true,
-        deleteAppDataOnUninstall: false
+        deleteAppDataOnUninstall: false,
+        createDesktopShortcut: true,
+        createStartMenuShortcut: true,
+        shortcutName: "Moki RSS"
     },
 }
 module.exports = config
