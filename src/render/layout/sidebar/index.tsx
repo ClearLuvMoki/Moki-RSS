@@ -40,7 +40,7 @@ const SideBar = memo(observer(() => {
     }, [])
 
     return (
-        <div className={"w-[240px] h-full border-r border-r-gray-200 py-4 px-[10px]"}>
+        <div className={"w-[240px] h-full border-r py-4 px-[10px] light:border-r-gray-200 dark:border-r-gray-600"}>
             <Accordion
                 itemClasses={itemClasses}
                 defaultExpandedKeys={["all"]}
@@ -62,8 +62,8 @@ const SideBar = memo(observer(() => {
                                     }}
                                     startContent={(item?.avatarBase64 || item?.avatar) ? <Image
                                             src={item?.avatarBase64 || item.avatar}
-                                            className="w-4 h-4"/> :
-                                        <Rss className="w-4 w-4"/>
+                                            className="w-4 min-w-4 h-4"/> :
+                                        <Rss className="w-4 min-w-4 w-4"/>
                                     }
                                     endContent={item.id === activeFeed?.id ?
                                         <FeedAction item={item}/> : null
@@ -93,7 +93,7 @@ const SideBar = memo(observer(() => {
                                 })
                             }}
                         >
-                            <ListPlus size={16} className="text-default-400"/>
+                            <ListPlus size={16} color={"#fff"}/>
                         </IconWrapper>
                     </Tooltip>
                 </div>
@@ -134,8 +134,8 @@ const SideBar = memo(observer(() => {
                                                     }}
                                                     startContent={(item?.avatarBase64 || item?.avatar) ? <Image
                                                             src={item?.avatarBase64 || item.avatar}
-                                                            className="w-4 h-4"/> :
-                                                        <Rss className="w-4 w-4"/>
+                                                            className="w-4 min-w-4 h-4"/> :
+                                                        <Rss className="w-4 min-w-4 w-4"/>
                                                     }
                                                     endContent={item.id === activeFeed?.id ?
                                                         <FeedAction item={item}/> : null

@@ -94,8 +94,8 @@ const FeedContent = memo(observer(() => {
                         {
                             (item?.avatarBase64 || item?.avatar) ? <Image
                                     src={item?.avatarBase64 || item.avatar}
-                                    className="w-4 h-4"/> :
-                                <Rss className="w-4 w-4"/>
+                                    className="w-4 min-w-4 h-4"/> :
+                                <Rss className="w-4 min-w-4 w-4"/>
                         }
                         <span>{cellValue}</span>
                     </div>

@@ -60,7 +60,7 @@ const Header = memo(observer(() => {
             />
             <RSSDetailModal/>
             <div
-                className="h-[50px] w-full border-b border-b-gray-200 flex justify-end items-center px-4"
+                className="h-[50px] w-full border-b flex justify-end items-center px-4 light:border-b-gray-200 dark:border-b-gray-600"
                 style={{
                     // @ts-ignore
                     WebkitAppRegion: "drag"

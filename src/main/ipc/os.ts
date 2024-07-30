@@ -1,16 +1,56 @@
-import {app, ipcMain, shell, nativeImage, clipboard, dialog} from "electron";
+import {app, ipcMain, shell, nativeImage, clipboard, dialog, nativeTheme} from "electron";
 import {IPCChannel} from "@src/types/rss";
 import * as fs from "node:fs";
 import path from "path";
 import OSService from "@src/dataBase/server/os";
 import {ConfigEntities} from "@src/dataBase/entities/config";
+import {mainWindow} from "@src/main";
 
 const OSIpc = () => {
+    nativeTheme.on("updated", () => {
+        let theme = "os";
+        switch (nativeTheme.themeSource) {
+            case "dark": {
+                theme = "dark";
+                break;
+            }
+            case "light": {
+                theme = "light";
+                break;
+            }
+            case "system": {
+                theme = nativeTheme.shouldUseDarkColors ? "dark" : "light"
+                break;
+            }
+        }
+        mainWindow?.webContents.send(IPCChannel.OSThemeUpdate, {
+            type: theme
+        })
+    })
+
     ipcMain.handle(IPCChannel.OSConfig, () => {
         return OSService.getConfig()
     })
 
     ipcMain.handle(IPCChannel.UpdateOSConfig, (_, config: ConfigEntities) => {
+        // 切换主题 => 修改数据库配置 => 触发 theme update => 返回渲染进程主题颜色(包括在跟随系统下的主题颜色变化)
+        if (config?.theme) {
+            switch (config?.theme) {
+                case "light": {
+                    nativeTheme.themeSource = "light";
+                    break;
+                }
+                case "dark": {
+                    nativeTheme.themeSource = "dark";
+                    break;
+                }
+                case "os":
+                default: {
+                    nativeTheme.themeSource = "system";
+                    break;
+                }
+            }
+        }
         return OSService.updateConfig(config);
     })
 

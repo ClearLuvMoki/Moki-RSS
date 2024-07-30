@@ -4,10 +4,15 @@ import zh from "./zh-CN.json";
 import de from "./de.json";
 import fr from "./fr.json";
 import ko from "./ko.json";
+import ru from "./ru.json";
+import it from "./it.json";
 
 export const resources = {
-	"ja": {
-		translation: ja
+	"ru": {
+		translation: ru
+	},
+	"it": {
+		translation: it
 	},
 	"en-US": {
 		translation: en
@@ -23,5 +28,8 @@ export const resources = {
 	},
 	"ko": {
 		translation: ko
-	}
+	},
+	"ja": {
+		translation: ja
+	},
 }

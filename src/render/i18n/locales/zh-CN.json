@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "请输入您要搜索的内容"
   },
+  "theme": {
+    "index": "主题",
+    "placeholder": "请选择您的主题",
+    "light": "浅色模式",
+    "dark": "深色模式",
+    "os-theme": "跟随系统"
+  },
+  "list-view": {
+    "index": "视图",
+    "placeholder": "请选择您的列表视图",
+    "magazine": "卡片模式",
+    "compact": "紧凑模式"
+  },
   "preferences": {
     "index": "应用偏好",
     "language": "语言",

@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "検索したい内容を入力してください"
   },
+  "theme": {
+    "index": "テーマ",
+    "placeholder": "テーマを選択してください",
+    "light": "ライトモード",
+    "dark": "ダークモード",
+    "os-theme": "システムに従う"
+  },
+  "list-view": {
+    "index": "ビュー",
+    "placeholder": "リストビューを選択してください",
+    "magazine": "カードモード",
+    "compact": "コンパクトモード"
+  },
   "preferences": {
     "index": "アプリの設定",
     "language": "言語",

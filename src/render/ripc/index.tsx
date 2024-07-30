@@ -4,6 +4,7 @@ import {GroupType} from "@src/types/group";
 import {GroupEntities} from "@src/dataBase/entities/group";
 import {OSType} from "@src/types/os";
 import Store from "@render/store";
+import {IpcRendererEvent} from "electron";
 
 export const RIPCOSConfig = (): Promise<OSType | null> => {
     try {
@@ -12,6 +13,12 @@ export const RIPCOSConfig = (): Promise<OSType | null> => {
         return Promise.resolve(null)
     }
 
+}
+
+export const RIPCListenerThemeUpdate = (callback: (event: IpcRendererEvent, {type}: {
+    type: "dark" | "light"
+}) => void): void => {
+    window.IPC.ipcOn(IPCChannel.OSThemeUpdate, callback)
 }
 
 export const RIPCUpdateOSConfig = (config: Partial<OSType> | null): Promise<OSType | null> => {

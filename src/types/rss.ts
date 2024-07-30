@@ -14,7 +14,8 @@ export enum IPCChannel {
     "SaveImageByBase64" = "os:save-image-base-64",
     "Search" = "os:search",
     "OSConfig" = "os:config",
-    "UpdateOSConfig" = "os:update-config"
+    "UpdateOSConfig" = "os:update-config",
+    "OSThemeUpdate" = "os:theme-update",
 }
 
 

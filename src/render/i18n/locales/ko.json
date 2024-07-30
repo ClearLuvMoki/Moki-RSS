@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "검색할 내용을 입력하세요"
   },
+  "theme": {
+    "index": "테마",
+    "placeholder": "테마를 선택하세요",
+    "light": "밝은 모드",
+    "dark": "어두운 모드",
+    "os-theme": "시스템 따라"
+  },
+  "list-view": {
+    "index": "보기",
+    "placeholder": "목록 보기를 선택하세요",
+    "magazine": "카드 모드",
+    "compact": "조밀한 모드"
+  },
   "preferences": {
     "index": "앱 환경 설정",
     "language": "언어",

@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "Please enter what you want to search for"
   },
+  "theme": {
+    "index": "Theme",
+    "placeholder": "Please select your theme",
+    "light": "Light Mode",
+    "dark": "Dark Mode",
+    "os-theme": "Follow System"
+  },
+  "list-view": {
+    "index": "View",
+    "placeholder": "Please select your list view",
+    "magazine": "Card Mode",
+    "compact": "Compact Mode"
+  },
   "preferences": {
     "index": "App Preferences",
     "language": "Language",

@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "Veuillez entrer ce que vous souhaitez rechercher"
   },
+  "theme": {
+    "index": "Thème",
+    "placeholder": "Veuillez sélectionner votre thème",
+    "light": "Mode Clair",
+    "dark": "Mode Sombre",
+    "os-theme": "Suivre le Système"
+  },
+  "list-view": {
+    "index": "Vue",
+    "placeholder": "Veuillez sélectionner votre vue de liste",
+    "magazine": "Mode Carte",
+    "compact": "Mode Compact"
+  },
   "preferences": {
     "index": "Préférences de l'application",
     "language": "Langue",

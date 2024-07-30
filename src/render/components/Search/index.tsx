@@ -95,7 +95,7 @@ const Search = memo(observer(() => {
                     display: open ? "block" : "none",
                     boxShadow: "#919191 0px 0px 10px",
                 }}
-                className="bg-white rounded-lg z-10 top-[40px] py-2"
+                className="light:bg-white dark:bg-[#18181B] rounded-lg z-10 top-[40px] py-2"
             >
                 <Tabs variant={"underlined"} aria-label="Tabs variants">
                     <Tab key="RSS" title="RSS">
@@ -112,9 +112,9 @@ const Search = memo(observer(() => {
                                     return <div
                                         onClick={() => handleClickRSS(item)}
                                         key={item.id}
-                                        className='rounded-lg mb-2 hover:bg-gray-100 cursor-pointer transition-all px-2 py-1'
+                                        className='rounded-lg mb-2 light:hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-all px-2 py-1'
                                     >
-                                        <div className='text-sm text-black'>
+                                        <div className='text-sm light:text-black dark:text-white'>
                                             {index > -1 ? (
                                                 <span>
                                                     {beforeStr}
@@ -147,9 +147,9 @@ const Search = memo(observer(() => {
                                     return <div
                                         onClick={() => handleClickFeed(item)}
                                         key={item.id}
-                                        className='rounded-lg mb-2 hover:bg-gray-100 cursor-pointer transition-all px-2 py-1'
+                                        className='rounded-lg mb-2 light:hover:bg-gray-100 dark:hover:bg-gray-800  cursor-pointer transition-all px-2 py-1'
                                     >
-                                        <div className='text-sm text-black'>
+                                        <div className='text-sm light:text-black dark:text-white'>
                                             {titleIndex > -1 ? (
                                                 <span>
                                                     {beforeTitleStr}

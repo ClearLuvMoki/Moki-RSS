@@ -3,9 +3,9 @@ import {FeedType} from "@src/types/feed";
 import {PaginationType, RSSType} from "@src/types/rss";
 import {RIPCGetFeedList, RIPCGetGroup, RIPCGetRSSList, RIPCUpdateOSConfig} from "@render/ripc";
 import {GroupType} from "@src/types/group";
-import {OSType} from "@src/types/os";
+import {DefaultValue, OSType} from "@src/types/os";
 import {toast} from "sonner";
-import i18n, {DefaultLang} from '../i18n'
+import i18n from '../i18n'
 
 
 class _Store {
@@ -41,7 +41,7 @@ class _Store {
             ...this.OSConfig,
             ...config,
         }
-        i18n.changeLanguage(config?.locale || this.OSConfig.locale || DefaultLang)
+        i18n.changeLanguage(config?.locale || this.OSConfig.locale || DefaultValue.lang)
             .then(() => {
                 if (!isInit) {
                     RIPCUpdateOSConfig({
@@ -68,8 +68,8 @@ class _Store {
         if (item?.id === this.activeFeed?.id) return;
         this.activeFeed = item;
         this.paginationState = {
+            pageSize: this.paginationState.pageSize,
             pageNo: 1,
-            pageSize: 10
         }
         this.updateRSSList([])
         this.handleGetRSSList();

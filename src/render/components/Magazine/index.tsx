@@ -7,14 +7,15 @@ import Dayjs from "dayjs"
 import {Spinner} from "@nextui-org/react";
 
 export const MagazineItem = memo(({item, onClick}: { item: RSSType, onClick: VoidFunction }) => {
+
     return (
         <div
             className="w-9/12 pb-4 px-1 border-b border-b-gray-300 mb-4"
             onClick={onClick}
         >
             <h1 className="text-lg font-bold">{item.title}</h1>
-            <div className="mt-2 text-sm text-gray-600 line-clamp-2">{item.contentSnippet}</div>
-            <div className="mt-2 flex justify-between text-xs text-gray-600">
+            <div className={"mt-2 text-sm  line-clamp-2 light:text-gray-600 dark:text-gray-400"}>{item.contentSnippet}</div>
+            <div className={"mt-2 flex justify-between text-xs light:text-gray-600 dark:text-gray-400"}>
                 <span>{item.author}</span>
                 <span>{Dayjs(item.isoDate).format("YYYY-MM-DD")}</span>
             </div>

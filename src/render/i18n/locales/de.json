@@ -59,6 +59,19 @@
   "search": {
     "placeholder": "Bitte geben Sie den Suchbegriff ein"
   },
+  "theme": {
+    "index": "Thema",
+    "placeholder": "Bitte wählen Sie Ihr Thema",
+    "light": "Helles Modus",
+    "dark": "Dunkles Modus",
+    "os-theme": "System folgen"
+  },
+  "list-view": {
+    "index": "Ansicht",
+    "placeholder": "Bitte wählen Sie Ihre Listenansicht",
+    "magazine": "Kartenmodus",
+    "compact": "Kompaktmodus"
+  },
   "preferences": {
     "index": "Anwendungseinstellungen",
     "language": "Sprache",

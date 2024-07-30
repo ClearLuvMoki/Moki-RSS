@@ -8,7 +8,7 @@ import FeedIpc from "@main/ipc/feed";
 import GroupIpc from "@main/ipc/group";
 import OSIpc from "@main/ipc/os";
 
-let mainWindow: BrowserWindow | null = null;
+export let mainWindow: BrowserWindow | null = null;
 
 const loadUrl: string = isDev
     ? `http://localhost:${process.env.PORT}`
