@@ -46,7 +46,10 @@
     "edit": "编辑订阅源",
     "placeholder": "请输入订阅源URL",
     "url": "订阅源地址",
-    "all-feed": "所有订阅源"
+    "all-feed": "所有订阅源",
+    "opml-file": "OPML",
+    "opml-import": "OPML 导入",
+    "opml-export": "OPML 导出"
   },
   "group": {
     "index": "分组",

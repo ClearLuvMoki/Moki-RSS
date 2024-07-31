@@ -41,6 +41,17 @@ class _Store {
             ...this.OSConfig,
             ...config,
         }
+        if (config?.listMode === "compact") {
+            this.paginationState = {
+                pageSize: 70,
+                pageNo: 1
+            }
+        } else {
+            this.paginationState = {
+                pageSize: 10,
+                pageNo: 1
+            }
+        }
         i18n.changeLanguage(config?.locale || this.OSConfig.locale || DefaultValue.lang)
             .then(() => {
                 if (!isInit) {

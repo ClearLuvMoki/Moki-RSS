@@ -20,12 +20,12 @@ const FeedIpc = () => {
         return res;
     })
 
-    ipcMain.handle(IPCChannel.UpdateFeedList, async (_, xmlList: string[]) => {
+    ipcMain.handle(IPCChannel.UpdateFeedList, async (_, xmlList: {xml: string; url: string}[]) => {
         if (!xmlList || xmlList.length === 0) {
             return Promise.resolve([])
         }
         const res = await Promise.all(xmlList.map(item => {
-            return handleInsertFeedByUrl(item)
+            return handleInsertFeedByUrl(item.xml, item.url)
         }))
         return res
     })

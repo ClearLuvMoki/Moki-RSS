@@ -15,7 +15,14 @@ const {Header, SideBar} = Layout
 
 const App = observer(() => {
     const {theme, setTheme} = useTheme();
-    const {OSConfig, updateOSConfig, rssList, rssListLoading} = Store;
+    const {
+        OSConfig,
+        updateOSConfig,
+        rssList,
+        rssListLoading,
+        handleGetFeedList,
+        handleGetGroupList
+    } = Store;
 
     useEffect(() => {
         RIPCListenerThemeUpdate((_, {type}) => {
@@ -23,7 +30,9 @@ const App = observer(() => {
         })
         RIPCOSConfig()
             .then((res) => {
-                updateOSConfig(res, true)
+                updateOSConfig(res, true);
+                handleGetFeedList();
+                handleGetGroupList();
                 if (res?.locale) {
                     i18n.changeLanguage(res.locale || DefaultValue.lang)
                 }

@@ -40,9 +40,19 @@ export const RIPCGetFeedList = (): Promise<FeedType[]> => {
 
 }
 
-export const RIPCAddFeed = (xml: string) => {
+export const RIPCAddFeed = (
+    {
+        xml,
+        url
+    }: {
+        xml: string;
+        url: string;
+    }) => {
     try {
-        return window.IPC.invoke(IPCChannel.ParseRSS, xml)
+        return window.IPC.invoke(IPCChannel.ParseRSS, {
+            xml,
+            url
+        })
     } catch (err) {
         return Promise.resolve(null)
     }
@@ -60,13 +70,15 @@ export const RIPCRemoveFeed = (id: string) => {
 export const RIPCUpdateFeedList = async (): Promise<RSSType[]> => {
     try {
         const {feedList} = Store;
-        const urlList = feedList.map(item => {
-            return item.feedUrl;
-        }).filter(item => item);
-        let xmlList = await Promise.allSettled(urlList.map(item => {
-            return fetch(item).then(res => res.text())
-        }))
-        xmlList = xmlList.filter((item: any) => item.status = "fulfilled" && item.value).map((item: any) => item.value)
+        const xmlList = [];
+        for (let i = 0; i < feedList.length; i++) {
+            const xml = await fetch(feedList[i].feedUrl).then(res => res.text())
+            const url = feedList[i].feedUrl;
+            xmlList.push({
+                xml: xml || "", url
+            })
+        }
+        console.log(xmlList, 'xmlList')
         return window.IPC.invoke(IPCChannel.UpdateFeedList, xmlList)
     } catch (err) {
         return Promise.resolve([])

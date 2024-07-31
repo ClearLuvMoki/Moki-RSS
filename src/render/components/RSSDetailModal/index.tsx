@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 import ContextMenu, {ActionValueType} from "@render/components/ContextMenu";
 import {RIPCCopy, RIPCOpenUrl} from "@render/ripc";
 import {toast} from "sonner";
+import WebviewWrapper from "@render/components/WebviewWrapper";
 
 
 const RSSDetailModal = memo(observer(() => {
@@ -106,7 +107,10 @@ const RSSDetailModal = memo(observer(() => {
                             </ModalHeader>
                             <ModalBody className="px-6 py-4">
                                 {
-                                    isWeb && (<webview src={rssDetailState?.rssLink} className="w-full h-full"/>)
+                                    isWeb && (<WebviewWrapper
+                                        src={rssDetailState?.rssLink || ""}
+                                        classNames={{webview: "w-full h-full"}}
+                                    />)
                                 }
                                 {
                                     !isWeb && (<RSSDetail detail={rssDetailState}/>)

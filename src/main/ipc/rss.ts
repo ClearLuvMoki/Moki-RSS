@@ -8,9 +8,10 @@ import RSSListService from "@src/dataBase/server/rss";
 import axios from "axios";
 
 
-export const handleInsertFeedByUrl = (xml: string) => {
+export const handleInsertFeedByUrl = (xml: string, url: string) => {
     return new Promise(async (resolve, reject) => {
         try {
+            if(!xml || !url) return Promise.reject();
             let parser = new RSSParser();
             return parser.parseString(xml)
                 .then(async (res) => {
@@ -18,7 +19,7 @@ export const handleInsertFeedByUrl = (xml: string) => {
                     const [saveErr, saveRes] = await to(FeedService.insertFeed({
                         title: res?.title || "",
                         link: res?.link || "",
-                        feedUrl: res?.feedUrl || "",
+                        feedUrl: url || "",
                         avatar: avatarRes?.url || "",
                         avatarBase64: avatarRes?.base || "",
                         lastBuildDate: res?.lastBuildDate,
@@ -107,8 +108,8 @@ const RSSIpc = () => {
         return list;
     })
 
-    ipcMain.handle(IPCChannel.ParseRSS, (_, xml: string) => {
-        return handleInsertFeedByUrl(xml);
+    ipcMain.handle(IPCChannel.ParseRSS, (_, {xml, url}: {xml: string; url: string}) => {
+        return handleInsertFeedByUrl(xml, url);
     })
 
     ipcMain.handle(IPCChannel.Search, (_, keyword: string) => {

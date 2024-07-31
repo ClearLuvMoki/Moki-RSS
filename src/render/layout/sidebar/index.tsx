@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import {memo} from 'react';
 import deepEqual from "deep-equal";
 import {observer} from "mobx-react";
 import {Accordion, AccordionItem} from "@nextui-org/accordion";
@@ -29,15 +29,8 @@ const SideBar = memo(observer(() => {
         activeFeed,
         groupList,
         updateGroupModalState,
-        handleGetFeedList,
-        handleGetGroupList,
         updateActiveFeed
     } = Store;
-
-    useEffect(() => {
-        handleGetFeedList();
-        handleGetGroupList();
-    }, [])
 
     return (
         <div className={"w-[240px] h-full border-r py-4 px-[10px] light:border-r-gray-200 dark:border-r-gray-600"}>
@@ -93,7 +86,7 @@ const SideBar = memo(observer(() => {
                                 })
                             }}
                         >
-                            <ListPlus size={16} color={"#fff"}/>
+                            <ListPlus size={16}/>
                         </IconWrapper>
                     </Tooltip>
                 </div>

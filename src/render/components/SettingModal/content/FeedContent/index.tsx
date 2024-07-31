@@ -55,7 +55,10 @@ const FeedContent = memo(observer(() => {
             })
         }
         const xml = await res?.text();
-        RIPCAddFeed(xml || "")
+        RIPCAddFeed({
+            xml: xml || "",
+            url: urlState.value
+        })
             .then((res) => {
                 handleGetFeedList();
                 setUrlState({
@@ -90,7 +93,7 @@ const FeedContent = memo(observer(() => {
         switch (columnKey) {
             case "title": {
                 return (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 max-w-md">
                         {
                             (item?.avatarBase64 || item?.avatar) ? <Image
                                     src={item?.avatarBase64 || item.avatar}

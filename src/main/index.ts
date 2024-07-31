@@ -24,10 +24,10 @@ const initIpc = () => {
 
 const handleCreateMainWindow = () => {
     mainWindow = new BrowserWindow({
-        width: 1280,
-        minWidth: 1280,
-        height: 800,
-        minHeight: 800,
+        width: 1000,
+        minWidth: 1000,
+        height: 700,
+        minHeight: 700,
         frame: false,
         titleBarStyle: "hiddenInset",
         trafficLightPosition: {x: 15, y: 15},
