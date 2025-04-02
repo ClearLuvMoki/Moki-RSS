@@ -1,0 +1,62 @@
+{
+  "name": "moki-rss",
+  "version": "1.0.0",
+  "main": "./release/dist/main/index.js",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps && npm run prepare",
+    "prepare": "npx simple-git-hooks",
+    "lint": "pnpm biome check --write ./src",
+    "commitlint": "commitlint --edit",
+    "cz": "git add . && git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClearLuvMoki/Moki-RSS.git"
+  },
+  "keywords": [
+    "moki",
+    "rss",
+    "reader"
+  ],
+  "author": "Moki <2893096286@qq.com> (http://moonquakes.online)",
+  "bugs": {
+    "url": "https://github.com/ClearLuvMoki/Moki-RSS/issues"
+  },
+  "homepage": "https://github.com/ClearLuvMoki/Moki-RSS#readme",
+  "lint-staged": {
+    "./src/**/*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
+      "pnpm run lint"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no-install commitlint --edit ${1}",
+    "preserveUnused": [
+      "commit-msg"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "dependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "electron": "^35.1.2",
+    "electron-builder": "^26.0.12"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@rsbuild/core": "^1.3.2",
+    "@rsbuild/plugin-react": "^1.1.1",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "commitizen": "^4.3.1",
+    "cz-git": "^1.11.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "simple-git-hooks": "^2.12.1",
+    "typescript": "^5.8.2"
+  }
+}
