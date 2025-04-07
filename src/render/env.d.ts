@@ -12,3 +12,6 @@ declare global {
     };
   }
 }
+
+// biome-ignore lint/complexity/noUselessEmptyExport: <Fix window ts ignore>
+export {};
