@@ -26,6 +26,7 @@
       "@/database/*": ["./src/database/*"],
       "@/main/*": ["./src/main/*"],
       "@/render/*": ["./src/render/*"],
+      "@/utils/*": ["./src/utils/*"],
       "@/components/*": ["./src/render/components/*"]
     }
   },

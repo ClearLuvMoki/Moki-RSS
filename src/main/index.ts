@@ -1,9 +1,9 @@
 import path from "node:path";
 import DataBase from "@/database/index";
+import { isDev } from "@/utils/tool";
 import to from "await-to-js";
 import { BrowserWindow, app } from "electron";
-import { FeedIPC } from "./ipc";
-import { isDev } from "./tools";
+import { FeedIPC, OSIPC } from "./ipc";
 
 export let mainWindow: BrowserWindow | null = null;
 
@@ -13,6 +13,7 @@ const loadUrl: string = isDev
 
 const initIpc = () => {
   FeedIPC();
+  OSIPC();
 };
 
 const onCreateMainWindow = () => {

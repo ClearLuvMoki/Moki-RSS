@@ -34,6 +34,7 @@ const columns = [
 const FeedContent = () => {
   const [url, setUrl] = useState("");
   const [feedList, setFeedList] = useState<FeedType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onList();
@@ -76,23 +77,32 @@ const FeedContent = () => {
 
   const onList = useCallback(() => {
     Inject.invoke<null, FeedType[]>(Channels.AllFeed).then((res) => {
-      console.log(res);
       setFeedList(res);
     });
   }, []);
 
   const onInsert = useCallback(
     (url: string) => {
+      setLoading(true);
       Inject.invoke(Channels.InsertFeed, {
         url,
       })
+        .then(() => {
+          addToast({
+            title: "新增订阅源成功!",
+            color: "success",
+          });
+        })
         .catch(() =>
           addToast({
             title: "新增订阅源失败!",
             color: "danger",
           }),
         )
-        .finally(onList);
+        .finally(() => {
+          onList();
+          setLoading(false);
+        });
     },
     [onList],
   );
@@ -113,7 +123,7 @@ const FeedContent = () => {
 
   return (
     <div className="py-2">
-      <h2 className="text-lg text-gray-700 select-none mb-4">Add feed</h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">Add feed</h2>
       <div className="flex w-full max-w-sm items-center space-x-2">
         <Input
           placeholder="Please enter feed URL"
@@ -122,7 +132,13 @@ const FeedContent = () => {
             setUrl(value);
           }}
         />
-        <Button type="submit" color="primary" isDisabled={!url} onPress={() => onInsert(url)}>
+        <Button
+          type="submit"
+          color="primary"
+          isLoading={loading}
+          isDisabled={!url}
+          onPress={() => onInsert(url)}
+        >
           Add
         </Button>
       </div>
@@ -130,7 +146,7 @@ const FeedContent = () => {
         <TableHeader columns={columns}>
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
         </TableHeader>
-        <TableBody items={feedList}>
+        <TableBody items={feedList} emptyContent={"No data."}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

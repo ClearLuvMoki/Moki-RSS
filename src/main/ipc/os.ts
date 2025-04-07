@@ -1,0 +1,16 @@
+import Channels from "@/domains/channel";
+import OSServer from "@/src/database/server/os";
+import type { ConfigType } from "@/src/domains/types/config";
+import { ipcMain } from "electron";
+
+const OSIPC = () => {
+  ipcMain.handle(Channels.GetConfig, () => {
+    return OSServer.getConfig();
+  });
+
+  ipcMain.handle(Channels.UpdateConfig, (_, { config }: { config: Partial<ConfigType> }) => {
+    return OSServer.updateConfig(config);
+  });
+};
+
+export default OSIPC;

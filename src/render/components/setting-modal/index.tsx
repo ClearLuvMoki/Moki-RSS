@@ -3,13 +3,14 @@ import { Button, Tab, Tabs } from "@heroui/react";
 import { SlidersHorizontal } from "lucide-react";
 import { Fragment, useState } from "react";
 import FeedContent from "./feed-content";
+import SystemContent from "./system-content";
 
 const TabList = [
   { value: "feed", label: "Feed", content: <FeedContent /> },
   {
     value: "preferences",
     label: "App Preferences",
-    content: <div>121212</div>,
+    content: <SystemContent />,
   },
 ];
 

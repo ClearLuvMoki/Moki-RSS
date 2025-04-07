@@ -19,6 +19,7 @@ const CommonConfig = defineConfig({
       "@/main": join(srcPath, "./main/"),
       "@/database": join(srcPath, "./database/"),
       "@/domains": join(srcPath, "./domains/"),
+      "@/utils": join(srcPath, "./utils/"),
       "@/components": join(srcPath, "./render/components/"),
     },
   },

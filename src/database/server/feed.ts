@@ -70,6 +70,9 @@ class FeedServer {
   static insertFeed(url: string) {
     return new Promise(async (resolve, reject) => {
       try {
+        if (!url.startsWith("http")) {
+          return reject("保存Feed详情失败,URL异常!");
+        }
         const [feedErr, feedData] = await to(FeedServer.onFeedDetails(url));
         if (feedErr || !feedData) {
           return reject(`保存Feed详情失败: ${feedErr}`);
