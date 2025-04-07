@@ -22,6 +22,9 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
       "style": {
         "noNonNullAssertion": "off"
       },
@@ -32,6 +35,7 @@
         }
       },
       "suspicious": {
+        "noAsyncPromiseExecutor": "off",
         "noExplicitAny": {
           "level": "off"
         }

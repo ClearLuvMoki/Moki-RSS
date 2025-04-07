@@ -16,22 +16,18 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "paths": {
-      "@src/*": [
-        "./src/*"
-      ],
-      "@constants/*": [
-        "./src/constants/*"
-      ],
-      "@main/*": [
-        "./src/main/*"
-      ],
-      "@render/*": [
-        "./src/render/*"
-      ]
+      "@/*": ["./*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/domains/*": ["./src/domains/*"],
+      "@/database/*": ["./src/database/*"],
+      "@/main/*": ["./src/main/*"],
+      "@/render/*": ["./src/render/*"],
+      "@/components/*": ["./src/render/components/*"]
     }
   },
-  "include": ["./src"]
+  "exclude": ["node_modules"]
 }

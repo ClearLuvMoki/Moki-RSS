@@ -1,8 +1,8 @@
 import { defineConfig, mergeRsbuildConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { join } from 'path';
+import { join } from 'node:path';
+import {spawn} from "node:child_process";
 import { srcRenderPath } from '../common/paths';
-import { spawn } from 'node:child_process';
 import CommonConfig from '../common/rsbuild.common';
 
 
@@ -14,7 +14,7 @@ const Config = defineConfig({
         },
     },
     server: {
-        port: Number(process.env.PORT || 8088),
+        port: 8088
     },
     dev: {
         setupMiddlewares: [

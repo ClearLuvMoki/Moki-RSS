@@ -1,4 +1,13 @@
+import "./index.css";
+import App from "@/render/App";
+import { HeroUIProvider } from "@heroui/system";
+import { ToastProvider } from "@heroui/toast";
 import ReactDOM from "react-dom/client";
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
-root.render(<div>1221</div>);
+root.render(
+  <HeroUIProvider className="w-full h-full">
+    <App />
+    <ToastProvider />
+  </HeroUIProvider>,
+);
