@@ -69,10 +69,31 @@ class FeedServer {
     return feedQueryBuilder.delete(id);
   }
 
+  static async getImageFormRSSContent(content: string) {
+    return new Promise((resolve) => {
+      try {
+        if (!content) {
+          return resolve([]);
+        }
+        const $ = cheerio.load(content);
+        const images =
+          $("img")
+            .map((i, el) => $(el).attr("src"))
+            .get()
+            .filter((link) => link) || [];
+        return resolve(images);
+      } catch (err) {
+        Logger.error(`解析RSS content 的图片失败: ${err}!`);
+        resolve([]);
+      }
+    });
+  }
+
   static insertFeed(url: string) {
     return new Promise(async (resolve, reject) => {
       try {
         if (!url.startsWith("http")) {
+          Logger.error("保存Feed详情失败，URL不正确!");
           return reject("保存Feed详情失败,URL异常!");
         }
         const [feedErr, feedData] = await to(FeedServer.onFeedDetails(url));
@@ -101,7 +122,8 @@ class FeedServer {
         if (rssData?.list.length) {
           const rssQuery = await getRSSQueryBuilder();
           Promise.allSettled(
-            rssData?.list.map((item) => {
+            rssData?.list.map(async (item) => {
+              const images = await FeedServer.getImageFormRSSContent(item?.content || "");
               return rssQuery.save({
                 feedId: data?.id,
                 rssId: item?.id || item?.guid || "",
@@ -113,6 +135,7 @@ class FeedServer {
                 isoDate: item?.isoDate || "",
                 summary: item?.summary || "",
                 title: item?.title || "",
+                images: JSON.stringify(images || []),
               });
             }),
           );

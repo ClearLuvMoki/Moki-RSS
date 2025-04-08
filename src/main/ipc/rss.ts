@@ -14,7 +14,12 @@ const RSSIPC = () => {
       },
     ) => {
       const list = await RSSServer.getRSSByFeedId(data);
-      return list || [];
+      return ((list || []) as any[]).map((item: any) => {
+        return {
+          ...item,
+          images: JSON.parse(item?.images || "[]"),
+        };
+      });
     },
   );
 };

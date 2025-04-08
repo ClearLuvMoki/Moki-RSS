@@ -1,5 +1,5 @@
 export type ThemeType = "light" | "dark" | "system";
-export type ListModeType = "magazine" | "masonry" | "list" | "Compact";
+export type ListModeType = "magazine" | "card" | "masonry" | "list" | "compact";
 
 export enum LocaleEnum {
   Chinese = "zh-CN",

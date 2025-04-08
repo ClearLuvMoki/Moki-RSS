@@ -4,7 +4,13 @@ import { RotateCw } from "lucide-react";
 
 const Header = () => {
   return (
-    <div className="h-[50px] w-full border-b flex justify-end items-center px-4 light:border-b-gray-200 dark:border-b-gray-600">
+    <div
+      className="h-[50px] w-full border-b flex justify-end items-center px-4 light:border-b-gray-200 dark:border-b-gray-600"
+      style={{
+        // @ts-ignore
+        WebkitAppRegion: "drag",
+      }}
+    >
       <div
         className="flex items-center gap-2"
         style={{
