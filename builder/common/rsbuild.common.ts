@@ -14,6 +14,7 @@ const CommonConfig = defineConfig({
   resolve: {
     alias: {
       "@/src": join(rootPath, "./src/"),
+      "@/icons": join(rootPath, "./icons/"),
       "@/types": join(rootPath, "./types/"),
       "@/render": join(srcPath, "./render/"),
       "@/main": join(srcPath, "./main/"),

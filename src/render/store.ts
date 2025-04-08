@@ -1,5 +1,32 @@
-// import { create } from "zustand";
+import Channels from "@/domains/channel";
+import Inject from "@/render/inject";
+import { create } from "zustand";
+import type { FeedType } from "../domains/types/feed";
+import type { RSSType } from "../domains/types/rss";
 
-// interface GlobalState {}
+interface GlobalState {
+  feedList: FeedType[];
+  rssList: RSSType[];
+  activeFeed: FeedType | null;
+  updateActiveFeed: (feed: FeedType | null) => void;
+  reloadFeed: () => void;
+}
 
-// export const useGlobalStore = create<GlobalState>((set) => ({}));
+export const useGlobalStore = create<GlobalState>((set) => ({
+  feedList: [],
+  rssList: [],
+  activeFeed: null,
+  updateActiveFeed: (item) => {
+    set({ activeFeed: item });
+    Inject.invoke<{ id?: string }, RSSType[]>(Channels.GetRSSByFeedId, {
+      id: item?.id,
+    }).then((res) => {
+      set({ rssList: res });
+    });
+  },
+  reloadFeed: () => {
+    Inject.invoke<null, FeedType[]>(Channels.AllFeed).then((res) => {
+      set({ feedList: res });
+    });
+  },
+}));

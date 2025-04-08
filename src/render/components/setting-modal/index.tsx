@@ -20,7 +20,7 @@ const SettingModal = () => {
   return (
     <Fragment>
       <Button
-        className="min-w-1"
+        className="min-w-1 "
         color="default"
         variant="light"
         onPress={() => setOpen(true)}
@@ -31,6 +31,7 @@ const SettingModal = () => {
       <Modal
         size={"2xl"}
         isOpen={open}
+        className="h-[calc(100%-100px)] !m-0"
         onClose={() => setOpen(false)}
         scrollBehavior={"inside"}
         hideCloseButton={true}

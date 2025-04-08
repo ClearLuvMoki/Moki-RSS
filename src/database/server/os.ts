@@ -1,7 +1,6 @@
 import { ConfigEntities } from "@/database/entities";
 import type { ConfigType } from "@/src/domains/types/config";
 import Logger from "@/src/main/logger";
-import { Config } from "tailwind-merge";
 import Database from "../";
 
 export const getConfigQueryBuilder = async () => {

@@ -4,6 +4,7 @@ const Channels = {
   RemoveFeed: "remove-feed",
   GetConfig: "get-os-config",
   UpdateConfig: "update-os-config",
+  GetRSSByFeedId: "get-rss-by-feed-id",
 };
 
 export default Channels;

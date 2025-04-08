@@ -14,7 +14,8 @@ import {
   addToast,
 } from "@heroui/react";
 import { Rss, Trash2 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useGlobalStore } from "../../store";
 
 const columns = [
   {
@@ -33,12 +34,8 @@ const columns = [
 
 const FeedContent = () => {
   const [url, setUrl] = useState("");
-  const [feedList, setFeedList] = useState<FeedType[]>([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    onList();
-  }, []);
+  const { feedList, reloadFeed } = useGlobalStore();
 
   const renderCell = useCallback((item: FeedType, columnKey: any) => {
     const cellValue = (item as any)[columnKey];
@@ -75,12 +72,6 @@ const FeedContent = () => {
     }
   }, []);
 
-  const onList = useCallback(() => {
-    Inject.invoke<null, FeedType[]>(Channels.AllFeed).then((res) => {
-      setFeedList(res);
-    });
-  }, []);
-
   const onInsert = useCallback(
     (url: string) => {
       setLoading(true);
@@ -100,11 +91,11 @@ const FeedContent = () => {
           }),
         )
         .finally(() => {
-          onList();
+          reloadFeed();
           setLoading(false);
         });
     },
-    [onList],
+    [reloadFeed],
   );
 
   const onRemoveFeed = useCallback(
@@ -116,9 +107,9 @@ const FeedContent = () => {
             color: "danger",
           }),
         )
-        .finally(onList);
+        .finally(reloadFeed);
     },
-    [onList],
+    [reloadFeed],
   );
 
   return (

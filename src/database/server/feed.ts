@@ -1,13 +1,14 @@
 import { FeedListEntities } from "@/database/entities";
+import { getRSSQueryBuilder } from "@/database/server/rss";
 import Logger from "@/src/main/logger";
 import to from "await-to-js";
 import * as cheerio from "cheerio";
 import Database from "../";
+import RSSServer from "./rss";
 
 export const getFeedQueryBuilder = async () => {
   return Database.getRepository(FeedListEntities);
 };
-
 class FeedServer {
   static onFeedDetails(url: string): Promise<{
     title: string;
@@ -37,21 +38,22 @@ class FeedServer {
           const { origin } = new URL(url);
           faviconUrl = new URL(faviconUrl, origin).href;
         }
+        let base64Image = "";
         if (faviconUrl) {
           const data = await fetch(faviconUrl);
           const arraybufferData = await data?.arrayBuffer();
           const buffer = Buffer.from(arraybufferData);
           const base64 = buffer.toString("base64");
           const mimeType = "image/png";
-          const base64Image = `data:${mimeType};base64,${base64}`;
-          return resolve({
-            title,
-            base: base64Image,
-            faviconUrl,
-          });
+          base64Image = `data:${mimeType};base64,${base64}`;
         }
-        return resolve(null);
+        return resolve({
+          title,
+          base: base64Image,
+          faviconUrl,
+        });
       } catch (err) {
+        Logger.error(`获取Feed详情失败: ${err}`);
         reject(err);
       }
     });
@@ -74,6 +76,12 @@ class FeedServer {
           return reject("保存Feed详情失败,URL异常!");
         }
         const [feedErr, feedData] = await to(FeedServer.onFeedDetails(url));
+        const [rssErr, rssData] = await to(RSSServer.getRSSByFeedURL(url));
+
+        if (rssErr) {
+          Logger.error(`获取订阅源失败， ${rssErr}`);
+          return reject("Get RSS Data fail");
+        }
         if (feedErr || !feedData) {
           return reject(`保存Feed详情失败: ${feedErr}`);
         }
@@ -85,20 +93,31 @@ class FeedServer {
         });
         const data = await feedQueryBuilder.save({
           id: queryData?.id,
-          title: feedData?.title,
+          title: rssData?.title || feedData?.title || "",
           avatar: feedData?.faviconUrl,
           avatarBase64: feedData?.base,
           feedUrl: url,
         });
-        return feedQueryBuilder
-          .save(data)
-          .then((res) => {
-            resolve(res);
-          })
-          .catch((err) => {
-            Logger.error(`保存Feed失败：${err}`);
-            reject(err);
-          });
+        if (rssData?.list.length) {
+          const rssQuery = await getRSSQueryBuilder();
+          Promise.allSettled(
+            rssData?.list.map((item) => {
+              return rssQuery.save({
+                feedId: data?.id,
+                rssId: item?.id || item?.guid || "",
+                rssLink: item?.link || "",
+                author: item?.author || item?.creator || item["dc:creator"] || "",
+                content: item?.content || "",
+                contentSnippet: item?.contentSnippet || "",
+                pubDate: item?.pubDate || "",
+                isoDate: item?.isoDate || "",
+                summary: item?.summary || "",
+                title: item?.title || "",
+              });
+            }),
+          );
+        }
+        return resolve(data);
       } catch (err) {
         reject(err);
       }

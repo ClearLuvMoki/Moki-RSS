@@ -21,6 +21,7 @@
     "experimentalDecorators": true,
     "paths": {
       "@/*": ["./*"],
+      "@/icons": ["./icons/*"],
       "@/constants/*": ["./src/constants/*"],
       "@/domains/*": ["./src/domains/*"],
       "@/database/*": ["./src/database/*"],
