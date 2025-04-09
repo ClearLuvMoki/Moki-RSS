@@ -15,6 +15,7 @@ import {
 } from "@heroui/react";
 import { Rss, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "../../store";
 
 const columns = [
@@ -33,9 +34,10 @@ const columns = [
 ];
 
 const FeedContent = () => {
+  const { t } = useTranslation();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const { feedList, reloadFeed } = useGlobalStore();
+  const { feedList, reloadFeed, addFeed } = useGlobalStore();
 
   const renderCell = useCallback((item: FeedType, columnKey: any) => {
     const cellValue = (item as any)[columnKey];
@@ -75,18 +77,16 @@ const FeedContent = () => {
   const onInsert = useCallback(
     (url: string) => {
       setLoading(true);
-      Inject.invoke(Channels.InsertFeed, {
-        url,
-      })
+      addFeed(url)
         .then(() => {
           addToast({
-            title: "新增订阅源成功!",
+            title: t("toast.success.index"),
             color: "success",
           });
         })
         .catch(() =>
           addToast({
-            title: "新增订阅源失败!",
+            title: t("toast.failed.index"),
             color: "danger",
           }),
         )
@@ -95,7 +95,7 @@ const FeedContent = () => {
           setLoading(false);
         });
     },
-    [reloadFeed],
+    [addFeed, reloadFeed, t],
   );
 
   const onRemoveFeed = useCallback(
@@ -103,24 +103,29 @@ const FeedContent = () => {
       Inject.invoke(Channels.RemoveFeed, { id })
         .catch(() =>
           addToast({
-            title: "移除订阅源失败!",
+            title: t("toast.failed.index"),
             color: "danger",
           }),
         )
         .finally(reloadFeed);
     },
-    [reloadFeed],
+    [reloadFeed, t],
   );
 
   return (
     <div className="py-2">
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">Add feed</h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">{t("feed.add")}</h2>
       <div className="flex w-full max-w-sm items-center space-x-2">
         <Input
-          placeholder="Please enter feed URL"
+          placeholder={t("feed.placeholder")}
           value={url}
           onValueChange={(value) => {
-            setUrl(value);
+            setUrl(value?.trim());
+          }}
+          onKeyDown={(event) => {
+            if (event.code === "Enter") {
+              onInsert(url);
+            }
           }}
         />
         <Button
@@ -130,7 +135,7 @@ const FeedContent = () => {
           isDisabled={!url}
           onPress={() => onInsert(url)}
         >
-          Add
+          {t("action.add")}
         </Button>
       </div>
       <Table className="mt-4">

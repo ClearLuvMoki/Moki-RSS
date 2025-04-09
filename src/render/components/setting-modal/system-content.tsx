@@ -1,10 +1,13 @@
 import type { ConfigType } from "@/domains/types/config";
 import { LocaleEnum } from "@/domains/types/config";
+import i18n from "@/render/i18n";
 import Channels from "@/src/domains/channel";
 import { Select, SelectItem, addToast } from "@heroui/react";
 import { MonitorCog, Moon, Sun } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Inject from "../../inject";
+import { useGlobalStore } from "../../store";
 
 const LanguageArr = [
   { label: "中文 (简体)", value: LocaleEnum.Chinese },
@@ -24,60 +27,57 @@ const ThemeArr = [
 ];
 
 const SystemContent = () => {
-  const [config, setConfig] = useState<ConfigType>({
-    locale: LocaleEnum.English,
-    theme: "light",
-    listMode: "magazine",
-  });
+  const { t } = useTranslation();
+  const { config, reloadConfig } = useGlobalStore();
 
-  useEffect(() => {
-    onInit();
-  }, []);
-
-  const onInit = useCallback(() => {
-    Inject.invoke<null, ConfigType>(Channels.GetConfig).then(setConfig);
-  }, []);
-
-  const onUpdate = useCallback((config: Partial<ConfigType>) => {
-    Inject.invoke<{ config: Partial<ConfigType> }, ConfigType>(Channels.UpdateConfig, {
-      config,
-    })
-      .then((res) => {
-        setConfig(res);
-        addToast({
-          title: "修改成功!",
-          color: "success",
-        });
+  const onUpdate = useCallback(
+    (config: Partial<ConfigType>) => {
+      Inject.invoke<{ config: Partial<ConfigType> }, ConfigType>(Channels.UpdateConfig, {
+        config,
       })
-      .catch(() => {
-        addToast({
-          title: "修改失败!",
-          color: "danger",
+        .then(() => {
+          reloadConfig();
+          addToast({
+            title: t("toast.success.index"),
+            color: "success",
+          });
+        })
+        .catch(() => {
+          addToast({
+            title: t("toast.failed.index"),
+            color: "danger",
+          });
         });
-      });
-  }, []);
+    },
+    [t, reloadConfig],
+  );
 
   return (
     <div>
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">Language</h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">
+        {t("preferences.language")}
+      </h2>
       <Select
-        placeholder={"Select language"}
+        placeholder={t("preferences.language-placeholder")}
         className="max-w-xs my-2"
-        selectedKeys={[config?.locale]}
+        selectedKeys={[config?.locale || LocaleEnum.English]}
         onChange={(event) => {
           const value = event?.target?.value as any;
           onUpdate({ locale: value });
+          i18n.changeLanguage(value);
         }}
       >
         {LanguageArr.map((lang) => (
           <SelectItem key={lang.value}>{lang.label}</SelectItem>
         ))}
       </Select>
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">Theme</h2>
+      {/* <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">
+        {t("theme.index")}
+      </h2>
       <Select
-        placeholder={"Please select theme"}
+        placeholder={t("theme.placeholder")}
         className="max-w-xs my-2"
-        selectedKeys={[config?.theme]}
+        selectedKeys={[config?.theme!]}
         onChange={(event) => {
           const value = event?.target?.value as any;
           onUpdate({ theme: value });
@@ -85,10 +85,10 @@ const SystemContent = () => {
       >
         {ThemeArr.map((theme) => (
           <SelectItem key={theme.value} startContent={theme.icon}>
-            {theme.label}
+            {t(theme.label)}
           </SelectItem>
         ))}
-      </Select>
+      </Select> */}
     </div>
   );
 };

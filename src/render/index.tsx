@@ -1,3 +1,4 @@
+import "./i18n";
 import "./index.css";
 import App from "@/render/App";
 import { HeroUIProvider } from "@heroui/system";

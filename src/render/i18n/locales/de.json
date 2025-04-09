@@ -1,0 +1,80 @@
+{
+  "toast": {
+    "success": {
+      "index": "Operation erfolgreich!",
+      "add": "Hinzufügen erfolgreich!",
+      "delete": "Löschen erfolgreich!",
+      "update": "Aktualisierung erfolgreich!",
+      "reload": "Neu laden erfolgreich!",
+      "copy": "Kopieren erfolgreich!",
+      "save": "Speichern erfolgreich, gespeichert unter {{path}}!"
+    },
+    "failed": {
+      "index": "Operation fehlgeschlagen!",
+      "add": "Hinzufügen fehlgeschlagen!",
+      "delete": "Löschen fehlgeschlagen!",
+      "update": "Aktualisierung fehlgeschlagen!",
+      "reload": "Neu laden fehlgeschlagen!",
+      "save": "Speichern fehlgeschlagen!",
+      "copy": "Kopieren fehlgeschlagen!"
+    }
+  },
+  "action": {
+    "index": "Aktion",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "submit": "Bestätigen",
+    "reload": "Neu laden",
+    "setting": "Einstellungen",
+    "add": "Hinzufügen",
+    "open-source-web": "Original-Webseite öffnen",
+    "copy-link": "Link kopieren",
+    "open-link": "Link öffnen",
+    "save-img": "Bild speichern",
+    "copy-img": "Bild kopieren"
+  },
+  "empty": {
+    "index": "Keine",
+    "group": "Keine Gruppe",
+    "default": "Standard"
+  },
+  "feed": {
+    "index": "Feed",
+    "add": "Feed hinzufügen",
+    "name": "Feed-Name",
+    "edit": "Feed bearbeiten",
+    "placeholder": "Bitte geben Sie die Feed-URL ein",
+    "url": "Feed-URL",
+    "all-feed": "Alle Feeds"
+  },
+  "group": {
+    "index": "Gruppe",
+    "create": "Gruppe erstellen",
+    "update": "Gruppe aktualisieren",
+    "name": "Gruppenname",
+    "desc": "Gruppenbeschreibung",
+    "placeholder": "Bitte wählen Sie eine Gruppe"
+  },
+  "search": {
+    "placeholder": "Bitte geben Sie den Suchbegriff ein"
+  },
+  "theme": {
+    "index": "Thema",
+    "placeholder": "Bitte wählen Sie Ihr Thema",
+    "light": "Helles Modus",
+    "dark": "Dunkles Modus",
+    "os-theme": "System folgen"
+  },
+  "list-view": {
+    "index": "Ansicht",
+    "placeholder": "Bitte wählen Sie Ihre Listenansicht",
+    "magazine": "Kartenmodus",
+    "compact": "Kompaktmodus"
+  },
+  "preferences": {
+    "index": "Anwendungseinstellungen",
+    "language": "Sprache",
+    "language-placeholder": "Bitte wählen Sie Ihre Sprache"
+  }
+}

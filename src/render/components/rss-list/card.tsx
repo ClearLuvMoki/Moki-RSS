@@ -3,7 +3,7 @@ import { Rss } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { useGlobalStore } from "../../store";
 
-const MagazineCard = () => {
+const RSSCard = () => {
   const { rssList, activeFeed } = useGlobalStore();
 
   return (
@@ -20,7 +20,7 @@ const MagazineCard = () => {
             {isShowImage ? (
               <Fragment>
                 <Image
-                  alt="Woman listing to music"
+                  alt="RSS Image"
                   className="object-cover"
                   src={item?.images?.[0]}
                   width={200}
@@ -61,4 +61,4 @@ const MagazineCard = () => {
   );
 };
 
-export default MagazineCard;
+export default RSSCard;

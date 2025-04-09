@@ -2,19 +2,21 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/modal";
 import { Button, Tab, Tabs } from "@heroui/react";
 import { SlidersHorizontal } from "lucide-react";
 import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import FeedContent from "./feed-content";
 import SystemContent from "./system-content";
 
 const TabList = [
-  { value: "feed", label: "Feed", content: <FeedContent /> },
+  { value: "feed", label: "feed.index", content: <FeedContent /> },
   {
     value: "preferences",
-    label: "App Preferences",
+    label: "preferences.index",
     content: <SystemContent />,
   },
 ];
 
 const SettingModal = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,12 +42,12 @@ const SettingModal = () => {
           {() => {
             return (
               <Fragment>
-                <ModalHeader>Setting</ModalHeader>
+                <ModalHeader>{t("action.setting")}</ModalHeader>
                 <ModalBody>
                   <Tabs>
                     {TabList.map((item) => {
                       return (
-                        <Tab key={item.value} title={item.label} value={item.value}>
+                        <Tab key={item.value} title={t(item.label)} value={item.value}>
                           {item?.content}
                         </Tab>
                       );

@@ -1,0 +1,83 @@
+{
+  "toast": {
+    "success": {
+      "index": "操作成功!",
+      "add": "新增成功!",
+      "delete": "删除成功!",
+      "update": "修改成功!",
+      "reload": "刷新成功!",
+      "copy": "复制成功!",
+      "save": "保存成功, 保存路径在 {{path}}!"
+    },
+    "failed": {
+      "index": "操作失败!",
+      "add": "新增失败!",
+      "delete": "删除失败!",
+      "update": "修改失败!",
+      "reload": "刷新失败!",
+      "save": "保存失败!",
+      "copy": "复制失败!"
+    }
+  },
+  "action": {
+    "index": "操作",
+    "edit": "编辑",
+    "delete": "删除",
+    "cancel": "取消",
+    "submit": "确定",
+    "reload": "刷新",
+    "setting": "设置",
+    "add": "添加",
+    "open-source-web": "打开原网页",
+    "copy-link": "复制链接",
+    "open-link": "打开链接",
+    "save-img": "保存图片",
+    "copy-img": "复制图片"
+  },
+  "empty": {
+    "index": "暂无",
+    "group": "暂无分组",
+    "default": "默认"
+  },
+  "feed": {
+    "index": "订阅源",
+    "add": "添加订阅源",
+    "name": "订阅源名称",
+    "edit": "编辑订阅源",
+    "placeholder": "请输入订阅源URL",
+    "url": "订阅源地址",
+    "all-feed": "所有订阅源",
+    "opml-file": "OPML",
+    "opml-import": "OPML 导入",
+    "opml-export": "OPML 导出"
+  },
+  "group": {
+    "index": "分组",
+    "create": "新增分组",
+    "update": "编辑分组",
+    "name": "分组名称",
+    "desc": "分组描述",
+    "placeholder": "请选择分组"
+  },
+  "search": {
+    "placeholder": "请输入您要搜索的内容"
+  },
+  "theme": {
+    "index": "主题",
+    "placeholder": "请选择您的主题",
+    "light": "浅色模式",
+    "dark": "深色模式",
+    "os-theme": "跟随系统"
+  },
+  "list-view": {
+    "index": "视图",
+    "placeholder": "请选择您的列表视图",
+    "magazine": "卡片模式",
+    "compact": "紧凑模式"
+  },
+  "preferences": {
+    "index": "应用偏好",
+    "language": "语言",
+    "language-placeholder": "请选择您的语言"
+  }
+}

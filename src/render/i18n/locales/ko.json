@@ -1,0 +1,80 @@
+{
+  "toast": {
+    "success": {
+      "index": "작업 성공!",
+      "add": "추가 성공!",
+      "delete": "삭제 성공!",
+      "update": "업데이트 성공!",
+      "reload": "새로 고침 성공!",
+      "copy": "복사 성공!",
+      "save": "저장 성공, 저장 경로는 {{path}}입니다!"
+    },
+    "failed": {
+      "index": "작업 실패!",
+      "add": "추가 실패!",
+      "delete": "삭제 실패!",
+      "update": "업데이트 실패!",
+      "reload": "새로 고침 실패!",
+      "save": "저장 실패!",
+      "copy": "복사 실패!"
+    }
+  },
+  "action": {
+    "index": "작업",
+    "edit": "편집",
+    "delete": "삭제",
+    "cancel": "취소",
+    "submit": "확인",
+    "reload": "새로 고침",
+    "setting": "설정",
+    "add": "추가",
+    "open-source-web": "원본 웹페이지 열기",
+    "copy-link": "링크 복사",
+    "open-link": "링크 열기",
+    "save-img": "이미지 저장",
+    "copy-img": "이미지 복사"
+  },
+  "empty": {
+    "index": "없음",
+    "group": "그룹 없음",
+    "default": "기본"
+  },
+  "feed": {
+    "index": "피드",
+    "add": "피드 추가",
+    "name": "피드 이름",
+    "edit": "피드 편집",
+    "placeholder": "피드 URL을 입력하세요",
+    "url": "피드 URL",
+    "all-feed": "모든 피드"
+  },
+  "group": {
+    "index": "그룹",
+    "create": "그룹 생성",
+    "update": "그룹 업데이트",
+    "name": "그룹 이름",
+    "desc": "그룹 설명",
+    "placeholder": "그룹을 선택하세요"
+  },
+  "search": {
+    "placeholder": "검색할 내용을 입력하세요"
+  },
+  "theme": {
+    "index": "테마",
+    "placeholder": "테마를 선택하세요",
+    "light": "밝은 모드",
+    "dark": "어두운 모드",
+    "os-theme": "시스템 따라"
+  },
+  "list-view": {
+    "index": "보기",
+    "placeholder": "목록 보기를 선택하세요",
+    "magazine": "카드 모드",
+    "compact": "조밀한 모드"
+  },
+  "preferences": {
+    "index": "앱 환경 설정",
+    "language": "언어",
+    "language-placeholder": "언어를 선택하세요"
+  }
+}

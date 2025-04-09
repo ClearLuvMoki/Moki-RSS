@@ -12,9 +12,33 @@ const FeedIPC = () => {
     return FeedServer.removeFeedByID(id);
   });
 
-  ipcMain.handle(Channels.InsertFeed, async (_, { url }: { url: string }) => {
-    return FeedServer.insertFeed(url);
-  });
+  ipcMain.handle(
+    Channels.InsertFeed,
+    async (
+      _,
+      {
+        url,
+        feedXml,
+        originXml,
+        faviconUrl,
+        faviconBase64,
+      }: {
+        url: string;
+        feedXml: string;
+        originXml: string;
+        faviconUrl: string;
+        faviconBase64: string;
+      },
+    ) => {
+      return FeedServer.insertFeed({
+        url,
+        feedXml,
+        originXml,
+        faviconUrl,
+        faviconBase64,
+      });
+    },
+  );
 };
 
 export default FeedIPC;

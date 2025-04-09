@@ -1,0 +1,80 @@
+{
+  "toast": {
+    "success": {
+      "index": "Operazione riuscita!",
+      "add": "Aggiunta riuscita!",
+      "delete": "Cancellazione riuscita!",
+      "update": "Aggiornamento riuscito!",
+      "reload": "Ricaricamento riuscito!",
+      "copy": "Copia riuscita!",
+      "save": "Salvataggio riuscito, percorso di salvataggio: {{path}}!"
+    },
+    "failed": {
+      "index": "Operazione fallita!",
+      "add": "Aggiunta fallita!",
+      "delete": "Cancellazione fallita!",
+      "update": "Aggiornamento fallito!",
+      "reload": "Ricaricamento fallito!",
+      "save": "Salvataggio fallito!",
+      "copy": "Copia fallita!"
+    }
+  },
+  "action": {
+    "index": "Azione",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "cancel": "Annulla",
+    "submit": "Conferma",
+    "reload": "Ricarica",
+    "setting": "Impostazioni",
+    "add": "Aggiungi",
+    "open-source-web": "Apri sito web originale",
+    "copy-link": "Copia link",
+    "open-link": "Apri link",
+    "save-img": "Salva immagine",
+    "copy-img": "Copia immagine"
+  },
+  "empty": {
+    "index": "Nessuno",
+    "group": "Nessun gruppo",
+    "default": "Predefinito"
+  },
+  "feed": {
+    "index": "Fonte di notizie",
+    "add": "Aggiungi fonte di notizie",
+    "name": "Nome della fonte di notizie",
+    "edit": "Modifica fonte di notizie",
+    "placeholder": "Inserisci l'URL della fonte di notizie",
+    "url": "Indirizzo della fonte di notizie",
+    "all-feed": "Tutte le fonti di notizie"
+  },
+  "group": {
+    "index": "Gruppo",
+    "create": "Crea gruppo",
+    "update": "Modifica gruppo",
+    "name": "Nome del gruppo",
+    "desc": "Descrizione del gruppo",
+    "placeholder": "Seleziona un gruppo"
+  },
+  "search": {
+    "placeholder": "Inserisci cosa vuoi cercare"
+  },
+  "theme": {
+    "index": "Tema",
+    "placeholder": "Seleziona il tuo tema",
+    "light": "Tema chiaro",
+    "dark": "Tema scuro",
+    "os-theme": "Segui il sistema"
+  },
+  "list-view": {
+    "index": "Vista",
+    "placeholder": "Seleziona la tua vista elenco",
+    "magazine": "Modalità scheda",
+    "compact": "Modalità compatta"
+  },
+  "preferences": {
+    "index": "Preferenze dell'applicazione",
+    "language": "Lingua",
+    "language-placeholder": "Seleziona la tua lingua"
+  }
+}

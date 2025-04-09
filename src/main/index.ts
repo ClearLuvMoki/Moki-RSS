@@ -19,9 +19,9 @@ const initIpc = () => {
 
 const onCreateMainWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 1200,
     minWidth: 1000,
-    height: 700,
+    height: 900,
     minHeight: 700,
     frame: false,
     titleBarStyle: "hiddenInset",

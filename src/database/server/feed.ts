@@ -13,7 +13,9 @@ class FeedServer {
   static async validateFavicon(url: string) {
     let flag = false;
     try {
-      const result = await fetch(url, { credentials: "omit" });
+      const result = await fetch(url, {
+        credentials: "omit",
+      });
       if (
         result.status === 200 &&
         result.headers.has("Content-Type") &&
@@ -27,21 +29,25 @@ class FeedServer {
       return flag;
     }
   }
-  static onFeedDetails(url: string): Promise<{
+  static onFeedDetails({
+    url,
+    feedXml,
+    originXml,
+    isNeedIcon,
+  }: {
+    url: string;
+    feedXml: string;
+    originXml: string;
+    isNeedIcon: boolean;
+  }): Promise<{
     title: string;
     base: string;
     faviconUrl: string;
   } | null> {
     return new Promise(async (resolve, reject) => {
       try {
-        if (!url) reject("No Url!");
-        const [err, data] = await to(fetch(url, { credentials: "omit" }));
-        const html = await data?.text();
-        if (err || !data || !html) {
-          Logger.error(`加载网页失败， url:${url}, err: ${err}`);
-          return reject("Fetch Feed URL fail");
-        }
-        const $ = cheerio.load(html);
+        if (!feedXml) reject("No Xml!");
+        const $ = cheerio.load(feedXml);
         const title =
           $("title").text().trim() ||
           $('meta[property="og:title"]').attr("content") ||
@@ -52,37 +58,35 @@ class FeedServer {
           $('link[rel="shortcut icon"]').attr("href") ||
           $('link[rel="apple-touch-icon"]').attr("href") ||
           "";
-        if (faviconUrl && !faviconUrl.startsWith("http")) {
-          const { origin } = new URL(url);
-          faviconUrl = new URL(faviconUrl, origin).href;
-        }
-        if (!faviconUrl) {
-          const urlObj = new URL(url);
-          const baseURL = `${urlObj.protocol}//${urlObj.host}`;
-          const [_, data] = await to(fetch(baseURL, { credentials: "omit" }));
-          console.log(baseURL, "baseURL");
-          const baseHtml = await data?.text();
-          const $ = cheerio.load(baseHtml || "");
+        // 如果 feed 的 xml 没有解析到 icon 则去 origin 上解析
+        if (!faviconUrl && originXml) {
+          const $ = cheerio.load(originXml);
           faviconUrl =
             $('link[rel="icon"]').attr("href") ||
             $('link[rel="shortcut icon"]').attr("href") ||
             $('link[rel="apple-touch-icon"]').attr("href") ||
-            `${baseURL}/favicon.ico`;
-          const isValidateFavicon = await FeedServer.validateFavicon(faviconUrl);
-          if (!isValidateFavicon) faviconUrl = "";
+            "";
         }
-        let base64Image = "";
-        if (faviconUrl) {
-          const data = await fetch(faviconUrl);
-          const arraybufferData = await data?.arrayBuffer();
-          const buffer = Buffer.from(arraybufferData);
-          const base64 = buffer.toString("base64");
-          const mimeType = "image/png";
-          base64Image = `data:${mimeType};base64,${base64}`;
+        if (faviconUrl && !faviconUrl.startsWith("http")) {
+          const { origin } = new URL(url);
+          faviconUrl = new URL(faviconUrl, origin).href;
+        }
+        let faviconBase64 = "";
+        if (isNeedIcon) {
+          const isValidateFavicon = await FeedServer.validateFavicon(faviconUrl);
+          if (isValidateFavicon) {
+            const faviconRes = await fetch(faviconUrl, {
+              credentials: "omit",
+            }).then((res) => res.arrayBuffer());
+            const buffer = Buffer.from(faviconRes);
+            const base64 = buffer.toString("base64");
+            const mimeType = "image/png";
+            faviconBase64 = base64 ? `data:${mimeType};base64,${base64}` : "";
+          }
         }
         return resolve({
           title,
-          base: base64Image,
+          base: faviconBase64,
           faviconUrl,
         });
       } catch (err) {
@@ -122,15 +126,34 @@ class FeedServer {
     });
   }
 
-  static insertFeed(url: string) {
+  static insertFeed({
+    url,
+    feedXml,
+    originXml,
+    faviconUrl,
+    faviconBase64,
+  }: {
+    url: string;
+    feedXml: string;
+    originXml: string;
+    faviconUrl: string;
+    faviconBase64: string;
+  }) {
     return new Promise(async (resolve, reject) => {
       try {
-        if (!url.startsWith("http")) {
-          Logger.error("保存Feed详情失败，URL不正确!");
-          return reject("保存Feed详情失败,URL异常!");
+        if (!feedXml) {
+          Logger.error("保存Feed详情失败，未传入Xml!");
+          return reject("保存Feed详情失败,未传入Xml!");
         }
-        const [feedErr, feedData] = await to(FeedServer.onFeedDetails(url));
-        const [rssErr, rssData] = await to(RSSServer.getRSSByFeedURL(url));
+        const [feedErr, feedData] = await to(
+          FeedServer.onFeedDetails({
+            url,
+            feedXml,
+            originXml,
+            isNeedIcon: !faviconBase64,
+          }),
+        );
+        const [rssErr, rssData] = await to(RSSServer.getRSSByFeedURL(feedXml));
 
         if (rssErr) {
           Logger.error(`获取订阅源失败， ${rssErr}`);
@@ -148,8 +171,8 @@ class FeedServer {
         const data = await feedQueryBuilder.save({
           id: queryData?.id,
           title: rssData?.title || feedData?.title || "",
-          avatar: feedData?.faviconUrl,
-          avatarBase64: feedData?.base,
+          avatar: feedData?.faviconUrl || faviconUrl || "",
+          avatarBase64: feedData?.base || faviconBase64 || "",
           feedUrl: url,
         });
         if (rssData?.list.length) {

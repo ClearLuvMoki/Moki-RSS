@@ -43,23 +43,16 @@ class RSSServer {
     });
   }
 
-  static getRSSByFeedURL(url: string): Promise<{
+  static getRSSByFeedURL(xml: string): Promise<{
     title: string;
     list: any[];
   }> {
     return new Promise(async (resolve, reject) => {
       try {
-        if (!url) {
-          Logger.error("未根据URL搜索到对应的Feed!");
-          reject("No Feed!");
+        if (!xml) {
+          Logger.error("未传入Xml!");
+          reject("No Xml!");
         }
-        const [err, data] = await to(fetch(url));
-        const xml = await data?.text();
-        if (err || !data || !xml) {
-          Logger.error(`加载网页失败， url:${url}, err: ${err}`);
-          return reject("Fetch Feed URL fail");
-        }
-
         const parser = new RSSParser();
         return parser.parseString(xml).then((res) => {
           resolve({
