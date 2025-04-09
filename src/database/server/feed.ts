@@ -10,6 +10,23 @@ export const getFeedQueryBuilder = async () => {
   return Database.getRepository(FeedListEntities);
 };
 class FeedServer {
+  static async validateFavicon(url: string) {
+    let flag = false;
+    try {
+      const result = await fetch(url, { credentials: "omit" });
+      if (
+        result.status === 200 &&
+        result.headers.has("Content-Type") &&
+        result.headers.get("Content-Type")?.startsWith("image")
+      ) {
+        flag = true;
+        return flag;
+      }
+      return flag;
+    } catch (err) {
+      return flag;
+    }
+  }
   static onFeedDetails(url: string): Promise<{
     title: string;
     base: string;
@@ -18,7 +35,7 @@ class FeedServer {
     return new Promise(async (resolve, reject) => {
       try {
         if (!url) reject("No Url!");
-        const [err, data] = await to(fetch(url));
+        const [err, data] = await to(fetch(url, { credentials: "omit" }));
         const html = await data?.text();
         if (err || !data || !html) {
           Logger.error(`加载网页失败， url:${url}, err: ${err}`);
@@ -32,11 +49,27 @@ class FeedServer {
           "";
         let faviconUrl =
           $('link[rel="icon"]').attr("href") ||
+          $('link[rel="shortcut icon"]').attr("href") ||
           $('link[rel="apple-touch-icon"]').attr("href") ||
           "";
         if (faviconUrl && !faviconUrl.startsWith("http")) {
           const { origin } = new URL(url);
           faviconUrl = new URL(faviconUrl, origin).href;
+        }
+        if (!faviconUrl) {
+          const urlObj = new URL(url);
+          const baseURL = `${urlObj.protocol}//${urlObj.host}`;
+          const [_, data] = await to(fetch(baseURL, { credentials: "omit" }));
+          console.log(baseURL, "baseURL");
+          const baseHtml = await data?.text();
+          const $ = cheerio.load(baseHtml || "");
+          faviconUrl =
+            $('link[rel="icon"]').attr("href") ||
+            $('link[rel="shortcut icon"]').attr("href") ||
+            $('link[rel="apple-touch-icon"]').attr("href") ||
+            `${baseURL}/favicon.ico`;
+          const isValidateFavicon = await FeedServer.validateFavicon(faviconUrl);
+          if (!isValidateFavicon) faviconUrl = "";
         }
         let base64Image = "";
         if (faviconUrl) {
