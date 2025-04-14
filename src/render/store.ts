@@ -9,9 +9,11 @@ import i18n from "./i18n";
 interface GlobalState {
   feedList: FeedType[];
   rssList: RSSType[];
+  rssDetail: RSSType | null;
   pageNo: number;
   config: ConfigType | null;
   activeFeed: FeedType | null;
+  updateRSSDetail: (detail: RSSType | null) => void;
   updateActiveFeed: (feed: FeedType | null) => void;
   nextPage: () => void;
   reloadFeed: () => void;
@@ -22,6 +24,7 @@ interface GlobalState {
 export const useGlobalStore = create<GlobalState>((set, get) => ({
   feedList: [],
   rssList: [],
+  rssDetail: null,
   config: null,
   pageNo: 1,
   activeFeed: null,
@@ -40,10 +43,32 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
       });
     }
   },
+  updateRSSDetail: (detail: RSSType | null) => {
+    set({ rssDetail: detail });
+  },
   reloadConfig: () => {
     Inject.invoke<null, ConfigType>(Channels.GetConfig).then((res) => {
       set({ config: res });
       i18n.changeLanguage(res.locale || LocaleEnum.English);
+      const theme = res?.theme;
+      const root = document.documentElement;
+      switch (theme) {
+        case "dark": {
+          root.classList.remove("light");
+          root.classList.add("dark");
+          break;
+        }
+        case "light": {
+          root.classList.remove("dark");
+          root.classList.add("light");
+          break;
+        }
+        case "system": {
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          root.classList.toggle("dark", prefersDark);
+          break;
+        }
+      }
     });
   },
   updateActiveFeed: (item) => {

@@ -1,9 +1,10 @@
 import { Card, CardBody, Image } from "@heroui/react";
+import dayjs from "dayjs";
 import { Rss } from "lucide-react";
 import { useGlobalStore } from "../../store";
 
 const RSSMagazine = () => {
-  const { rssList, activeFeed, nextPage } = useGlobalStore();
+  const { rssList, activeFeed, nextPage, updateRSSDetail } = useGlobalStore();
 
   return (
     <div
@@ -17,8 +18,13 @@ const RSSMagazine = () => {
     >
       {rssList.map((item) => {
         return (
-          <Card key={item?.id} className="mb-4 h-[200px] ">
-            <CardBody className="flex flex-row flex-nowrap gap-4 ">
+          <Card key={item?.id} className="mb-4 h-[200px]">
+            <CardBody
+              className="flex flex-row flex-nowrap gap-4 "
+              onClick={() => {
+                updateRSSDetail(item);
+              }}
+            >
               {item?.images?.[0] && (
                 <Image
                   alt="RSS Image"
@@ -44,8 +50,15 @@ const RSSMagazine = () => {
                     ) : (
                       <Rss className="w-4 min-w-4" />
                     )}
-                    <span className="text-xs ml-2 text-gray-700">{activeFeed?.title}</span>
+                    <span className="text-xs ml-2 text-gray-700 dark:text-gray-400">
+                      {activeFeed?.title}
+                    </span>
                   </div>
+                  <span className="text-xs text-gray-700 dark:text-gray-400">
+                    {item?.pubDate || item?.isoDate
+                      ? dayjs(item?.pubDate || item?.isoDate).format("YYYY-MM-DD HH:mm:ss")
+                      : ""}
+                  </span>
                 </div>
               </div>
             </CardBody>

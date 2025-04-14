@@ -1,5 +1,6 @@
+import ContentModal from "@/components/content-modal";
+import Empty from "@/components/empty";
 import RSSList from "@/components/rss-list";
-import Empty from "../components/empty";
 import { useGlobalStore } from "../store";
 import Header from "./header";
 import Sider from "./sider";
@@ -9,6 +10,7 @@ const Layout = () => {
 
   return (
     <div className="w-full h-full">
+      <ContentModal />
       <Header />
       <div className="h-[calc(100%-50px)] w-full flex flex-nowrap">
         <Sider />

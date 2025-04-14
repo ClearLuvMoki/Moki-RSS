@@ -71,9 +71,7 @@ const SystemContent = () => {
           <SelectItem key={lang.value}>{lang.label}</SelectItem>
         ))}
       </Select>
-      {/* <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">
-        {t("theme.index")}
-      </h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">{t("theme.index")}</h2>
       <Select
         placeholder={t("theme.placeholder")}
         className="max-w-xs my-2"
@@ -88,7 +86,7 @@ const SystemContent = () => {
             {t(theme.label)}
           </SelectItem>
         ))}
-      </Select> */}
+      </Select>
     </div>
   );
 };

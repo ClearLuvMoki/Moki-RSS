@@ -17,7 +17,7 @@ const Sider = () => {
   const { feedList, activeFeed, updateActiveFeed } = useGlobalStore();
 
   return (
-    <div className="w-[240px] h-full border-r py-4 px-[10px] light:border-r-gray-200 dark:border-r-gray-600">
+    <div className="w-[240px] h-full border-r py-4 px-[10px] overflow-y-scroll light:border-r-gray-200 dark:border-r-gray-600">
       <Accordion itemClasses={itemClasses} defaultExpandedKeys={["all"]}>
         <AccordionItem key="all" title={t("feed.all-feed")}>
           <Listbox variant="flat">

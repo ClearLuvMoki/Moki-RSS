@@ -180,6 +180,12 @@ class FeedServer {
           Promise.allSettled(
             rssData?.list.map(async (item) => {
               const images = await FeedServer.getImageFormRSSContent(item?.content || "");
+              const isExist = await rssQuery.findOne({
+                where: {
+                  rssId: item?.id || item?.guid || "",
+                },
+              });
+              if (isExist) return;
               return rssQuery.save({
                 feedId: data?.id,
                 rssId: item?.id || item?.guid || "",
