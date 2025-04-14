@@ -1,3 +1,4 @@
+import ScrollContent from "@/components/scroll-content";
 import { Card, CardBody, Image } from "@heroui/react";
 import dayjs from "dayjs";
 import { Rss } from "lucide-react";
@@ -7,8 +8,11 @@ const RSSMagazine = () => {
   const { rssList, activeFeed, nextPage, updateRSSDetail } = useGlobalStore();
 
   return (
-    <div
-      className="w-full h-full overflow-y-scroll p-6"
+    <ScrollContent
+      suppressScrollX={false}
+      classNames={{
+        root: "w-full h-full overflow-y-scroll p-6",
+      }}
       onScroll={(event) => {
         const { scrollTop, clientHeight, scrollHeight } = event.target as any;
         if (scrollTop + clientHeight === scrollHeight) {
@@ -38,7 +42,9 @@ const RSSMagazine = () => {
               <div className="flex-1 h-full flex flex-col justify-between items-center">
                 <div className="w-full">
                   <h2 className="text-lg font-bold">{item?.title}</h2>
-                  <p className="text-gray-500 text-sm mt-2 line-clamp-4">{item?.contentSnippet}</p>
+                  <p className="text-gray-400 light:text-gray-700 text-sm mt-2 line-clamp-4">
+                    {item?.contentSnippet}
+                  </p>
                 </div>
                 <div className="flex w-full flex-row justify-between items-center">
                   <div className="flex items-center">
@@ -65,7 +71,7 @@ const RSSMagazine = () => {
           </Card>
         );
       })}
-    </div>
+    </ScrollContent>
   );
 };
 

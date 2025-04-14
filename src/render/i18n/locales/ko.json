@@ -69,8 +69,9 @@
   "list-view": {
     "index": "보기",
     "placeholder": "목록 보기를 선택하세요",
-    "magazine": "카드 모드",
-    "compact": "조밀한 모드"
+    "card": "카드 보기",
+    "magazine": "잡지 보기",
+    "list": "목록 보기"
   },
   "preferences": {
     "index": "앱 환경 설정",

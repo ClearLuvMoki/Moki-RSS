@@ -115,7 +115,7 @@ class FeedServer {
         const $ = cheerio.load(content);
         const images =
           $("img")
-            .map((i, el) => $(el).attr("src"))
+            .map((_, el) => $(el).attr("src"))
             .get()
             .filter((link) => link) || [];
         return resolve(images);
@@ -180,18 +180,27 @@ class FeedServer {
           Promise.allSettled(
             rssData?.list.map(async (item) => {
               const images = await FeedServer.getImageFormRSSContent(item?.content || "");
-              const isExist = await rssQuery.findOne({
+              const existItem = await rssQuery.findOne({
                 where: {
+                  feedId: queryData?.id,
                   rssId: item?.id || item?.guid || "",
                 },
               });
-              if (isExist) return;
+              if (item?.mediaContent && item?.mediaContent?.length > 0) {
+                console.log(url, JSON.stringify(item?.mediaContent || []), "item?.fullContent");
+              }
               return rssQuery.save({
+                id: existItem?.id,
                 feedId: data?.id,
+                mediaContent: JSON.stringify(
+                  (item?.mediaContent || [])
+                    ?.filter((item: any) => item?.$ && item?.$.medium === "image" && item?.$.url)
+                    ?.map((item: any) => item?.$.url),
+                ),
                 rssId: item?.id || item?.guid || "",
                 rssLink: item?.link || "",
                 author: item?.author || item?.creator || item["dc:creator"] || "",
-                content: item?.content || "",
+                content: item?.fullContent || item?.content || "",
                 contentSnippet: item?.contentSnippet || "",
                 pubDate: item?.pubDate || "",
                 isoDate: item?.isoDate || "",

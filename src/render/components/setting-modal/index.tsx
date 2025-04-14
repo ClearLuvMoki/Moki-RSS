@@ -47,7 +47,7 @@ const SettingModal = () => {
                   <Tabs>
                     {TabList.map((item) => {
                       return (
-                        <Tab key={item.value} title={t(item.label)} value={item.value}>
+                        <Tab key={item.value} title={t(item.label)}>
                           {item?.content}
                         </Tab>
                       );

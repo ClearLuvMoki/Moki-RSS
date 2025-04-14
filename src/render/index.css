@@ -15,4 +15,38 @@
   * {
     box-sizing: border-box;
   }
+
+  h1 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+
+  h2 {
+    @apply text-xl;
+    @apply font-bold;
+  }
+
+  h3 {
+    @apply text-lg;
+    @apply font-bold;
+  }
+
+  h4 {
+    @apply text-base;
+    @apply font-bold;
+  }
+
+  h5 {
+    @apply text-sm;
+    @apply font-bold;
+  }
+
+  .rss-content {
+    ul,
+    ol {
+      list-style: revert;
+      margin: revert;
+      padding: revert;
+    }
+  }
 }

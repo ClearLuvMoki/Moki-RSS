@@ -72,8 +72,9 @@
   "list-view": {
     "index": "视图",
     "placeholder": "请选择您的列表视图",
-    "magazine": "卡片模式",
-    "compact": "紧凑模式"
+    "card": "卡片模式",
+    "magazine": "杂志模式",
+    "list": "列表模式"
   },
   "preferences": {
     "index": "应用偏好",

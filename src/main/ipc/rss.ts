@@ -18,6 +18,7 @@ const RSSIPC = () => {
         return {
           ...item,
           images: JSON.parse(item?.images || "[]"),
+          mediaContent: JSON.parse(item?.mediaContent || "[]"),
         };
       });
     },

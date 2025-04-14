@@ -8,7 +8,7 @@ import { FeedIPC, OSIPC, RSSIPC } from "./ipc";
 export let mainWindow: BrowserWindow | null = null;
 
 const loadUrl: string = isDev
-  ? `http://localhost:${process.env.PORT || 8088}`
+  ? `http://localhost:${process.env.PORT || 8089}`
   : `file://${path.resolve(__dirname, "../render/index.html")}`;
 
 const initIpc = () => {
@@ -28,7 +28,7 @@ const onCreateMainWindow = () => {
     trafficLightPosition: { x: 15, y: 15 },
     icon: path.resolve(__dirname, "./icon.png"),
     webPreferences: {
-      devTools: true,
+      devTools: isDev,
       nodeIntegration: true,
       webSecurity: false,
       webviewTag: true,

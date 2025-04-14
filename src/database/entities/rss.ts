@@ -37,6 +37,10 @@ export class RSSEntities {
   @Column({ type: "text", default: "[]" })
   images?: string;
 
+  // 资源文件
+  @Column({ type: "text", default: "[]" })
+  mediaContent?: string;
+
   // 作者
   @Column({ type: "text", default: "" })
   author?: string;

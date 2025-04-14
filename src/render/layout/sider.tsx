@@ -1,3 +1,4 @@
+import ScrollContent from "@/components/scroll-content";
 import { Accordion, AccordionItem, Image, Listbox, ListboxItem } from "@heroui/react";
 import { clsx } from "clsx";
 import { Rss } from "lucide-react";
@@ -17,7 +18,12 @@ const Sider = () => {
   const { feedList, activeFeed, updateActiveFeed } = useGlobalStore();
 
   return (
-    <div className="w-[240px] h-full border-r py-4 px-[10px] overflow-y-scroll light:border-r-gray-200 dark:border-r-gray-600">
+    <ScrollContent
+      suppressScrollX={false}
+      classNames={{
+        root: "w-[240px] h-full border-r py-4 px-[10px] overflow-y-scroll light:border-r-gray-200 dark:border-r-gray-600",
+      }}
+    >
       <Accordion itemClasses={itemClasses} defaultExpandedKeys={["all"]}>
         <AccordionItem key="all" title={t("feed.all-feed")}>
           <Listbox variant="flat">
@@ -46,7 +52,7 @@ const Sider = () => {
           </Listbox>
         </AccordionItem>
       </Accordion>
-    </div>
+    </ScrollContent>
   );
 };
 

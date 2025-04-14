@@ -1,10 +1,10 @@
-import type { ConfigType } from "@/domains/types/config";
+import type { ConfigType, ListModeType } from "@/domains/types/config";
 import { LocaleEnum } from "@/domains/types/config";
 import i18n from "@/render/i18n";
 import Channels from "@/src/domains/channel";
 import { Select, SelectItem, addToast } from "@heroui/react";
 import { MonitorCog, Moon, Sun } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Inject from "../../inject";
 import { useGlobalStore } from "../../store";
@@ -24,6 +24,11 @@ const ThemeArr = [
   { label: "theme.light", value: "light", icon: <Sun size={16} /> },
   { label: "theme.dark", value: "dark", icon: <Moon size={16} /> },
   { label: "theme.os-theme", value: "os", icon: <MonitorCog size={16} /> },
+];
+
+const ViewArr: { label: string; value: ListModeType }[] = [
+  { label: "list-view.card", value: "card" },
+  { label: "list-view.magazine", value: "magazine" },
 ];
 
 const SystemContent = () => {
@@ -54,7 +59,7 @@ const SystemContent = () => {
 
   return (
     <div>
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">
+      <h2 className="text-lg text-gray-700 font-semibold select-none my-4 dark:text-gray-200">
         {t("preferences.language")}
       </h2>
       <Select
@@ -71,7 +76,9 @@ const SystemContent = () => {
           <SelectItem key={lang.value}>{lang.label}</SelectItem>
         ))}
       </Select>
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">{t("theme.index")}</h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none my-4 dark:text-gray-200">
+        {t("theme.index")}
+      </h2>
       <Select
         placeholder={t("theme.placeholder")}
         className="max-w-xs my-2"
@@ -85,6 +92,22 @@ const SystemContent = () => {
           <SelectItem key={theme.value} startContent={theme.icon}>
             {t(theme.label)}
           </SelectItem>
+        ))}
+      </Select>
+      <h2 className="text-lg text-gray-700 font-semibold select-none my-4 dark:text-gray-200">
+        {t("list-view.index")}
+      </h2>
+      <Select
+        placeholder={t("list-view.placeholder")}
+        className="max-w-xs my-2"
+        selectedKeys={[config?.listMode!]}
+        onChange={(event) => {
+          const value = event?.target?.value as any;
+          onUpdate({ listMode: value });
+        }}
+      >
+        {ViewArr.map((theme) => (
+          <SelectItem key={theme.value}>{t(theme.label)}</SelectItem>
         ))}
       </Select>
     </div>

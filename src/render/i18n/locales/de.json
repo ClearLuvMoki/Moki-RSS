@@ -69,8 +69,9 @@
   "list-view": {
     "index": "Ansicht",
     "placeholder": "Bitte wählen Sie Ihre Listenansicht",
-    "magazine": "Kartenmodus",
-    "compact": "Kompaktmodus"
+    "card": "Kartenansicht",
+    "magazine": "Magazinansicht",
+    "list": "Listenansicht"
   },
   "preferences": {
     "index": "Anwendungseinstellungen",

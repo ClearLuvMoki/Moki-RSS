@@ -9,6 +9,10 @@ const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <HeroUIProvider className="w-full h-full">
     <App />
-    <ToastProvider />
+    <ToastProvider
+      toastProps={{
+        timeout: 2000,
+      }}
+    />
   </HeroUIProvider>,
 );

@@ -5,6 +5,7 @@ import { useGlobalStore } from "../../store";
 
 const ContentModal = () => {
   const { rssDetail, updateRSSDetail, activeFeed } = useGlobalStore();
+
   return (
     <Modal
       isOpen={Boolean(rssDetail?.id)}
@@ -40,7 +41,7 @@ const ContentModal = () => {
         {() => (
           <Fragment>
             <ModalHeader className="border-b border-b-gray-300 flex justify-between items-center">
-              <h1 className="text-lg">
+              <h1 className="text-2xl">
                 {activeFeed?.title}
                 {rssDetail?.author && (
                   <span className="text-sm font-medium text-gray-500">
@@ -49,7 +50,7 @@ const ContentModal = () => {
                 )}
               </h1>
             </ModalHeader>
-            <ModalBody className="px-6 py-4">
+            <ModalBody className="px-16 py-4 rss-content">
               <RSSDetail detail={rssDetail} />
             </ModalBody>
           </Fragment>

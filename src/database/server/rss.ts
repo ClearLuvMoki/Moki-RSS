@@ -1,6 +1,5 @@
 import { RSSEntities } from "@/database/entities";
 import Logger from "@/src/main/logger";
-import to from "await-to-js";
 import RSSParser from "rss-parser";
 import Database from "../";
 
@@ -53,7 +52,16 @@ class RSSServer {
           Logger.error("未传入Xml!");
           reject("No Xml!");
         }
-        const parser = new RSSParser();
+        const parser = new RSSParser({
+          customFields: {
+            item: [
+              "thumb",
+              "image",
+              ["content:encoded", "fullContent"],
+              ["media:content", "mediaContent", { keepArray: true }],
+            ],
+          },
+        });
         return parser.parseString(xml).then((res) => {
           resolve({
             title: res?.title || "",

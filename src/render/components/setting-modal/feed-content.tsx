@@ -114,7 +114,9 @@ const FeedContent = () => {
 
   return (
     <div className="py-2">
-      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4">{t("feed.add")}</h2>
+      <h2 className="text-lg text-gray-700 font-semibold select-none mb-4 dark:text-gray-200">
+        {t("feed.add")}
+      </h2>
       <div className="flex w-full max-w-sm items-center space-x-2">
         <Input
           placeholder={t("feed.placeholder")}

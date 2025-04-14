@@ -1,7 +1,7 @@
 import { useGlobalStore } from "../../store";
 
 const RSSList = () => {
-  const { rssList, activeFeed } = useGlobalStore();
+  const { rssList } = useGlobalStore();
   return (
     <div className="w-full h-full overflow-y-scroll p-6">
       {rssList.map((item) => {
