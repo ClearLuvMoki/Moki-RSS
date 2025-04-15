@@ -12,7 +12,7 @@ const RSSCard = () => {
       suppressScrollX={false}
       classNames={{
         root: "w-full h-full overflow-y-scroll p-6",
-        content: "flex flex-wrap  overflow-hidden gap-6 ",
+        content: "flex flex-wrap gap-6",
       }}
       onScroll={(event) => {
         const { scrollTop, clientHeight, scrollHeight } = event.target as any;

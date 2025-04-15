@@ -106,6 +106,15 @@ class FeedServer {
     return feedQueryBuilder.delete(id);
   }
 
+  static async getFeedByID(feedId: string) {
+    const feedQueryBuilder = await getFeedQueryBuilder();
+    return feedQueryBuilder.findOne({
+      where: {
+        id: feedId,
+      },
+    });
+  }
+
   static async getImageFormRSSContent(content: string) {
     return new Promise((resolve) => {
       try {
@@ -186,9 +195,6 @@ class FeedServer {
                   rssId: item?.id || item?.guid || "",
                 },
               });
-              if (item?.mediaContent && item?.mediaContent?.length > 0) {
-                console.log(url, JSON.stringify(item?.mediaContent || []), "item?.fullContent");
-              }
               return rssQuery.save({
                 id: existItem?.id,
                 feedId: data?.id,

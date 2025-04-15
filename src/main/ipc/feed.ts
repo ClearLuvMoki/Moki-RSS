@@ -12,6 +12,11 @@ const FeedIPC = () => {
     return FeedServer.removeFeedByID(id);
   });
 
+  ipcMain.handle(Channels.SearchFeed, async (_, { feedId }: { feedId: string }) => {
+    if (!feedId) return null;
+    return FeedServer.getFeedByID(feedId);
+  });
+
   ipcMain.handle(
     Channels.InsertFeed,
     async (

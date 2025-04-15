@@ -5,6 +5,7 @@ import { RotateCw } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "../store";
+import Search from "./components/search";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ const Header = () => {
           WebkitAppRegion: "no-drag",
         }}
       >
+        <Search />
         <Button
           color="default"
           variant="light"

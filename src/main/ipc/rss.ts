@@ -23,6 +23,27 @@ const RSSIPC = () => {
       });
     },
   );
+
+  ipcMain.handle(
+    Channels.SearchRSS,
+    async (
+      _,
+      {
+        keyword,
+      }: {
+        keyword: string;
+      },
+    ) => {
+      const list = await RSSServer.getRSSByKeyword(keyword);
+      return ((list || []) as any[]).map((item: any) => {
+        return {
+          ...item,
+          images: JSON.parse(item?.images || "[]"),
+          mediaContent: JSON.parse(item?.mediaContent || "[]"),
+        };
+      });
+    },
+  );
 };
 
 export default RSSIPC;

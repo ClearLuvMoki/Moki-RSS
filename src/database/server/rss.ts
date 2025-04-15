@@ -1,6 +1,7 @@
 import { RSSEntities } from "@/database/entities";
 import Logger from "@/src/main/logger";
 import RSSParser from "rss-parser";
+import { Like } from "typeorm";
 import Database from "../";
 
 export const getRSSQueryBuilder = async () => {
@@ -8,6 +9,31 @@ export const getRSSQueryBuilder = async () => {
 };
 
 class RSSServer {
+  static getRSSByKeyword(keyword: string) {
+    return new Promise(async (resolve) => {
+      try {
+        const rssQuery = await getRSSQueryBuilder();
+        const list = await rssQuery.find({
+          where: [
+            { title: Like(`%${keyword}%`) },
+            { author: Like(`%${keyword}%`) },
+            { content: Like(`%${keyword}%`) },
+          ],
+          skip: 0,
+          take: 30,
+          order: {
+            isoDate: "desc",
+          },
+        });
+
+        resolve(list || []);
+      } catch (err) {
+        Logger.error(`搜索出错: ${err}`);
+        resolve([]);
+      }
+    });
+  }
+
   static getRSSByFeedId({
     id,
     pageNo = 1,

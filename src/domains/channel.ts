@@ -5,6 +5,8 @@ const Channels = {
   GetConfig: "get-os-config",
   UpdateConfig: "update-os-config",
   GetRSSByFeedId: "get-rss-by-feed-id",
+  SearchRSS: "search-rss",
+  SearchFeed: "search-feed",
 };
 
 export default Channels;
