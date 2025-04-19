@@ -1,6 +1,6 @@
 {
   "name": "moki-rss",
-  "version": "2.2.12",
+  "version": "2.3.1",
   "main": "./release/dist/main/index.js",
   "scripts": {
     "dev": "npm run dev:render",

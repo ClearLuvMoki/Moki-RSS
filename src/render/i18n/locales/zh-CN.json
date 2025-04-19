@@ -79,6 +79,8 @@
   "preferences": {
     "index": "应用偏好",
     "language": "语言",
-    "language-placeholder": "请选择您的语言"
+    "language-placeholder": "请选择您的语言",
+    "issue": "反馈",
+    "issue-placeholder": "前往提交反馈"
   }
 }

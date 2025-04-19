@@ -1,4 +1,5 @@
-import { useTranslation } from "react-i18next";
+import Channels from "@/domains/channel";
+import Inject from "@/render/inject";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -20,7 +21,7 @@ const removeHtmlIndentation = (htmlString: string) => {
 
 const MarkdownRender = ({ content }: Props) => {
   const _content = removeHtmlIndentation(content);
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   return (
     <Markdown
@@ -39,6 +40,22 @@ const MarkdownRender = ({ content }: Props) => {
         },
         p(props) {
           return <p {...props} className={`${props?.className || ""} my-2`} />;
+        },
+        img(props) {
+          return <img {...props} alt="assets" className="w-[500px] h-auto my-4" loading="lazy" />;
+        },
+        a(props) {
+          return (
+            <span
+              {...props}
+              className="underline text-blue-400 cursor-pointer"
+              onClick={() => {
+                if (props?.href) {
+                  Inject.invoke(Channels.OpenLocalBrowser, { url: props?.href });
+                }
+              }}
+            />
+          );
         },
       }}
     >

@@ -1,9 +1,11 @@
+import { URL } from "@/constants/url";
 import type { ConfigType, ListModeType } from "@/domains/types/config";
 import { LocaleEnum } from "@/domains/types/config";
 import i18n from "@/render/i18n";
 import Channels from "@/src/domains/channel";
+import { Button } from "@heroui/button";
 import { Select, SelectItem, addToast } from "@heroui/react";
-import { MonitorCog, Moon, Sun } from "lucide-react";
+import { MonitorCog, Moon, NotebookPen, Sun } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Inject from "../../inject";
@@ -110,6 +112,20 @@ const SystemContent = () => {
           <SelectItem key={theme.value}>{t(theme.label)}</SelectItem>
         ))}
       </Select>
+      <h2 className="text-lg text-gray-700 font-semibold select-none my-4 dark:text-gray-200">
+        {t("preferences.issues")}
+      </h2>
+      <Button
+        color={"primary"}
+        onPress={() => {
+          Inject.invoke(Channels.OpenLocalBrowser, {
+            url: URL.Issues,
+          });
+        }}
+      >
+        <NotebookPen />
+        <span>{t("preferences.issues-placeholder")}</span>
+      </Button>
     </div>
   );
 };

@@ -76,6 +76,8 @@
   "preferences": {
     "index": "Настройки приложения",
     "language": "Язык",
-    "language-placeholder": "Выберите ваш язык"
+    "language-placeholder": "Выберите ваш язык",
+    "issue": "Проблема",
+    "issue-placeholder": "Пожалуйста, выберите проблему"
   }
 }

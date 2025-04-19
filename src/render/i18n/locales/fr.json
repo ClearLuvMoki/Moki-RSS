@@ -76,6 +76,8 @@
   "preferences": {
     "index": "Préférences de l'application",
     "language": "Langue",
-    "language-placeholder": "Veuillez sélectionner votre langue"
+    "language-placeholder": "Veuillez sélectionner votre langue",
+    "issues": "Problèmes",
+    "issues-placeholder": "Donnez-moi des problèmes à corriger"
   }
 }

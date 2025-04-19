@@ -7,6 +7,7 @@ const Channels = {
   GetRSSByFeedId: "get-rss-by-feed-id",
   SearchRSS: "search-rss",
   SearchFeed: "search-feed",
+  OpenLocalBrowser: "open-local-browser",
 };
 
 export default Channels;

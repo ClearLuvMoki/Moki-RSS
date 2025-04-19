@@ -76,6 +76,8 @@
   "preferences": {
     "index": "アプリの設定",
     "language": "言語",
-    "language-placeholder": "言語を選択してください"
+    "language-placeholder": "言語を選択してください",
+    "issues": "問題",
+    "issues-placeholder": "いくつかの問題を報告してください"
   }
 }

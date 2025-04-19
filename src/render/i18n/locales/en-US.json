@@ -76,6 +76,8 @@
   "preferences": {
     "index": "App Preferences",
     "language": "Language",
-    "language-placeholder": "Please select your language"
+    "language-placeholder": "Please select your language",
+    "issues": "Issues",
+    "issues-placeholder": "Give me some issues"
   }
 }
