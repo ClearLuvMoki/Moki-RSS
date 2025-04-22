@@ -54,7 +54,9 @@
     "update": "Gruppe aktualisieren",
     "name": "Gruppenname",
     "desc": "Gruppenbeschreibung",
-    "placeholder": "Bitte wählen Sie eine Gruppe"
+    "placeholder": "Bitte wählen Sie eine Gruppe",
+    "name-placeholder": "Bitte geben Sie den Gruppennamen ein",
+    "desc-placeholder": "Bitte geben Sie die Gruppendescription ein"
   },
   "search": {
     "placeholder": "Bitte geben Sie den Suchbegriff ein"

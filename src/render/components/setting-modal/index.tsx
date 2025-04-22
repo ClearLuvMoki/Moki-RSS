@@ -4,10 +4,12 @@ import { SlidersHorizontal } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FeedContent from "./feed-content";
+import GroupContent from "./group-content";
 import SystemContent from "./system-content";
 
 const TabList = [
   { value: "feed", label: "feed.index", content: <FeedContent /> },
+  { value: "group", label: "group.index", content: <GroupContent /> },
   {
     value: "preferences",
     label: "preferences.index",
@@ -22,13 +24,14 @@ const SettingModal = () => {
   return (
     <Fragment>
       <Button
-        className="min-w-1 "
+        className="flex-shrink-0"
         color="default"
         variant="light"
         onPress={() => setOpen(true)}
         size="md"
+        isIconOnly
       >
-        <SlidersHorizontal size={18} />
+        <SlidersHorizontal size={16} />
       </Button>
       <Modal
         size={"2xl"}
@@ -44,14 +47,14 @@ const SettingModal = () => {
               <Fragment>
                 <ModalHeader>{t("action.setting")}</ModalHeader>
                 <ModalBody>
-                  <Tabs>
-                    {TabList.map((item) => {
+                  <Tabs items={TabList}>
+                    {(item) => {
                       return (
                         <Tab key={item.value} title={t(item.label)}>
                           {item?.content}
                         </Tab>
                       );
-                    })}
+                    }}
                   </Tabs>
                 </ModalBody>
               </Fragment>

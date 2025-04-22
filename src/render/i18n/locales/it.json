@@ -54,7 +54,9 @@
     "update": "Modifica gruppo",
     "name": "Nome del gruppo",
     "desc": "Descrizione del gruppo",
-    "placeholder": "Seleziona un gruppo"
+    "placeholder": "Seleziona un gruppo",
+    "name-placeholder": "Inserisci il nome del gruppo",
+    "desc-placeholder": "Inserisci la descrizione del gruppo"
   },
   "search": {
     "placeholder": "Inserisci cosa vuoi cercare"

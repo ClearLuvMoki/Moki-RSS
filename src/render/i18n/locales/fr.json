@@ -54,7 +54,9 @@
     "update": "Mettre à jour le groupe",
     "name": "Nom du groupe",
     "desc": "Description du groupe",
-    "placeholder": "Veuillez sélectionner un groupe"
+    "placeholder": "Veuillez sélectionner un groupe",
+    "name-placeholder": "Veuillez entrer le nom du groupe",
+    "desc-placeholder": "Veuillez entrer la description du groupe"
   },
   "search": {
     "placeholder": "Veuillez entrer ce que vous souhaitez rechercher"

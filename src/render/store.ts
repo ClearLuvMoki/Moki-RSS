@@ -3,11 +3,13 @@ import Inject from "@/render/inject";
 import { create } from "zustand";
 import { type ConfigType, LocaleEnum } from "../domains/types/config";
 import type { FeedType } from "../domains/types/feed";
+import type { GroupType } from "../domains/types/group";
 import type { RSSType } from "../domains/types/rss";
 import i18n from "./i18n";
 
 interface GlobalState {
   feedList: FeedType[];
+  groupList: GroupType[];
   rssList: RSSType[];
   rssDetail: RSSType | null;
   pageNo: number;
@@ -17,6 +19,7 @@ interface GlobalState {
   updateActiveFeed: (feed: FeedType | null) => void;
   nextPage: () => void;
   reloadFeed: () => void;
+  reloadGroup: () => void;
   reloadConfig: () => void;
   addFeed: (url: string) => Promise<FeedType>;
 }
@@ -24,6 +27,7 @@ interface GlobalState {
 export const useGlobalStore = create<GlobalState>((set, get) => ({
   feedList: [],
   rssList: [],
+  groupList: [],
   rssDetail: null,
   config: null,
   pageNo: 1,
@@ -82,6 +86,11 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   reloadFeed: () => {
     Inject.invoke<null, FeedType[]>(Channels.AllFeed).then((res) => {
       set({ feedList: res });
+    });
+  },
+  reloadGroup: () => {
+    Inject.invoke<null, GroupType[]>(Channels.AllGroup).then((res) => {
+      set({ groupList: res });
     });
   },
   addFeed: (url: string) => {

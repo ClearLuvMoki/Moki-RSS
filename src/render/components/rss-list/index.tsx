@@ -5,6 +5,7 @@ import Magazine from "./magazine";
 
 const RSSCard = () => {
   const { config } = useGlobalStore();
+  console.log(config?.listMode, "llll");
 
   return useMemo(() => {
     switch (config?.listMode) {

@@ -54,7 +54,9 @@
     "update": "그룹 업데이트",
     "name": "그룹 이름",
     "desc": "그룹 설명",
-    "placeholder": "그룹을 선택하세요"
+    "placeholder": "그룹을 선택하세요",
+    "name-placeholder": "그룹 이름을 입력하세요",
+    "desc-placeholder": "그룹 설명을 입력하세요"
   },
   "search": {
     "placeholder": "검색할 내용을 입력하세요"

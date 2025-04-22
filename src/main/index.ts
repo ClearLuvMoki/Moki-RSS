@@ -3,7 +3,7 @@ import DataBase from "@/database/index";
 import { isDev } from "@/utils/tool";
 import to from "await-to-js";
 import { BrowserWindow, app } from "electron";
-import { FeedIPC, OSIPC, RSSIPC } from "./ipc";
+import { FeedIPC, GroupIPC, OSIPC, RSSIPC } from "./ipc";
 
 export let mainWindow: BrowserWindow | null = null;
 
@@ -15,6 +15,7 @@ const initIpc = () => {
   FeedIPC();
   OSIPC();
   RSSIPC();
+  GroupIPC();
 };
 
 const onCreateMainWindow = () => {

@@ -9,7 +9,7 @@ import Search from "./components/search";
 
 const Header = () => {
   const { t } = useTranslation();
-  const { feedList, addFeed } = useGlobalStore();
+  const { feedList, addFeed, activeFeed, updateActiveFeed } = useGlobalStore();
   const [loading, setLoading] = useState(false);
 
   const reload = useCallback(() => {
@@ -18,7 +18,11 @@ const Header = () => {
       feedList
         ?.filter((item) => item?.feedUrl)
         .map((item) => {
-          return addFeed(item?.feedUrl);
+          return addFeed(item?.feedUrl).then(() => {
+            if (activeFeed?.id) {
+              return updateActiveFeed(activeFeed);
+            }
+          });
         }),
     ).finally(() => {
       addToast({
@@ -27,7 +31,7 @@ const Header = () => {
       });
       setLoading(false);
     });
-  }, [addFeed, feedList, t]);
+  }, [addFeed, feedList, activeFeed, updateActiveFeed, t]);
 
   return (
     <div
@@ -49,12 +53,12 @@ const Header = () => {
           color="default"
           variant="light"
           size="md"
-          className="min-w-1"
+          className="flex-shrink-0"
           isLoading={loading}
           onPress={reload}
           isIconOnly
         >
-          <RotateCw size={18} />
+          <RotateCw size={16} />
         </Button>
         <SettingModal />
       </div>

@@ -126,12 +126,16 @@ const RSSCard = () => {
         return (
           <Card
             isFooterBlurred
-            className={`border-none w-[${ImageWidth}px] h-[${ImageHeight}px]`}
+            className={"border-none"}
+            style={{
+              width: ImageWidth,
+              height: ImageHeight,
+            }}
             radius="lg"
             key={item?.id}
           >
             <CardBody
-              className={"p-0"}
+              className={"p-0 w-full h-full"}
               onClick={() => {
                 updateRSSDetail(item);
               }}

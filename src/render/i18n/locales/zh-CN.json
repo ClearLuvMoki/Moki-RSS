@@ -28,6 +28,7 @@
     "reload": "刷新",
     "setting": "设置",
     "add": "添加",
+    "clean": "清空",
     "open-source-web": "打开原网页",
     "copy-link": "复制链接",
     "open-link": "打开链接",
@@ -57,7 +58,9 @@
     "update": "编辑分组",
     "name": "分组名称",
     "desc": "分组描述",
-    "placeholder": "请选择分组"
+    "placeholder": "请选择分组",
+    "name-placeholder": "请输入分组名称",
+    "desc-placeholder": "请输入分组描述"
   },
   "search": {
     "placeholder": "请输入您要搜索的内容"

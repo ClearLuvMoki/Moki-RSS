@@ -8,6 +8,9 @@ const Channels = {
   SearchRSS: "search-rss",
   SearchFeed: "search-feed",
   OpenLocalBrowser: "open-local-browser",
+  AllGroup: "all-group",
+  CreateOrUpdateGroup: "create-or-update-group",
+  DeleteGroup: "delete-group",
 };
 
 export default Channels;

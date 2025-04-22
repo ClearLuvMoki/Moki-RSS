@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { useGlobalStore } from "./store";
 
 const App = () => {
-  const { reloadFeed, reloadConfig } = useGlobalStore();
+  const { reloadFeed, reloadGroup, reloadConfig } = useGlobalStore();
 
   useEffect(() => {
     reloadFeed();
+    reloadGroup();
     reloadConfig();
-  }, [reloadFeed, reloadConfig]);
+  }, [reloadFeed, reloadGroup, reloadConfig]);
 
   return <Layout />;
 };

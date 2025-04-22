@@ -3,7 +3,6 @@ import Channels from "@/src/domains/channel";
 import Inject from "@/src/render/inject";
 import {
   Button,
-  Image,
   Input,
   Table,
   TableBody,
@@ -13,10 +12,11 @@ import {
   TableRow,
   addToast,
 } from "@heroui/react";
-import { Rss, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "../../store";
+import FeedItem from "../feed-item";
 
 const columns = [
   {
@@ -45,15 +45,14 @@ const FeedContent = () => {
       case "title": {
         return (
           <div className="flex gap-2 max-w-md items-center">
-            {item?.avatarBase64 || item?.avatar ? (
-              <Image
-                src={item?.avatarBase64 || item.avatar}
-                className="w-6 h-6 shrink rounded-full"
-              />
-            ) : (
-              <Rss className="w-6 h-6 shrink " />
-            )}
-            <span className="max-w-[200px] text-wrap break-words">{cellValue}</span>
+            <FeedItem
+              cover={item?.avatarBase64 || item?.avatar}
+              name={cellValue}
+              classNames={{
+                image: "w-6 h-6 shrink rounded-full",
+                name: "max-w-[200px] text-wrap break-words ml-2",
+              }}
+            />
           </div>
         );
       }
