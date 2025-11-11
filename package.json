@@ -1,0 +1,105 @@
+{
+  "name": "moki-rss",
+  "version": "2.4.0",
+  "main": "./release/dist/main/index.js",
+  "scripts": {
+    "dev": "npm run dev:render",
+    "dev:render": "rsbuild dev --config ./builder/render/rsbuild.dev.ts",
+    "dev:main": "nodemon",
+    "build:main": "rsbuild build --config ./builder/main/rsbuild.main.ts",
+    "build:render": "rsbuild build --config ./builder/render/rsbuild.build.ts",
+    "build-mac-store": "npm run prebuild && npm run prebuild-store && electron-builder --universal --mac mas && npm run postbuild",
+    "build:mas": "sudo npm run build:main &&  sudo npm run build:render && sudo sudo electron-builder -c builder.js ",
+    "postinstall": "electron-builder install-app-deps",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "prepare": "npx simple-git-hooks",
+    "lint": "pnpm biome check --write ./src",
+    "commitlint": "commitlint --edit",
+    "cz": "git add . && git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClearLuvMoki/Moki-RSS.git"
+  },
+  "keywords": [
+    "moki",
+    "rss",
+    "reader"
+  ],
+  "author": "Moki <2893096286@qq.com> (http://moonquakes.online)",
+  "bugs": {
+    "url": "https://github.com/ClearLuvMoki/Moki-RSS/issues"
+  },
+  "homepage": "https://github.com/ClearLuvMoki/Moki-RSS#readme",
+  "lint-staged": {
+    "./src/**/*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
+      "pnpm run lint"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no-install commitlint --edit ${1}",
+    "preserveUnused": [
+      "commit-msg"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@electron/osx-sign": "^2.0.0",
+    "@electron/rebuild": "^3.7.1",
+    "@heroui/react": "^2.7.6",
+    "@rsbuild/core": "^1.3.3",
+    "@rsbuild/plugin-babel": "^1.0.6",
+    "@rsbuild/plugin-react": "^1.1.1",
+    "@sentry/electron": "^7.2.0",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "ahooks": "^3.8.4",
+    "autoprefixer": "10.4.20",
+    "await-to-js": "^3.0.0",
+    "axios": "^1.8.4",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "better-sqlite3": "^11.9.1",
+    "cheerio": "^1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "commitizen": "^4.3.1",
+    "cz-git": "^1.11.1",
+    "dayjs": "^1.11.13",
+    "electron": "^30.0.8",
+    "electron-builder": "^24.13.3",
+    "electron-log": "^5.3.3",
+    "electron-store": "^11.0.2",
+    "framer-motion": "^12.6.3",
+    "i18next": "^24.2.3",
+    "lucide-react": "^0.486.0",
+    "mac-scrollbar": "^0.13.8",
+    "nodemon": "^3.1.9",
+    "postcss": "8.4.49",
+    "posthog-node": "^5.11.1",
+    "react": "^18.3.0",
+    "react-compiler-runtime": "^1.0.0",
+    "react-dom": "^18.3.0",
+    "react-i18next": "^15.4.1",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "rss-parser": "^3.13.0",
+    "shiki": "^3.3.0",
+    "simple-git-hooks": "^2.12.1",
+    "tailwind-merge": "2.5.4",
+    "tailwindcss": "3.4.17",
+    "typeorm": "^0.3.22",
+    "typescript": "^5.8.2",
+    "zustand": "^5.0.3"
+  }
+}
