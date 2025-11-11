@@ -1,15 +1,21 @@
 import SettingModal from "@/components/setting-modal";
+import Search from "@/render/layout/components/search";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/react";
 import { RotateCw } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "../store";
-import Search from "./components/search";
 
 const Header = () => {
   const { t } = useTranslation();
-  const { feedList, addFeed, activeFeed, updateActiveFeed } = useGlobalStore();
+  const {
+    feedList,
+    addFeed,
+    activeFeed,
+    updateActiveFeed,
+    // setSearchCmdVisible,
+  } = useGlobalStore();
   const [loading, setLoading] = useState(false);
 
   const reload = useCallback(() => {
@@ -33,6 +39,10 @@ const Header = () => {
     });
   }, [addFeed, feedList, activeFeed, updateActiveFeed, t]);
 
+  // const onSearch = useCallback(() => {
+  //   setSearchCmdVisible(true);
+  // }, [setSearchCmdVisible]);
+
   return (
     <div
       className="h-[50px] w-full border-b flex justify-end items-center px-4 light:border-b-gray-200 dark:border-b-gray-600"
@@ -48,6 +58,16 @@ const Header = () => {
           WebkitAppRegion: "no-drag",
         }}
       >
+        {/*<Button*/}
+        {/*  color="default"*/}
+        {/*  variant="light"*/}
+        {/*  size="md"*/}
+        {/*  className="flex-shrink-0"*/}
+        {/*  onPress={onSearch}*/}
+        {/*  isIconOnly*/}
+        {/*>*/}
+        {/*  <Search size={18} />*/}
+        {/*</Button>*/}
         <Search />
         <Button
           color="default"

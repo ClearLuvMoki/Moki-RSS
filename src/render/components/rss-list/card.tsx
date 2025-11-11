@@ -5,6 +5,7 @@ import { Rss } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { useGlobalStore } from "../../store";
+import { UnReadPoint } from "../unreaded";
 
 const ImageWidth = 200;
 const ImageHeight = 230;
@@ -105,7 +106,8 @@ const ImageCardFooterContent = ({
 };
 
 const RSSCard = () => {
-  const { rssList, activeFeed, nextPage, updateRSSDetail } = useGlobalStore();
+  const { rssList, activeFeed, nextPage, updateRSSDetail, updateRSSReadedStatus } =
+    useGlobalStore();
 
   return (
     <ScrollContent
@@ -138,6 +140,7 @@ const RSSCard = () => {
               className={"p-0 w-full h-full"}
               onClick={() => {
                 updateRSSDetail(item);
+                updateRSSReadedStatus({ id: item.id });
               }}
             >
               {isShowImage ? (
@@ -150,7 +153,8 @@ const RSSCard = () => {
                     isZoomed
                     height={ImageHeight}
                   />
-                  <CardFooter className="flex-col h-[44px] before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                  <CardFooter className="flex gap-2 items-start justify-between h-[44px] before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                    <UnReadPoint show={!item.isRead} className="mt-1" />
                     <ImageCardFooterContent
                       imageUrl={item?.images?.[0]}
                       content={item?.title || ""}
@@ -173,6 +177,7 @@ const RSSCard = () => {
                         {activeFeed?.title}
                       </span>
                     </div>
+                    <UnReadPoint show={!item?.isRead} />
                   </div>
                   <div className="line-clamp-2 text-medium font-medium my-2">{item?.title}</div>
                   <div className="line-clamp-6  text-gray-400 light:text-gray-700 text-sm">

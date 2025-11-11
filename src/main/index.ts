@@ -1,9 +1,17 @@
 import path from "node:path";
 import DataBase from "@/database/index";
 import { isDev } from "@/utils/tool";
+import { init } from "@sentry/electron/main";
 import to from "await-to-js";
+
+import "./protocol";
 import { BrowserWindow, app } from "electron";
 import { FeedIPC, GroupIPC, OSIPC, RSSIPC } from "./ipc";
+import { initStatistics } from "./statistics";
+
+init({
+  dsn: "https://c8638c9bb80e7df188e56a7735b33d5b@o4507683589062656.ingest.us.sentry.io/4510316783403008",
+});
 
 export let mainWindow: BrowserWindow | null = null;
 
@@ -16,6 +24,7 @@ const initIpc = () => {
   OSIPC();
   RSSIPC();
   GroupIPC();
+  // AuthIPC();
 };
 
 const onCreateMainWindow = () => {
@@ -55,4 +64,5 @@ app.on("ready", async () => {
   }
   initIpc();
   onCreateMainWindow();
+  initStatistics();
 });

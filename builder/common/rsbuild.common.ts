@@ -1,6 +1,8 @@
-import { defineConfig } from "@rsbuild/core";
+import { defineConfig, loadEnv } from "@rsbuild/core";
 import { join } from "node:path";
 import { rootPath, srcPath } from "./paths";
+
+const { parsed } = loadEnv();
 
 const CommonConfig = defineConfig({
   performance: {
@@ -10,6 +12,12 @@ const CommonConfig = defineConfig({
     decorators: {
       version: "legacy",
     },
+    define: Object.fromEntries(
+      Object.entries(parsed).map(([key, value]) => [
+        `process.env.${key}`,
+        JSON.stringify(value),
+      ]),
+    ),
   },
   resolve: {
     alias: {

@@ -44,6 +44,16 @@ const RSSIPC = () => {
       });
     },
   );
+  3;
+
+  ipcMain.handle(Channels.UpdateRSSReaded, async (_, { id }: { id: string }) => {
+    return RSSServer.updateRSSDetails({
+      id,
+      data: {
+        isRead: true,
+      },
+    });
+  });
 };
 
 export default RSSIPC;

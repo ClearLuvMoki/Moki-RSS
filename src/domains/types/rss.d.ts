@@ -11,5 +11,7 @@ export interface RSSType {
   pubDate: string;
   isoDate: string;
   createDate: string;
+  isRead: boolean;
+  isCollection: boolean;
   images: string[];
 }

@@ -52,6 +52,14 @@ export class RSSEntities {
   @Column({ type: "text", nullable: true })
   isoDate?: string;
 
+  // 是否已读
+  @Column({ type: "boolean", default: false })
+  isRead?: boolean;
+
+  // 是否收藏
+  @Column({ type: "boolean", default: false })
+  isCollection?: boolean;
+
   // 创建日期
   @CreateDateColumn()
   createDate?: Date;

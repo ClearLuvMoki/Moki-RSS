@@ -1,4 +1,5 @@
 import { RSSEntities } from "@/database/entities";
+import { RSSType } from "@/src/domains/types/rss";
 import Logger from "@/src/main/logger";
 import RSSParser from "rss-parser";
 import { Like } from "typeorm";
@@ -61,9 +62,24 @@ class RSSServer {
           },
         });
 
-        resolve(list || []);
+        return resolve(list || []);
       } catch (err) {
-        reject(err);
+        return reject(err);
+      }
+    });
+  }
+
+  static updateRSSDetails({ id, data }: { id: string; data: RSSEntities }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!id) {
+          return reject();
+        }
+        const rssQuery = await getRSSQueryBuilder();
+        return resolve(rssQuery.update({ id }, data));
+      } catch (error) {
+        reject(error);
+        Logger.error(`IPC: updateRSSDetails: ${JSON.stringify(error)}`);
       }
     });
   }

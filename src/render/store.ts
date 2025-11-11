@@ -21,7 +21,10 @@ interface GlobalState {
   reloadFeed: () => void;
   reloadGroup: () => void;
   reloadConfig: () => void;
+  updateRSSReadedStatus: ({ id }: { id: string }) => void;
   addFeed: (url: string) => Promise<FeedType>;
+  searchCmdVisible: boolean;
+  setSearchCmdVisible: (visible: boolean) => void;
 }
 
 export const useGlobalStore = create<GlobalState>((set, get) => ({
@@ -32,6 +35,7 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   config: null,
   pageNo: 1,
   activeFeed: null,
+  searchCmdVisible: false,
   nextPage: () => {
     const nextPage = get().pageNo + 1;
     const preList = get().rssList || [];
@@ -49,6 +53,21 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
   },
   updateRSSDetail: (detail: RSSType | null) => {
     set({ rssDetail: detail });
+  },
+  updateRSSReadedStatus: ({ id }: { id: string }) => {
+    Inject.invoke(Channels.UpdateRSSReaded, { id }).then(() => {
+      const list = get().rssList;
+      set({
+        rssList: list.map((item) => {
+          return item?.id === id
+            ? {
+                ...item,
+                isRead: true,
+              }
+            : item;
+        }),
+      });
+    });
   },
   reloadConfig: () => {
     Inject.invoke<null, ConfigType>(Channels.GetConfig).then((res) => {
@@ -75,8 +94,11 @@ export const useGlobalStore = create<GlobalState>((set, get) => ({
       }
     });
   },
+  setSearchCmdVisible: (isVisible: boolean) => {
+    return set({ searchCmdVisible: isVisible });
+  },
   updateActiveFeed: (item) => {
-    set({ activeFeed: item, pageNo: 1 });
+    set({ activeFeed: item, pageNo: 1, rssList: [] });
     Inject.invoke<{ id?: string }, RSSType[]>(Channels.GetRSSByFeedId, {
       id: item?.id,
     }).then((res) => {

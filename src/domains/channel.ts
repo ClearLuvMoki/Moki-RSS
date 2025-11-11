@@ -11,6 +11,8 @@ const Channels = {
   AllGroup: "all-group",
   CreateOrUpdateGroup: "create-or-update-group",
   DeleteGroup: "delete-group",
+  UpdateRSSReaded: "update-rss-readed",
+  AuthGithub: "auth-github",
 };
 
 export default Channels;

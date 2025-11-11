@@ -3,6 +3,7 @@ import Inject from "@/render/inject";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { CodeBlock } from "./code-interface";
 
 interface Props {
   content: string;
@@ -56,6 +57,9 @@ const MarkdownRender = ({ content }: Props) => {
               }}
             />
           );
+        },
+        code(props) {
+          return <CodeBlock code={(props?.children as string) || ""} />;
         },
       }}
     >

@@ -18,6 +18,7 @@ const config = {
   mac: {
     icon: resolve(__dirname, "./icons/icon.icns"),
     target: ["mas"],
+    // target: ["dmg"],
     bundleVersion: bundleVersion,
     bundleShortVersion: bundleShortVersion,
     artifactName: "${productName}-${version}-${arch}.${ext}",
