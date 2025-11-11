@@ -1,5 +1,0 @@
-{
-  "watch": ["./src/main/**/*", "./src/dataBase/**/*"],
-  "ext": "ts",
-  "exec": "npm run rebuild:main"
-}
